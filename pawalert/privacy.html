@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — PawAlert</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; color: #1a1a1a; }
+    h1 { margin-bottom: 0.25rem; }
+    .updated { color: #888; font-size: 0.9rem; margin-top: 0; }
+    h2 { margin-top: 2rem; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+    th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: #f7f7f7; }
+    a { color: #c4593b; }
+    nav { margin-bottom: 2rem; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+<nav><a href="index.html">← Back to PawAlert</a></nav>
+
+<h1>Privacy Policy</h1>
+<p class="updated">Last updated: 26 May 2026.</p>
+
+<p>PawAlert (“we”, “the app”) is operated by RabbitQr. This policy explains
+what personal information PawAlert collects, why we collect it, and how
+it's stored and shared. We collect only what's needed to run the rescue
+service and never sell, rent, or trade your data.</p>
+
+<h2>What we collect</h2>
+<table>
+  <thead>
+    <tr><th>Category</th><th>Examples</th><th>Why we collect it</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Account identifiers</td>
+      <td>Phone number (sign-in via OTP) or Apple ID, optional display name and email</td>
+      <td>Authenticate you, attribute reports/rescues to you, contact you about your rescue</td>
+    </tr>
+    <tr>
+      <td>Profile</td>
+      <td>Display name, optional avatar, city, role (reporter / volunteer / both)</td>
+      <td>Show other users who's helping with a rescue</td>
+    </tr>
+    <tr>
+      <td>Location</td>
+      <td>Precise GPS at the moment you post a report; coarse location of volunteers when in-app to discover nearby reports</td>
+      <td>Match reports to volunteers in the area</td>
+    </tr>
+    <tr>
+      <td>Photos</td>
+      <td>Photos you take or pick when posting a report or marking a rescue complete</td>
+      <td>Document the animal and the rescue outcome</td>
+    </tr>
+    <tr>
+      <td>Audio</td>
+      <td>Optional voice note attached to a report</td>
+      <td>Convey condition details that are hard to type</td>
+    </tr>
+    <tr>
+      <td>Device tokens</td>
+      <td>APNs / Firebase Cloud Messaging registration tokens</td>
+      <td>Send rescue alerts and status updates</td>
+    </tr>
+    <tr>
+      <td>Diagnostics</td>
+      <td>Anonymized crash reports and basic usage events</td>
+      <td>Fix bugs and improve reliability</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We do <strong>not</strong> collect contacts, browsing history, advertising
+identifiers, health data, financial data, or sensitive demographic
+information.</p>
+
+<h2>How we use it</h2>
+<ul>
+  <li><strong>Rescue coordination.</strong> Reports are visible to other signed-in users in the area so volunteers can respond. The reporter's display name and the accepting volunteer's display name appear on the rescue card.</li>
+  <li><strong>Notifications.</strong> Push notifications go to the reporter when a volunteer accepts/completes a rescue, and to nearby volunteers when a new report is posted within their preferences.</li>
+  <li><strong>Operational hygiene.</strong> Reports auto-close after 7 days if no volunteer accepts. Accepted rescues auto-release after ~45 minutes of inactivity. Closed reports older than 90 days are permanently deleted, including attached photos.</li>
+</ul>
+
+<h2>Where data lives</h2>
+<p>PawAlert uses <strong>Firebase</strong> (Google Cloud) for authentication,
+database, storage, push delivery, and serverless backend. Data is hosted
+in Google Cloud's <code>asia-south1</code> region.</p>
+
+<h2>Sharing</h2>
+<ul>
+  <li><strong>Other users in your area</strong> see your reports (photo, location, note, display name) — that's the rescue model.</li>
+  <li><strong>Cloud Functions</strong> read and write your data to coordinate rescues and send pushes.</li>
+  <li><strong>No third-party advertising or analytics SDKs.</strong> We do not share data with marketers.</li>
+  <li><strong>Legal compliance.</strong> We will disclose data if required by law or to protect users from harm.</li>
+</ul>
+
+<h2>Your choices</h2>
+<ul>
+  <li><strong>Edit profile.</strong> Update your display name, avatar, city, and about text any time from the Profile tab.</li>
+  <li><strong>Notification preferences.</strong> Configure radius, severities, and quiet hours from Profile → Notifications.</li>
+  <li><strong>Delete your account.</strong> Profile → Delete Account permanently removes your account, releases any in-flight rescue, marks your reports as unresolved, and deletes your FCM tokens.</li>
+  <li><strong>Photos.</strong> You can choose camera-only access or grant photo library access — both work with the report flow.</li>
+  <li><strong>Location.</strong> Required while-in-use to discover nearby reports. The app does not collect location in the background.</li>
+</ul>
+
+<h2>Children</h2>
+<p>PawAlert is rated 4+ but is intended for users 13 and older. We do
+not knowingly collect data from children under 13.</p>
+
+<h2>Changes</h2>
+<p>If we materially change what we collect or how we use it, we'll
+update this page and bump the “Last updated” date above. Material
+changes that affect existing data will be communicated in-app.</p>
+
+<h2>Contact</h2>
+<p>Questions, requests for data export, or deletion concerns:
+<a href="mailto:isyedrazackimran@gmail.com">isyedrazackimran@gmail.com</a></p>
+
+</body>
+</html>

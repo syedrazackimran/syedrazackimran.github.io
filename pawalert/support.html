@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Support — PawAlert</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; color: #1a1a1a; }
+    h1 { margin-bottom: 0.25rem; }
+    h2 { margin-top: 2rem; }
+    h3 { margin-top: 1.5rem; font-size: 1.1rem; }
+    a { color: #c4593b; }
+    nav { margin-bottom: 2rem; font-size: 0.9rem; }
+    code { background: #f4f4f4; padding: 1px 5px; border-radius: 3px; font-size: 0.95em; }
+  </style>
+</head>
+<body>
+
+<nav><a href="index.html">← Back to PawAlert</a></nav>
+
+<h1>PawAlert Support</h1>
+
+<p>Need help with the app, want to report a bug, or have a feature
+request? You're in the right place.</p>
+
+<h2>Contact</h2>
+<p>Email <a href="mailto:isyedrazackimran@gmail.com"><strong>isyedrazackimran@gmail.com</strong></a>. We typically respond within 2–3 business days.</p>
+
+<p>When you write in, please include:</p>
+<ul>
+  <li>The model and iOS version of your device.</li>
+  <li>The PawAlert app version (Profile → About).</li>
+  <li>A clear description of what happened, what you expected, and what you saw instead. Screenshots help a lot.</li>
+</ul>
+
+<h2>Common questions</h2>
+
+<h3>I signed up but I'm not getting any push notifications.</h3>
+<p>Three things to check, in order:</p>
+<ol>
+  <li><strong>iOS Settings → Notifications → PawAlert</strong> — make sure Allow Notifications is on.</li>
+  <li><strong>In-app Profile → Notifications</strong> — verify your radius and the severities you want to be alerted about. Quiet hours suppress non-emergency alerts.</li>
+  <li><strong>Sign out and back in.</strong> This refreshes your push token. If alerts start working after that, write to support so we can investigate.</li>
+</ol>
+
+<h3>How do I report an animal in distress?</h3>
+<p>Open the app, tap <strong>Report</strong>, take or pick a photo, choose
+severity, confirm the location (defaults to your current GPS), optionally
+add a short voice note, and Submit. Volunteers in the area get notified.</p>
+
+<h3>I accepted a rescue but can't get there. What happens?</h3>
+<p>Tap <strong>Release</strong> on the rescue — the report goes back into
+the queue and nearby volunteers are alerted again. If you don't release
+manually and no activity is recorded for ~45 minutes, the system
+releases it for you automatically.</p>
+
+<h3>How do I delete my account?</h3>
+<p>Profile → Delete Account. This is permanent and:</p>
+<ul>
+  <li>Releases any rescue you've accepted.</li>
+  <li>Marks your unresolved reports as closed.</li>
+  <li>Deletes your FCM tokens.</li>
+  <li>Removes your user document.</li>
+</ul>
+<p>Photos and reports are anonymized — they remain associated with the
+deleted user ID but no longer linked to you.</p>
+
+<h3>Where can I see all my past reports?</h3>
+<p>Reports tab → Resolved. Both reports you've filed and rescues you've
+completed are listed.</p>
+
+<h3>I see a report but the location looks wrong.</h3>
+<p>The location is captured from the reporter's GPS at the moment of
+posting. If it's clearly off, treat the address title and landmark as
+the source of truth, and feel free to mark the rescue complete with a
+note explaining the actual location. We're tracking GPS-accuracy
+improvements for a future update.</p>
+
+<h3>Privacy — who can see my reports and my profile?</h3>
+<p>Any signed-in PawAlert user can see your reports (location, photo,
+display name) — that's the rescue coordination model. Your phone
+number, email, and other profile details are private to you. Full
+detail in our <a href="privacy.html">Privacy Policy</a>.</p>
+
+<h2>Reporting a bug</h2>
+<p>Email support with the device/iOS/app version info above plus the
+sequence of steps that triggered the bug. If the app crashed, the next
+time you launch it, an automatic crash report is sent — please mention
+the approximate date/time so we can match it.</p>
+
+<h2>Feature requests</h2>
+<p>We read everything. Email is the right channel. We don't promise to
+build every request, but a good feature description with the use case
+that motivated it goes a long way.</p>
+
+</body>
+</html>

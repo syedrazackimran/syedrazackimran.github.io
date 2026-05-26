@@ -1,0 +1,20 @@
+pages:
+  stage: deploy
+  image: alpine:latest
+  script:
+    # Mirror every top-level directory into public/ so each app folder
+    # becomes a Pages path. Skip dotfiles, README, and the public/ dir
+    # itself.
+    - mkdir -p public
+    - for dir in */; do
+        name="${dir%/}";
+        [ "$name" = "public" ] && continue;
+        cp -r "$dir" "public/$name";
+      done
+    - echo "Built $(ls public | wc -l) app site(s) at $(date -u +%FT%TZ)"
+    - ls -la public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
