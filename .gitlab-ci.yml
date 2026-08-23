@@ -11,6 +11,9 @@ pages:
         [ "$name" = "public" ] && continue;
         cp -r "$dir" "public/$name";
       done
+    # Root-level files: app-ads.txt must sit at the domain root for AdMob's
+    # crawler, which does not follow subpaths.
+    - for f in *.txt; do [ -e "$f" ] && cp "$f" public/; done
     - echo "Built $(ls public | wc -l) app site(s) at $(date -u +%FT%TZ)"
     - ls -la public/
   artifacts:
