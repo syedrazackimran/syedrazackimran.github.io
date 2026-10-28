@@ -46,3 +46,10 @@ and refreshes the live URLs within ~5 minutes.
    clean.
 3. The CI job already copies every top-level directory into `public/`
    — no `.gitlab-ci.yml` change needed.
+
+### Gridora
+
+- Marketing: <https://rabbitqr-sites-b02604.gitlab.io/gridora/>
+- Privacy: <https://rabbitqr-sites-b02604.gitlab.io/gridora/privacy/>
+- Terms: <https://rabbitqr-sites-b02604.gitlab.io/gridora/terms/>
+- Support: <https://rabbitqr-sites-b02604.gitlab.io/gridora/support/>
