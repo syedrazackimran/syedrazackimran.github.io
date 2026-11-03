@@ -3,6 +3,14 @@
 Public marketing / privacy / support pages for RabbitQr apps, served
 via [GitLab Pages](https://docs.gitlab.com/ee/user/project/pages/).
 
+## Hosting
+
+- **GitHub Pages** at <https://syedrazackimran.github.io/>, deployed by
+  `.github/workflows/pages.yml` on every push to `main`. The root
+  `index.html` is the landing page listing every app.
+- **GitLab Pages** at `https://rabbitqr-sites-b02604.gitlab.io/` keeps
+  serving the same pages, because released Gridora builds link to it.
+
 ## Layout
 
 Each app lives under its own subdirectory. The `pages` CI job copies
