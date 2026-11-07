@@ -86,6 +86,7 @@ export const keywords = [
   "Kotlin",
   "Android",
   "Offline-first",
+  "XMPP",
   "SwiftData",
   "Core Data",
   "MVVM-C",
@@ -265,7 +266,7 @@ export const experience: Role[] = [
     role: "iOS Developer",
     company: "Casperon Technologies Pvt. Ltd.",
     place: "Chennai, India",
-    text: "Owned end-to-end delivery of iOS features: design, implementation and maintenance.",
+    text: "Owned end-to-end delivery of iOS features: design, implementation and maintenance. Worked on Cabily, a taxi dispatch app, building its real-time messaging over sockets and XMPP.",
   },
   {
     from: "2014",
@@ -280,7 +281,7 @@ export const experience: Role[] = [
 export const skills: { group: string; items: string[] }[] = [
   { group: "iOS", items: ["Swift", "SwiftUI", "UIKit", "Swift Concurrency (async/await)", "MapKit", "Core Location"] },
   { group: "Architecture", items: ["MVVM", "MVVM-C", "Clean Architecture", "Dependency Injection"] },
-  { group: "Data and offline", items: ["SwiftData", "Core Data", "SQLite", "Offline-first sync", "REST", "GraphQL"] },
+  { group: "Data and offline", items: ["SwiftData", "Core Data", "SQLite", "Offline-first sync", "REST", "GraphQL", "Sockets (real-time)", "XMPP"] },
   { group: "Security and quality", items: ["Auth0", "Firebase Auth", "Face ID / Touch ID", "Firebase Crashlytics", "XCTest"] },
   { group: "Delivery", items: ["GitHub Actions", "Jenkins", "Git / GitHub", "Xcode", "App Store releases", "Agile / Scrum"] },
   { group: "Android", items: ["Kotlin (recently started, on the Toast Now Android app)"] },
