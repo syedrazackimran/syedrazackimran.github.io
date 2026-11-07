@@ -213,3 +213,9 @@ button {
     box-shadow: 0 18px 40px -18px rgb(var(--shadow-tint) / 0.25);
   }
 }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 320ms;
+  animation-timing-function: ease;
+}
