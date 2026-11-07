@@ -46,7 +46,12 @@ const pairs = [
   ["on-accent", "accent", TEXT, "crimson buttons and tiles"],
   ["on-deep", "deep", TEXT, "text on the deep green panels"],
   ["on-deep-muted", "deep", TEXT, "secondary text on deep green"],
-  ["accent-on-deep", "deep", TEXT, "red labels on deep green"],
+  ["accent-on-deep", "deep", TEXT, "red labels on the dark panels"],
+  ["accent-on-deep", "deep-alt", TEXT, "red labels on the second case card"],
+  ["on-deep-muted", "deep-alt", TEXT, "secondary text on the second case card"],
+  ["hero-ink", "hero-bg", TEXT, "hero headline and nav"],
+  ["hero-muted", "hero-bg", TEXT, "hero secondary text and nav links"],
+  ["hero-accent", "hero-bg", TEXT, "hero greeting and #01-#04"],
 ];
 
 let failures = 0;

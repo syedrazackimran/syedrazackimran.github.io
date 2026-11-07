@@ -4,8 +4,9 @@
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const root = document.documentElement;
 
-/* Entrance */
-const ready = () => requestAnimationFrame(() => document.body.classList.add("loaded"));
+/* Entrance, after the intro curtain lifts on a first visit */
+const introDelay = root.classList.contains("intro") ? 1150 : 0;
+const ready = () => window.setTimeout(() => requestAnimationFrame(() => document.body.classList.add("loaded")), introDelay);
 if (document.fonts?.ready) document.fonts.ready.then(ready);
 else window.addEventListener("load", ready);
 
@@ -45,10 +46,26 @@ document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
 const bar = document.getElementById("top-bar");
 const links = [...document.querySelectorAll<HTMLAnchorElement>(".top nav a")];
 const sections = links.map((a) => document.querySelector(a.getAttribute("href") ?? ""));
+const heroPhoto = document.querySelector<HTMLElement>(".hero-photo");
+const cases = [...document.querySelectorAll<HTMLElement>(".case")];
+const stacking = window.matchMedia("(min-width: 901px)");
 let queued = false;
 const onScroll = () => {
   queued = false;
-  bar?.classList.toggle("scrolled", window.scrollY > 40);
+  const y = window.scrollY;
+  bar?.classList.toggle("scrolled", y > 40);
+  if (!reduce && heroPhoto && y < window.innerHeight * 1.2) heroPhoto.style.setProperty("--py", `${(y * 0.18).toFixed(1)}px`);
+  if (!reduce && stacking.matches) {
+    cases.forEach((card, i) => {
+      const next = cases[i + 1];
+      if (!next) return;
+      const a = card.getBoundingClientRect();
+      const b = next.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, 1 - (b.top - a.top - 24) / Math.max(1, a.height - 24)));
+      card.style.setProperty("--stack-scale", (1 - 0.05 * p).toFixed(4));
+      card.style.setProperty("--stack-dim", (1 - 0.3 * p).toFixed(4));
+    });
+  }
   const line = window.innerHeight * 0.35;
   let current = -1;
   sections.forEach((sec, i) => {

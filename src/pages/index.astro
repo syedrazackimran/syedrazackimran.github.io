@@ -53,6 +53,7 @@ const year = new Date().getFullYear();
 ---
 
 <Base title={`${identity.name}, Senior iOS Developer`}>
+  <div class="curtain" aria-hidden="true"><span><b>Imran</b><i></i></span></div>
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="top" id="top-bar">
@@ -138,9 +139,12 @@ const year = new Date().getFullYear();
     <div class="strip">
       <div class="wrap">
         <p class="lbl">Where I've built mobile apps since 2014</p>
-        <ul aria-label="Companies">
-          {companies.map((c) => <li>{c}</li>)}
-        </ul>
+        <div class="marquee">
+          <ul class="track" aria-label="Companies">
+            {companies.map((c) => <li>{c}</li>)}
+            {companies.map((c) => <li aria-hidden="true">{c}</li>)}
+          </ul>
+        </div>
       </div>
     </div>
 
