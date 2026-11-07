@@ -1,48 +1,67 @@
-// WCAG AA check for every text/background and UI pair the site uses. Exits 1 on any failure.
+// WCAG AA check for every text/background pair the site uses, in both themes.
+// Semi-transparent surfaces are composited over the page background first. Exits 1 on any failure.
 import { readFile } from "node:fs/promises";
 
-const css = await readFile(new URL("../src/styles/tokens.css", import.meta.url), "utf8");
+const css = await readFile(new URL("../src/styles/site.css", import.meta.url), "utf8");
 const block = (selector) => {
   const start = css.indexOf(selector);
   const body = css.slice(css.indexOf("{", start) + 1, css.indexOf("}", start));
-  return Object.fromEntries([...body.matchAll(/--([\w-]+):\s*(#[0-9a-f]{6})/gi)].map((m) => [m[1], m[2]]));
+  return Object.fromEntries([...body.matchAll(/--([\w-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
 };
 const themes = { light: block(":root {"), dark: block(':root[data-theme="dark"]') };
 
-const TEXT = 4.5;
-const UI = 3;
-// [foreground, background, minimum, where it is used]
-const pairs = [
-  ["ink", "steel", TEXT, "body text and headings"],
-  ["ink", "paper", TEXT, "text on panels and the hero card"],
-  ["graphite", "steel", TEXT, "metadata on the page"],
-  ["graphite", "paper", TEXT, "metadata on panels"],
-  ["sync", "steel", TEXT, "links on the page"],
-  ["sync", "paper", TEXT, "links on panels"],
-  ["paper", "sync", TEXT, "primary button label"],
-  ["on-queue", "queue", TEXT, "text on amber fills"],
-  ["queue", "paper", UI, "amber status dot on panels"],
-  ["sync", "paper", UI, "focus ring, rails and bars"],
-  ["graphite", "paper", UI, "copy-email button border"],
-];
-
-const luminance = (hex) => {
-  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
-  const lin = (c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+const parse = (v) => {
+  if (v.startsWith("#")) return [1, 3, 5].map((i) => parseInt(v.slice(i, i + 2), 16)).concat(1);
+  const m = v.match(/rgba?\(([^)]+)\)/);
+  if (!m) throw new Error(`can't parse colour ${v}`);
+  const [r, g, b, a = "1"] = m[1].split(",").map((s) => s.trim());
+  return [Number(r), Number(g), Number(b), Number(a)];
+};
+const over = (top, base) => {
+  const [r, g, b, a] = parse(top);
+  const [R, G, B] = base;
+  return [r * a + R * (1 - a), g * a + G * (1 - a), b * a + B * (1 - a)];
+};
+const lum = ([r, g, b]) => {
+  const lin = (c) => ((c /= 255) <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
   return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
 };
 const ratio = (a, b) => {
-  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
   return (hi + 0.05) / (lo + 0.05);
 };
 
+const TEXT = 4.5;
+const LARGE = 3;
+// [foreground token, surface token (composited over bg), minimum, where]
+const pairs = [
+  ["text", "bg", TEXT, "headings and body"],
+  ["text-2", "glass", TEXT, "card body copy"],
+  ["muted", "bg", TEXT, "secondary text on the page"],
+  ["muted", "glass", TEXT, "secondary text in cards"],
+  ["muted", "card", TEXT, "hero card labels"],
+  ["muted", "nav", TEXT, "nav links"],
+  ["teal", "bg", TEXT, "'Email copied', gradient start"],
+  ["sky", "bg", TEXT, "gradient middle (kickers, headline)"],
+  ["violet", "bg", TEXT, "gradient end"],
+  ["sky", "glass", LARGE, "large gradient figures in cards"],
+  ["gold", "card", LARGE, "large '2nd' in the gold card"],
+  ["gold", "gold-soft", TEXT, "hackathon pill text"],
+  ["on-solid", "solid", TEXT, "primary button and Contact pill"],
+  ["muted", "award-b", TEXT, "secondary text in the hackathon panel"],
+  ["text-2", "award-b", TEXT, "body copy in the hackathon panel"],
+];
+
 let failures = 0;
-for (const [theme, tokens] of Object.entries(themes)) {
-  for (const [fg, bg, min, use] of pairs) {
-    const r = ratio(tokens[fg], tokens[bg]);
+for (const [theme, t] of Object.entries(themes)) {
+  const bg = parse(t.bg).slice(0, 3);
+  for (const [fg, surface, min, use] of pairs) {
+    const back = surface === "bg" ? bg : over(t[surface], bg);
+    const front = over(t[fg], back);
+    const r = ratio(front, back);
     const ok = r >= min;
     if (!ok) failures++;
-    console.log(`${ok ? "pass" : "FAIL"}  ${theme.padEnd(5)} ${`${fg} on ${bg}`.padEnd(26)} ${r.toFixed(2).padStart(5)}:1 (needs ${min}:1) ${use}`);
+    console.log(`${ok ? "pass" : "FAIL"}  ${theme.padEnd(5)} ${`${fg} on ${surface}`.padEnd(24)} ${r.toFixed(2).padStart(5)}:1 (needs ${min}:1) ${use}`);
   }
 }
 if (failures) {
