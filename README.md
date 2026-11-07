@@ -20,7 +20,7 @@ App Store names, ratings, icons and CineFlicx screenshots are fetched at build t
 `scripts/fetch-appstore.mjs` into `src/data/apps.json` and `src/assets/appstore/`. If the
 App Store is unreachable, the committed copies are used.
 
-To replace the photo: `node scripts/prepare-portrait.mjs path/to/photo.jpg` (strips all metadata).
+To replace the photo: `node scripts/prepare-hero-photo.mjs path/to/photo` (3:4 crop, strips all metadata).
 
 ## Run locally
 

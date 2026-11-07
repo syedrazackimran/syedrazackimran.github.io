@@ -19,17 +19,39 @@ export const identity = {
 };
 
 export const hero = {
-  badge: "Senior iOS Developer at xtraCHEF by Toast",
-  line1: "I build iOS apps",
-  line2: "people rely on.",
-  lede: [
-    "I'm ",
-    { b: "Syed Razack Imran Thajudeen" },
-    ", a Senior iOS Developer and mobile team lead with ",
-    { b: "12+ years" },
-    " of native Swift. I build inventory and invoicing apps for restaurants at Toast that keep working when the kitchen Wi-Fi doesn't.",
-  ] as (string | { b: string })[],
+  greeting: "Hey, I'm Imran,",
+  title: ["Senior iOS", "Developer"],
+  quote: "Think like a user. Do like a developer.",
+  sub: "12+ years of native Swift, now Android in Kotlin too. I build inventory apps for restaurants that keep working offline and sync when the network returns.",
+  services: [
+    { n: "01", t: "iOS, Swift and SwiftUI" },
+    { n: "02", t: "Android, Kotlin" },
+    { n: "03", t: "Offline-first apps" },
+    { n: "04", t: "Mobile team lead" },
+  ],
 };
+
+// Plain text names, no logos.
+export const companies = ["xtraCHEF by Toast", "SkyBooking", "Nanita Tech", "Casperon Technologies", "JEMS Nets Solutions"];
+
+// The two platforms, stated honestly: iOS is the 12-year core, Android is recent.
+export const tracks = [
+  {
+    platform: "iOS",
+    since: "12+ years",
+    text: "Production apps in Swift and SwiftUI, UIKit where it fits. MVVM-C and Clean Architecture, offline-first storage, secure sign-in and App Store releases owned end to end.",
+    stack: ["Swift", "SwiftUI", "UIKit", "SwiftData", "Core Data", "XCTest"],
+  },
+  {
+    platform: "Android",
+    since: "Recently started",
+    text: "Contributing to the Toast Now Android app in Kotlin, so the inventory work I do on iOS now reaches both mobile platforms.",
+    stack: ["Kotlin", "Toast Now Android"],
+  },
+];
+
+export const about =
+  "I'm a senior iOS developer and mobile team lead. I build clean, layered apps that keep working offline, and I own them from first design to App Store release.";
 
 export const summary =
   "Senior iOS Developer with 12+ years of native iOS experience, including team-lead roles in India and Cambodia. I build production apps in Swift and SwiftUI (UIKit where it fits) with clean, layered architecture, offline-first storage and secure authentication. I own features end to end, from design to App Store release, and mentor developers in Agile teams. I recently started contributing to the Toast Now Android app in Kotlin.";
@@ -44,6 +66,7 @@ export const keywords = [
   "SwiftUI",
   "UIKit",
   "Kotlin",
+  "Android",
   "Offline-first",
   "SwiftData",
   "Core Data",
@@ -59,23 +82,6 @@ export const creds = {
   countries: { tag: "Leadership", value: 2, label: "Countries where I've led iOS teams: India and Cambodia." },
   hackathon: { tag: "Toast Hackathon 2026", value: "2nd", label: "in India, and 8th across all of Toast." },
 };
-
-export const marquee = [
-  "Swift",
-  "SwiftUI",
-  "UIKit",
-  "Swift Concurrency",
-  "SwiftData",
-  "Core Data",
-  "GraphQL",
-  "Auth0",
-  "Firebase",
-  "XCTest",
-  "GitHub Actions",
-  "Kotlin",
-  "Claude Code",
-  "MapKit",
-];
 
 export type CaseStudy = {
   key: "toastNow" | "xtrachef";
@@ -95,14 +101,15 @@ export const caseStudies: CaseStudy[] = [
     company: "Toast, Inc. Retail Inventory team",
     url: "https://apps.apple.com/us/app/toast-now/id6444586410",
     intro:
-      "Toast's restaurant management app. I build the inventory features that let managers mark items in or out of stock and keep availability in sync across every location.",
+      "Toast's restaurant management app. I build the inventory features that let managers mark items in or out of stock and keep availability in sync across every location, online or offline.",
     points: [
+      "Inventory keeps working offline and syncs when the connection returns",
       "Built in Swift and SwiftUI, integrated with the inventory APIs",
       "Shipped through regular App Store releases",
       "98–99% crash-free, backed by unit tests and CI/CD on GitHub Actions",
       "Now also contributing to the Android app in Kotlin",
     ],
-    chips: ["Swift", "SwiftUI", "GitHub Actions"],
+    chips: ["Swift", "SwiftUI", "Offline-first", "GitHub Actions"],
   },
   {
     key: "xtrachef",
@@ -114,7 +121,7 @@ export const caseStudies: CaseStudy[] = [
     points: [
       "Camera invoice upload with processing status tracked in the app",
       "Stock counts managed from the phone",
-      "Offline-first storage, so work continues in low-connectivity kitchens",
+      "Works offline: invoices and counts carry on in low-connectivity kitchens and sync later",
       "Stability monitored with Firebase Crashlytics",
     ],
     chips: ["Swift", "Offline-first", "Firebase"],
@@ -258,7 +265,8 @@ export const skills: { group: string; items: string[] }[] = [
   { group: "Data and offline", items: ["SwiftData", "Core Data", "SQLite", "Offline-first sync", "REST", "GraphQL"] },
   { group: "Security and quality", items: ["Auth0", "Firebase Auth", "Face ID / Touch ID", "Firebase Crashlytics", "XCTest"] },
   { group: "Delivery", items: ["GitHub Actions", "Jenkins", "Git / GitHub", "Xcode", "App Store releases", "Agile / Scrum"] },
-  { group: "Also", items: ["Kotlin (Android)", "Claude Code", "Codex", "AGENTS.md / CLAUDE.md"] },
+  { group: "Android", items: ["Kotlin (recently started, on the Toast Now Android app)"] },
+  { group: "AI-assisted development", items: ["Claude Code", "Codex", "AGENTS.md / CLAUDE.md agent guidelines"] },
 ];
 
 export const education = {
