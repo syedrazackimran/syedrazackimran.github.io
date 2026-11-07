@@ -1254,6 +1254,61 @@ button {
   font-weight: 500;
   color: var(--muted);
 }
+.dl {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.dl-total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+.dl-total span {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.dl-total small {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.dl-split {
+  margin-top: 12px;
+  display: grid;
+  gap: 6px;
+}
+.dl-split li {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 3px 10px;
+  font-size: 0.82rem;
+  border-radius: 6px;
+  isolation: isolate;
+}
+.dl-split li::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: -1;
+  width: max(var(--share), 3%);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent-text) 22%, transparent);
+  transform-origin: left;
+  transition: transform 1.4s var(--ease) 0.3s;
+}
+.js .app[data-reveal] .dl-split li::before {
+  transform: scaleX(0);
+}
+.js .app[data-reveal].in .dl-split li::before {
+  transform: none;
+}
+.dl-split b {
+  font-weight: 700;
+}
 .attribution {
   margin-top: 22px;
   font-size: 0.8rem;
