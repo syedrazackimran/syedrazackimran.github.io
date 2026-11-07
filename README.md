@@ -1,63 +1,58 @@
-# rabbitqr-sites
+# syedrazackimran.github.io
 
-Public marketing / privacy / support pages for RabbitQr apps, served
-via [GitLab Pages](https://docs.gitlab.com/ee/user/project/pages/).
+Portfolio of Syed Razack Imran Thajudeen, plus the privacy, terms and support pages for my apps.
+Built with Astro, deployed to <https://syedrazackimran.github.io/> by GitHub Actions.
 
-## Hosting
+## Edit the content
 
-- **GitHub Pages** at <https://syedrazackimran.github.io/>, deployed by
-  `.github/workflows/pages.yml` on every push to `main`. The root
-  `index.html` is the landing page listing every app.
-- **GitLab Pages** at `https://rabbitqr-sites-b02604.gitlab.io/` keeps
-  serving the same pages, because released Gridora builds link to it.
+Every fact on the page lives in `src/data/profile.ts`. Components only read from it.
 
-## Layout
+Switches at the top of that file:
 
-Each app lives under its own subdirectory. The `pages` CI job copies
-each subdirectory into the `public/` artifact, which GitLab serves at
-`https://syedrazackimran.gitlab.io/rabbitqr-sites/<app>/`.
+| Flag | Default | What it does |
+|---|---|---|
+| `showResume` | `false` | Shows "Download résumé". Put a public copy (no phone number, no "Additional details" line) at `public/resume.pdf` first. |
+| `openToWork` | `false` | Shows the availability line in Contact. |
+| `showInDevelopment` | `false` | Shows the "In development" list under Personal projects. |
+| `showPortrait` | `true` | Shows the photo in the hero card. |
+| `showPhone` | `false` | Reserved; the phone number is never published. |
 
+App Store names, ratings, icons and CineFlicx screenshots are fetched at build time by
+`scripts/fetch-appstore.mjs` into `src/data/apps.json` and `src/assets/appstore/`. If the
+App Store is unreachable, the committed copies are used.
+
+To replace the photo: `node scripts/prepare-portrait.mjs path/to/photo.jpg` (strips all metadata).
+
+## Run locally
+
+Node 22.23 or newer.
+
+```sh
+npm install
+npm run dev        # http://localhost:4321
+npm run build      # App Store fetch, share image, astro check, build, service worker
+npm run preview    # serve dist/
+npm run contrast   # WCAG AA check of the colour tokens
+npm run verify     # axe, offline, reduced motion, keyboard, ATS text, page weight (needs preview running)
 ```
-rabbitqr-sites/
-├── .gitlab-ci.yml
-├── README.md
-├── pawalert/
-│   ├── index.html
-│   ├── privacy/index.html
-│   └── support/index.html
-└── flickpick/                # (future)
-    └── ...
-```
 
-Each subpage lives in its own directory so the URL is clean
-(`/privacy/` instead of `/privacy.html`).
+`npm run verify` uses Playwright: run `npx playwright install chromium` once.
 
-## Live URLs
+## Deploy
 
-### PawAlert
+Push to `main`. `.github/workflows/deploy.yml` builds with `withastro/action` and publishes with
+`actions/deploy-pages`. It also runs weekly so the App Store ratings stay current.
 
-- Marketing: <https://syedrazackimran.gitlab.io/rabbitqr-sites/pawalert/>
-- Privacy: <https://syedrazackimran.gitlab.io/rabbitqr-sites/pawalert/privacy/>
-- Support: <https://syedrazackimran.gitlab.io/rabbitqr-sites/pawalert/support/>
+## App pages
 
-## Updating
+`public/cineflicx/`, `public/pawalert/`, `public/gridora/` and `public/app-ads.txt` are copied to the
+site unchanged, so their URLs are the same as before (App Store Connect and AdMob point at them).
+The service worker doesn't precache them.
 
-Edit the HTML in the relevant app's directory, commit, push to `main`.
-The `pages` job runs automatically on every push to the default branch
-and refreshes the live URLs within ~5 minutes.
+GitLab Pages (`.gitlab-ci.yml`) still serves only those app pages, for released Gridora builds that link there.
 
-## Adding a new app
+## Custom domain later
 
-1. Create a sibling directory: `mkdir <app-name>`
-2. Add `index.html` at the app root and any sub-pages as
-   `<page>/index.html` (e.g. `privacy/index.html`) so the URLs come out
-   clean.
-3. The CI job already copies every top-level directory into `public/`
-   — no `.gitlab-ci.yml` change needed.
-
-### Gridora
-
-- Marketing: <https://rabbitqr-sites-b02604.gitlab.io/gridora/>
-- Privacy: <https://rabbitqr-sites-b02604.gitlab.io/gridora/privacy/>
-- Terms: <https://rabbitqr-sites-b02604.gitlab.io/gridora/terms/>
-- Support: <https://rabbitqr-sites-b02604.gitlab.io/gridora/support/>
+1. Add a `CNAME` record at your DNS provider pointing to `syedrazackimran.github.io`.
+2. In the repo, Settings → Pages → Custom domain, enter the domain and turn on "Enforce HTTPS".
+3. Change `site` in `astro.config.mjs` and the sitemap line in `public/robots.txt` to the new domain.

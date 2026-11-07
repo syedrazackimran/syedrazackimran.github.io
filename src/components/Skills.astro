@@ -1,0 +1,66 @@
+---
+import { education, skills } from "../data/profile";
+---
+
+<section id="skills" class="section wrap" aria-labelledby="skills-title">
+  <div class="section-head reveal">
+    <h2 id="skills-title">Skills</h2>
+  </div>
+  <div class="skills">
+    {
+      skills.map((s) => (
+        <div class="reveal">
+          <h3>{s.group}</h3>
+          <ul>
+            {s.items.map((i) => (
+              <li>{i}</li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<section id="education" class="section wrap" aria-labelledby="education-title">
+  <div class="education reveal">
+    <h2 id="education-title">Education</h2>
+    <p class="qualification">{education.qualification}</p>
+    <p class="meta">{education.school}, <time datetime={education.years.slice(0, 4)}>{education.years}</time></p>
+  </div>
+</section>
+
+<style>
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: var(--s-6) var(--s-5);
+  }
+
+  h3 {
+    font-size: 1.0625rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    margin-bottom: var(--s-2);
+  }
+
+  ul {
+    list-style: none;
+    color: var(--ink);
+  }
+
+  li + li {
+    margin-top: var(--s-1);
+  }
+
+  .education {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .education h2 {
+    margin-bottom: var(--s-3);
+  }
+  .qualification {
+    font-size: 1.1875rem;
+  }
+</style>

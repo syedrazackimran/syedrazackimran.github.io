@@ -1,0 +1,52 @@
+---
+import { identity } from "../data/profile";
+---
+
+<button class="icon-button copy" type="button" data-copy-email={identity.email} aria-label="Copy email address">
+  <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+    <rect x="6.75" y="6.75" width="9.5" height="10.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+    <path d="M13.25 4.25v-.5a1 1 0 0 0-1-1h-7.5a2 2 0 0 0-2 2v8.5a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+  </svg>
+  <span class="copied" role="status" data-copied></span>
+</button>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy-email]")) {
+    const note = button.querySelector<HTMLElement>("[data-copied]");
+    let timer = 0;
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copyEmail ?? "");
+        if (note) note.textContent = "Email copied";
+      } catch {
+        if (note) note.textContent = button.dataset.copyEmail ?? "";
+      }
+      button.dataset.done = "";
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        delete button.dataset.done;
+        if (note) note.textContent = "";
+      }, 2000);
+    });
+  }
+</script>
+
+<style>
+  .copy {
+    position: relative;
+  }
+  .copied {
+    position: absolute;
+    left: calc(100% + var(--s-2));
+    white-space: nowrap;
+    font-size: var(--step-small);
+    color: var(--sync);
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity var(--quick) ease;
+    pointer-events: none;
+  }
+  .copy[data-done] .copied {
+    opacity: 1;
+  }
+</style>

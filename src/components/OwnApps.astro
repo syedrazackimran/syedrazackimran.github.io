@@ -1,0 +1,227 @@
+---
+import { Image, Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import apps from "../data/apps.json";
+import { config, featuredApp, inDevelopment, ownApps, tmdbAttribution } from "../data/profile";
+
+const images = import.meta.glob<{ default: ImageMetadata }>("../assets/appstore/*.jpg", { eager: true });
+const image = (file: string) => images[`../assets/appstore/${file}`]?.default;
+const store = apps as Record<string, { name: string; rating: number | null; ratingCount: number; screenshots: number }>;
+
+const featured = ownApps.find((a) => a.key === featuredApp.key)!;
+const others = ownApps.filter((a) => a.key !== featuredApp.key);
+const shots = Array.from({ length: store[featured.key]?.screenshots ?? 0 }, (_, i) => image(`${featured.key}-shot-${i + 1}.jpg`)).filter(
+  (s): s is ImageMetadata => Boolean(s),
+);
+const ratingText = (key: string) => {
+  const s = store[key];
+  return s?.rating != null ? `Rated ${s.rating.toFixed(1)} from ${s.ratingCount} rating${s.ratingCount === 1 ? "" : "s"} on the App Store` : "";
+};
+const featuredIcon = image(`${featured.key}-icon.jpg`);
+---
+
+<div class="own">
+  <h3 class="group reveal">Personal projects</h3>
+
+  <article class="featured reveal lift" aria-labelledby="app-featured">
+    <div class="featured-head">
+      {featuredIcon && <Image src={featuredIcon} alt="" width={72} height={72} widths={[72, 144]} sizes="72px" class="icon large" />}
+      <div>
+        <h4 id="app-featured">{store[featured.key]?.name ?? featured.name}</h4>
+        <p class="meta">Personal project, {featured.year}. For {featuredApp.platforms}.</p>
+      </div>
+    </div>
+    <dl>
+      <div><dt>The problem</dt><dd>{featuredApp.problem}</dd></div>
+      <div><dt>What I built</dt><dd>{featuredApp.built}</dd></div>
+      <div><dt>How</dt><dd>{featuredApp.how}</dd></div>
+    </dl>
+    {
+      shots.length > 0 && (
+        <ul class="shots" aria-label={`${featured.name} App Store screenshots`}>
+          {shots.map((src, i) => (
+            <li>
+              <Picture src={src} alt={`${featured.name} screenshot ${i + 1} from the App Store`} formats={["avif", "webp"]} widths={[180, 360]} sizes="180px" quality={65} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <p class="links inline-links">
+      <a href={featured.url}>{featured.name} on the App Store</a>
+      <a href={featured.support.privacy}>Privacy</a>
+      <a href={featured.support.support}>Support</a>
+    </p>
+    {ratingText(featured.key) && <p class="meta">{ratingText(featured.key)}</p>}
+  </article>
+
+  <ul class="rows">
+    {
+      others.map((app) => {
+        const icon = image(`${app.key}-icon.jpg`);
+        return (
+          <li class="app-row reveal">
+            {icon && <Image src={icon} alt="" width={56} height={56} widths={[56, 112]} sizes="56px" class="icon" />}
+            <div class="app-text">
+              <p class="app-name">
+                <strong>{app.name}</strong> <span class="meta">{app.year}</span>
+              </p>
+              <p>{app.line}</p>
+              {ratingText(app.key) && <p class="meta">{ratingText(app.key)}</p>}
+            </div>
+            <p class="app-links inline-links">
+              <a href={app.url} aria-label={`${app.name} on the App Store`}>App Store</a>
+              {app.support.privacy && <a href={app.support.privacy} aria-label={`${app.name} privacy policy`}>Privacy</a>}
+              {app.support.support && <a href={app.support.support} aria-label={`${app.name} support`}>Support</a>}
+            </p>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  <p class="meta tmdb">CineFlicx and Moviez: {tmdbAttribution}</p>
+
+  {
+    config.showInDevelopment && (
+      <div class="dev">
+        <h3 class="group">In development</h3>
+        <ul>
+          {inDevelopment.map((d) => (
+            <li>{d}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .own {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  .featured {
+    display: grid;
+    gap: var(--s-5);
+    padding: var(--s-6);
+    background: var(--paper);
+    border-radius: var(--r-panel);
+  }
+
+  .featured-head {
+    display: flex;
+    gap: var(--s-4);
+    align-items: center;
+  }
+
+  h4 {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .icon {
+    flex: none;
+    border-radius: 22.5%;
+    box-shadow: 0 0 0 1px var(--rule);
+  }
+
+  dl {
+    display: grid;
+    gap: var(--s-4);
+    margin: 0;
+  }
+
+  dl > div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: var(--s-4);
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    max-width: 68ch;
+  }
+
+  .shots {
+    display: flex;
+    gap: var(--s-4);
+    list-style: none;
+    overflow-x: auto;
+    padding-bottom: var(--s-2);
+  }
+
+  .shots li {
+    flex: none;
+    width: 180px;
+  }
+
+  .shots :global(img) {
+    width: 180px;
+    height: auto;
+    border-radius: var(--r-panel);
+    box-shadow: 0 0 0 1px var(--rule);
+  }
+
+  .rows {
+    list-style: none;
+    border-top: 1px solid var(--rule);
+  }
+
+  .app-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: var(--s-4) var(--s-5);
+    align-items: center;
+    padding-block: var(--s-5);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .app-text {
+    display: grid;
+    gap: var(--s-1);
+  }
+
+  .app-name strong {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1875rem;
+  }
+
+  .tmdb {
+    margin-top: calc(var(--s-4) * -1);
+  }
+
+  .dev ul {
+    display: grid;
+    gap: var(--s-2);
+    padding-left: 1.1em;
+    margin-top: var(--s-4);
+  }
+
+  @media (max-width: 719px) {
+    .featured {
+      padding: var(--s-5);
+    }
+    dl > div {
+      grid-template-columns: 1fr;
+      gap: var(--s-1);
+    }
+    .app-row {
+      grid-template-columns: 56px 1fr;
+      align-items: start;
+    }
+    .app-links {
+      grid-column: 2;
+    }
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Page not found" description="This page doesn't exist." noindex>
+  <main id="main" class="wrap missing">
+    <h1>This page doesn't exist.</h1>
+    <p><a href="/">Go to the homepage.</a></p>
+  </main>
+</Base>
+
+<style>
+  .missing {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-9);
+  }
+  h1 {
+    font-size: var(--step-h2);
+    font-weight: 650;
+  }
+</style>
