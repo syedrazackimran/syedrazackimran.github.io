@@ -1,0 +1,57 @@
+{
+  "toastNow": {
+    "id": "6444586410",
+    "name": "Toast Now",
+    "seller": "Toast, Inc.",
+    "version": "1.92.0",
+    "releaseDate": "2023-10-10",
+    "rating": 4.9,
+    "ratingCount": 12181,
+    "screenshots": 0,
+    "fetchedAt": "2026-11-07"
+  },
+  "xtrachef": {
+    "id": "988380179",
+    "name": "xtraCHEF",
+    "seller": "xtraCHEF, Inc.",
+    "version": "4.6.7",
+    "releaseDate": "2015-07-23",
+    "rating": 4.6,
+    "ratingCount": 2511,
+    "screenshots": 0,
+    "fetchedAt": "2026-11-07"
+  },
+  "cineflicx": {
+    "id": "6762333634",
+    "name": "CineFlicx: Movie & TV Tracker",
+    "seller": "Aravinth Sakthivel",
+    "version": "1.2.0",
+    "releaseDate": "2026-04-22",
+    "rating": null,
+    "ratingCount": 0,
+    "screenshots": 3,
+    "fetchedAt": "2026-11-07"
+  },
+  "pawalert": {
+    "id": "6767496810",
+    "name": "PawAlert: Rescue Alerts Nearby",
+    "seller": "Aravinth Sakthivel",
+    "version": "1.0",
+    "releaseDate": "2026-05-28",
+    "rating": null,
+    "ratingCount": 0,
+    "screenshots": 0,
+    "fetchedAt": "2026-11-07"
+  },
+  "moviez": {
+    "id": "1511472908",
+    "name": "Moviez",
+    "seller": "Aravinth Sakthivel",
+    "version": "3.0.1",
+    "releaseDate": "2020-05-04",
+    "rating": 3,
+    "ratingCount": 4,
+    "screenshots": 0,
+    "fetchedAt": "2026-11-07"
+  }
+}

@@ -1,0 +1,25 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer wrap">
+  <p>This site works offline. Turn off your Wi-Fi and reload it.</p>
+  <p>Built with Astro, deployed on GitHub Pages.</p>
+  <p>© {year} Syed Razack Imran Thajudeen</p>
+</footer>
+
+<style>
+  .footer {
+    display: grid;
+    gap: var(--s-1);
+    justify-items: center;
+    text-align: center;
+    padding-block: var(--s-7);
+    border-top: 1px solid var(--rule);
+    font-size: var(--step-small);
+    color: var(--graphite);
+  }
+  .footer p {
+    max-width: none;
+  }
+</style>

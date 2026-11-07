@@ -1,0 +1,148 @@
+---
+import { experience } from "../data/profile";
+
+const range = (years: string) => {
+  const [from = "", to = ""] = years.split(" – ");
+  return { from, to, current: to === "present" };
+};
+---
+
+<section id="experience" class="section wrap" aria-labelledby="experience-title">
+  <div class="section-head reveal">
+    <h2 id="experience-title">Experience</h2>
+    <p>12+ years of native iOS, from Chennai to Phnom Penh and back, including team-lead roles in both.</p>
+  </div>
+  <ol class="timeline">
+    {
+      experience.map((r) => {
+        const y = range(r.years);
+        return (
+          <li class="reveal">
+            <p class="years">
+              <time datetime={y.from}>{y.from}</time> – {y.current ? "Present" : <time datetime={y.to}>{y.to}</time>}
+            </p>
+            <div class="role">
+              <h3>{r.role}</h3>
+              <p class="org">
+                {r.company}, {r.place}
+              </p>
+              <p class="summary">{r.summary}</p>
+              {r.notes?.map((n) => <p class="note">{n}</p>)}
+            </div>
+          </li>
+        );
+      })
+    }
+  </ol>
+</section>
+
+<style>
+  .timeline {
+    --rail: calc(11rem + var(--s-5) / 2);
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .timeline::before,
+  .timeline::after {
+    content: "";
+    position: absolute;
+    left: var(--rail);
+    top: 0.6em;
+    bottom: var(--s-7);
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .timeline::after {
+    width: 2px;
+    margin-left: -0.5px;
+    background: var(--sync);
+    transform-origin: top;
+    transform: scaleY(1);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .timeline::after {
+        animation: rail linear both;
+        animation-timeline: view();
+        animation-range: entry 30% cover 70%;
+      }
+    }
+  }
+
+  @keyframes rail {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: var(--s-5);
+    position: relative;
+    padding-bottom: var(--s-7);
+  }
+
+  li::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    left: calc(var(--rail) - 5px);
+    top: 0.45em;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--steel);
+    box-shadow: inset 0 0 0 2px var(--sync);
+  }
+
+  li:first-child::after {
+    background: var(--sync);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--sync) 18%, transparent);
+  }
+
+  .years {
+    color: var(--graphite);
+    padding-top: 0.1em;
+  }
+
+  .role {
+    display: grid;
+    gap: var(--s-2);
+    padding-left: var(--s-5);
+  }
+
+  .org {
+    margin-top: calc(var(--s-2) * -1);
+    font-size: var(--step-small);
+    color: var(--graphite);
+  }
+
+  .note {
+    padding-left: var(--s-3);
+    border-left: 2px solid var(--sync);
+  }
+
+  @media (max-width: 639px) {
+    .timeline {
+      --rail: 5px;
+    }
+    li {
+      grid-template-columns: 1fr;
+      gap: var(--s-1);
+      padding-left: var(--s-6);
+      padding-bottom: var(--s-6);
+    }
+    .role {
+      padding-left: 0;
+    }
+  }
+</style>
