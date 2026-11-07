@@ -2,19 +2,12 @@ pages:
   stage: deploy
   image: alpine:latest
   script:
-    # Mirror every top-level directory into public/ so each app folder
-    # becomes a Pages path. Skip dotfiles, README, and the public/ dir
-    # itself.
-    - mkdir -p public
-    - for dir in */; do
-        name="${dir%/}";
-        [ "$name" = "public" ] && continue;
-        cp -r "$dir" "public/$name";
-      done
-    # Root-level files: app-ads.txt must sit at the domain root for AdMob's
-    # crawler, which does not follow subpaths.
-    - for f in *.txt; do [ -e "$f" ] && cp "$f" public/; done
-    - echo "Built $(ls public | wc -l) app site(s) at $(date -u +%FT%TZ)"
+    # GitLab Pages serves only the app privacy/support pages and app-ads.txt
+    # (released Gridora builds link here). The portfolio is GitHub Pages only.
+    - mkdir -p public-gitlab
+    - for dir in public/*/; do cp -r "${dir%/}" public-gitlab/; done
+    - for f in public/*.txt; do [ -e "$f" ] && cp "$f" public-gitlab/; done
+    - rm -rf public && mv public-gitlab public
     - ls -la public/
   artifacts:
     paths:
