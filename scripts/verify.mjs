@@ -58,7 +58,7 @@ for (const scheme of ["light", "dark"]) {
     figures: [...document.querySelectorAll("[data-count]")].map((e) => e.textContent),
     animations: document.getAnimations().filter((a) => a.playState === "running" && (a.effect?.getTiming().duration ?? 0) > 1).length,
   }));
-  record("reduced motion", state.figures.join("|") === "12|99|4.9|7,348" && state.animations === 0, `figures ${state.figures.join(", ")} immediately; ${state.animations} running animations`);
+  record("reduced motion", state.figures.join("|") === "12|99|4.9|7.3" && state.animations === 0, `figures ${state.figures.join(", ")} immediately; ${state.animations} running animations`);
   await page.close();
 }
 
@@ -71,7 +71,7 @@ for (const scheme of ["light", "dark"]) {
   await page.waitForTimeout(2000);
   await page.waitForTimeout(1500);
   const end = await page.evaluate(() => [...document.querySelectorAll("[data-count]")].map((e) => e.textContent));
-  record("count-up settles", end.join("|") === "12|99|4.9|7,348", `mid-way ${mid.join(", ")}; final ${end.join(", ")}`);
+  record("count-up settles", end.join("|") === "12|99|4.9|7.3", `mid-way ${mid.join(", ")}; final ${end.join(", ")}`);
   await page.close();
 }
 

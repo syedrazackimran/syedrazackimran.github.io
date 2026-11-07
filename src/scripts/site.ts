@@ -14,7 +14,7 @@ else window.addEventListener("load", ready);
 const countUp = (el: HTMLElement) => {
   const target = Number(el.dataset.count);
   const dec = Number(el.dataset.dec ?? 0);
-  const format = (n: number) => (el.dataset.sep ? Math.round(n).toLocaleString("en-US") : n.toFixed(dec));
+  const format = (n: number) => n.toFixed(dec);
   if (reduce || !Number.isFinite(target)) return;
   const dur = 1600;
   let t0 = 0;
@@ -63,8 +63,8 @@ const onScroll = () => {
       const a = card.getBoundingClientRect();
       const b = next.getBoundingClientRect();
       const p = Math.min(1, Math.max(0, 1 - (b.top - a.top - 24) / Math.max(1, a.height - 24)));
-      card.style.setProperty("--stack-scale", (1 - 0.05 * p).toFixed(4));
-      card.style.setProperty("--stack-dim", (1 - 0.3 * p).toFixed(4));
+      card.style.setProperty("--stack-scale", (1 - 0.04 * p).toFixed(4));
+      card.style.setProperty("--stack-fade", Math.max(0, 1 - p * 1.6).toFixed(3));
     });
   }
   const line = window.innerHeight * 0.35;

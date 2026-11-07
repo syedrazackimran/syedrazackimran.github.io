@@ -21,7 +21,7 @@ export const identity = {
 export const hero = {
   greeting: "Hey, I'm Imran,",
   title: ["Senior iOS", "Developer"],
-  quote: "Think like a user. Do like a developer.",
+  quote: ["Think like a user.", "Do like a developer."],
   sub: "12+ years of native Swift, now Android in Kotlin too. I build inventory apps for restaurants that keep working offline and sync when the network returns.",
   services: [
     { n: "01", t: "iOS, Swift and SwiftUI" },
