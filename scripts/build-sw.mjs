@@ -46,8 +46,10 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
 
   if (request.mode === "navigate") {
+    // "no-cache" revalidates with the server instead of reusing the browser's HTTP cache
+    // (GitHub Pages sends max-age=600), so a new deploy shows on the next reload.
     event.respondWith(
-      fetch(request)
+      fetch(request, { cache: "no-cache" })
         .then((response) => {
           if (response.ok) {
             const copy = response.clone();
