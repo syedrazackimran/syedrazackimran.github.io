@@ -23,6 +23,8 @@ import {
   about,
   tmdbAttribution,
   tracks,
+  headings,
+  journey,
 } from "../data/profile";
 
 type Store = { name: string; rating: number | null; ratingCount: number; screenshots: number };
@@ -39,7 +41,7 @@ const caseMeta = {
   toastNow: [
     { k: "Company", v: "Toast, Inc." },
     { k: "Platform", v: "iOS, now Android too" },
-    { k: "Rating", v: `${rating.toFixed(1)} from ${ratingCount} ratings` },
+    { k: "Team", v: "Retail Inventory" },
   ],
   xtrachef: [
     { k: "Company", v: "Toast, Inc." },
@@ -146,25 +148,28 @@ const year = new Date().getFullYear();
       <div class="wrap">
         <div class="head">
           <h2 id="about-title" data-reveal>
-            <span class="label">Behind the apps</span><span class="sr-only">: </span>
-            <span class="big">Building mobile apps that keep working when the Wi-Fi doesn't</span>
+            <span class="label">{headings.about.label}</span><span class="sr-only">: </span>
+            <span class="big">{headings.about.plain} <em class="accent">{headings.about.accent}</em></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>{about}</p>
-            <div class="row">
-              <small>Let's build something reliable together.</small>
-              <a class="pill" href="#contact"><span>Get in touch</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
-            </div>
           </div>
         </div>
 
         <ul class="bento">
-          <li class="tile photo" data-reveal>
-            <Picture src={portrait} alt="" formats={["avif", "webp"]} widths={[420, 640]} sizes="(max-width: 980px) 100vw, 36vw" quality={70} />
-            <div class="cap">
-              <h3>Mobile team lead in Chennai and Phnom Penh</h3>
-              <p>{identity.current.role}, {identity.current.company}</p>
-            </div>
+          <li class="tile journey" data-reveal>
+            <p class="kicker">The journey</p>
+            <p class="fig"><span data-count="12">12</span>+<span class="unit">years</span></p>
+            <ol class="path">
+              {
+                journey.map((j) => (
+                  <li>
+                    <time datetime={j.year}>{j.year}</time>
+                    <span><b>{j.place}</b>{j.what}</span>
+                  </li>
+                ))
+              }
+            </ol>
           </li>
           <li class="tile crimson" data-reveal style="--d:.08s">
             <p class="kicker">Reliability</p>
@@ -186,11 +191,6 @@ const year = new Date().getFullYear();
                 <p class="since">{t.since}</p>
                 <h3>{t.platform}</h3>
                 <p>{t.text}</p>
-                <ul class="chips" aria-label={`${t.platform} stack`}>
-                  {t.stack.map((c) => (
-                    <li class="chip">{c}</li>
-                  ))}
-                </ul>
               </li>
             ))
           }
@@ -202,8 +202,8 @@ const year = new Date().getFullYear();
       <div class="wrap">
         <div class="head">
           <h2 id="work-title" data-reveal>
-            <span class="label">Selected work</span><span class="sr-only">: </span>
-            <span class="big">Apps restaurants run on, online or off</span>
+            <span class="label">{headings.work.label}</span><span class="sr-only">: </span>
+            <span class="big">{headings.work.plain} <em class="accent">{headings.work.accent}</em></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>At Toast I build the inventory and invoicing features that restaurant operators and managers use every day. Both apps keep working offline and sync when the network returns.</p>
@@ -253,8 +253,8 @@ const year = new Date().getFullYear();
       <div class="wrap">
         <div class="head">
           <h2 id="awards-title" data-reveal>
-            <span class="label">Hackathons and recognition</span><span class="sr-only">: </span>
-            <span class="big">Proud moments at Toast hackathons</span>
+            <span class="label">{headings.awards.label}</span><span class="sr-only">: </span>
+            <span class="big">{headings.awards.plain} <em class="accent">{headings.awards.accent}</em></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>Two hackathon entries, both about making inventory counts faster for restaurant staff.</p>
@@ -318,8 +318,8 @@ const year = new Date().getFullYear();
       <div class="wrap">
         <div class="head">
           <h2 id="apps-title" data-reveal>
-            <span class="label">My own apps</span><span class="sr-only">: </span>
-            <span class="big">Built and shipped on my own time</span>
+            <span class="label">{headings.apps.label}</span><span class="sr-only">: </span>
+            <span class="big">{headings.apps.plain} <em class="accent">{headings.apps.accent}</em></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>Three apps of my own on the App Store, designed, built and released end to end.</p>
@@ -390,11 +390,11 @@ const year = new Date().getFullYear();
       <div class="wrap">
         <div class="head">
           <h2 id="how-title" data-reveal>
-            <span class="label">How I work</span><span class="sr-only">: </span>
-            <span class="big">Built to last, not just to demo</span>
+            <span class="label">{headings.how.label}</span><span class="sr-only">: </span>
+            <span class="big">{headings.how.plain} <em class="accent">{headings.how.accent}</em></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
-            <p>Think like a user. Do like a developer. The habits I bring to every codebase, at work and in my own apps.</p>
+            <p>The habits I bring to every codebase, at work and in my own apps.</p>
           </div>
         </div>
         <ul class="pillars">
@@ -418,8 +418,8 @@ const year = new Date().getFullYear();
       <div class="wrap">
         <div class="head">
           <h2 id="exp-title" data-reveal>
-            <span class="label">Experience</span><span class="sr-only">: </span>
-            <span class="big">12+ years, two countries</span>
+            <span class="label">{headings.experience.label}</span><span class="sr-only">: </span>
+            <span class="big">{headings.experience.plain} <em class="accent">{headings.experience.accent}</em></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>From iOS developer in Chennai to team lead in Phnom Penh, and now senior engineer at Toast.</p>
@@ -439,7 +439,6 @@ const year = new Date().getFullYear();
                     <span>{r.company}</span>
                   </h3>
                   <p class="text">{r.text}</p>
-                  {r.honour && <p class="honour">{r.honour}</p>}
                 </div>
                 <p class="place">{r.place}</p>
               </li>
@@ -453,8 +452,8 @@ const year = new Date().getFullYear();
       <div class="wrap">
         <div class="head">
           <h2 id="skills-title" data-reveal>
-            <span class="label">Skills</span><span class="sr-only">: </span>
-            <span class="big">The toolkit</span>
+            <span class="label">{headings.skills.label}</span><span class="sr-only">: </span>
+            <span class="big">{headings.skills.plain} <em class="accent">{headings.skills.accent}</em></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>Native iOS first, Android in Kotlin, and the data, delivery and AI tooling around them.</p>
@@ -491,7 +490,7 @@ const year = new Date().getFullYear();
       <div class="wrap">
         <h2 id="contact-title" data-reveal>
           <span class="label">Contact</span><span class="sr-only">: </span>
-          <span class="big">{contact.line1} <span class="serif">{contact.line2}</span></span>
+          <span class="big">{contact.line1} <em class="accent">{contact.line2}</em></span>
         </h2>
         <p class="lead" data-reveal style="--d:.1s">{contact.text}</p>
         {config.openToWork && <p class="lead" data-reveal>{availabilityLine}</p>}
@@ -500,8 +499,6 @@ const year = new Date().getFullYear();
           <a class="pill" href={`mailto:${identity.email}`}><span>Email me</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
           <a class="pill ghost" href={identity.linkedin} rel="me noopener">LinkedIn</a>
           <a class="pill ghost" href={identity.github} rel="me noopener">GitHub</a>
-          <button class="pill ghost" type="button" data-copy={identity.email} aria-label="Copy email address">Copy email</button>
-          <span class="copied" role="status"></span>
         </div>
       </div>
     </section>
