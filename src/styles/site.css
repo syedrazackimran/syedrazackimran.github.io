@@ -14,14 +14,22 @@
   --accent: #a31c1b;
   --accent-text: #a31c1b;
   --on-accent: #ffffff;
-  --deep: #06110c;
+  --deep: #171717;
+  --deep-alt: #1f1f1d;
   --deep-2: #0c1d15;
   --on-deep: #f4f2ec;
   --on-deep-muted: rgba(244, 242, 236, 0.72);
   --accent-on-deep: #e65b59;
+  --hero-bg: #ece6db;
+  --hero-rgb: 236 230 219;
+  --hero-ink: #171717;
+  --hero-muted: #4f4f4c;
+  --hero-accent: #a31c1b;
+  --hero-line: rgba(23, 23, 23, 0.16);
+  --hero-wash: rgba(23, 23, 23, 0.06);
   --shadow: 0 30px 60px -34px rgba(6, 17, 12, 0.35);
-  --sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --sans: "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --serif: "Playfair Display", ui-serif, Georgia, serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --radius: clamp(28px, 5vw, 64px);
   color-scheme: light;
@@ -38,7 +46,15 @@
     --line-strong: rgba(237, 238, 234, 0.24);
     --accent-text: #e14e4d;
     --deep: #0b1d14;
+    --deep-alt: #171717;
     --deep-2: #10261b;
+    --hero-bg: #06110c;
+    --hero-rgb: 6 17 12;
+    --hero-ink: #f4f2ec;
+    --hero-muted: rgba(244, 242, 236, 0.72);
+    --hero-accent: #e65b59;
+    --hero-line: rgba(244, 242, 236, 0.22);
+    --hero-wash: rgba(244, 242, 236, 0.08);
     --shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6);
     color-scheme: dark;
   }
@@ -54,7 +70,15 @@
   --line-strong: rgba(237, 238, 234, 0.24);
   --accent-text: #e14e4d;
   --deep: #0b1d14;
+  --deep-alt: #171717;
   --deep-2: #10261b;
+  --hero-bg: #06110c;
+  --hero-rgb: 6 17 12;
+  --hero-ink: #f4f2ec;
+  --hero-muted: rgba(244, 242, 236, 0.72);
+  --hero-accent: #e65b59;
+  --hero-line: rgba(244, 242, 236, 0.22);
+  --hero-wash: rgba(244, 242, 236, 0.08);
   --shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6);
   color-scheme: dark;
 }
@@ -95,7 +119,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.03em;
 }
 ul,
@@ -155,6 +179,7 @@ button {
 }
 .serif {
   font-family: var(--serif);
+  font-style: italic;
   font-weight: 400;
   letter-spacing: 0;
 }
@@ -218,6 +243,7 @@ button {
 .copied {
   font-size: 0.9rem;
   font-family: var(--serif);
+  font-style: italic;
   font-size: 1.1rem;
   color: var(--accent-on-deep);
   opacity: 0;
@@ -227,22 +253,22 @@ button {
   opacity: 1;
 }
 
-/* Header (always on the deep green) */
+/* Header (sits on the hero, so it uses the hero colours) */
 .top {
   position: fixed;
   inset: 0 0 auto;
   z-index: 50;
-  color: var(--on-deep);
+  color: var(--hero-ink);
   transition:
     background-color 0.45s,
     transform 0.9s var(--ease),
     box-shadow 0.45s;
 }
 .top.scrolled {
-  background: rgba(6, 17, 12, 0.86);
+  background: rgb(var(--hero-rgb) / 0.86);
   backdrop-filter: blur(16px) saturate(1.3);
   -webkit-backdrop-filter: blur(16px) saturate(1.3);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+  box-shadow: 0 1px 0 var(--hero-line);
 }
 .top .wrap {
   display: flex;
@@ -252,6 +278,7 @@ button {
 }
 .logo {
   font-family: var(--serif);
+  font-style: italic;
   font-size: 1.7rem;
   line-height: 1;
   text-decoration: none;
@@ -259,7 +286,7 @@ button {
 .logo sup {
   font-family: var(--sans);
   font-size: 0.45em;
-  color: var(--accent-on-deep);
+  color: var(--hero-accent);
   margin-left: 2px;
 }
 .top nav {
@@ -275,7 +302,7 @@ button {
   align-items: center;
   min-height: 44px;
   font-size: 0.95rem;
-  color: var(--on-deep-muted);
+  color: var(--hero-muted);
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -286,14 +313,14 @@ button {
   right: 0;
   bottom: 9px;
   height: 1px;
-  background: var(--accent-on-deep);
+  background: var(--hero-accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.5s var(--ease);
 }
 .top nav a:hover,
 .top nav a.active {
-  color: var(--on-deep);
+  color: var(--hero-ink);
 }
 .top nav a:hover::after,
 .top nav a.active::after {
@@ -310,14 +337,14 @@ button {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(244, 242, 236, 0.22);
+  border: 1px solid var(--hero-line);
   background: transparent;
-  color: var(--on-deep);
+  color: var(--hero-ink);
   cursor: pointer;
   transition: background-color 0.3s;
 }
 .theme:hover {
-  background: rgba(244, 242, 236, 0.08);
+  background: var(--hero-wash);
 }
 .theme svg {
   grid-area: 1 / 1;
@@ -337,6 +364,10 @@ button {
 .top .pill {
   min-height: 48px;
   padding-left: 20px;
+}
+.top .pill.light {
+  background: var(--hero-ink);
+  color: var(--hero-bg);
 }
 .top .pill .arrow {
   width: 36px;
@@ -367,8 +398,8 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background: #06110c;
-  color: var(--on-deep);
+  background: var(--hero-bg);
+  color: var(--hero-ink);
   border-radius: 0 0 var(--radius) var(--radius);
   overflow: hidden;
   isolation: isolate;
@@ -396,8 +427,9 @@ button {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, #06110c 30%, rgba(6, 17, 12, 0.7) 46%, rgba(6, 17, 12, 0.1) 68%, rgba(6, 17, 12, 0.3) 100%),
-    linear-gradient(0deg, #06110c 0%, rgba(6, 17, 12, 0.86) 24%, rgba(6, 17, 12, 0.55) 42%, rgba(6, 17, 12, 0) 64%),
+    linear-gradient(180deg, rgb(var(--hero-rgb) / 0.78) 0%, rgb(var(--hero-rgb) / 0) 16%),
+    linear-gradient(90deg, var(--hero-bg) 30%, rgb(var(--hero-rgb) / 0.7) 46%, rgb(var(--hero-rgb) / 0.1) 68%, rgb(var(--hero-rgb) / 0.3) 100%),
+    linear-gradient(0deg, var(--hero-bg) 0%, rgb(var(--hero-rgb) / 0.86) 24%, rgb(var(--hero-rgb) / 0.55) 42%, rgb(var(--hero-rgb) / 0) 64%),
     radial-gradient(60% 50% at 80% 10%, rgba(163, 28, 27, 0.18), transparent 70%);
 }
 .hero-inner {
@@ -410,8 +442,8 @@ button {
 .greeting {
   font-family: var(--serif);
   font-style: italic;
-  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-  color: var(--accent-on-deep);
+  font-size: clamp(1.35rem, 2.1vw, 1.8rem);
+  color: var(--hero-accent);
   line-height: 1.1;
 }
 .hero h1 {
@@ -420,9 +452,9 @@ button {
 .hero h1 .t {
   display: block;
   font-size: clamp(3.4rem, 8.6vw, 7.6rem);
-  font-weight: 650;
-  line-height: 0.96;
-  letter-spacing: -0.042em;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
 }
 .hero h1 .t > span {
   display: inline-block;
@@ -436,13 +468,14 @@ button {
 }
 .hero-side blockquote {
   font-family: var(--serif);
-  font-size: clamp(1.6rem, 2.4vw, 2.1rem);
-  line-height: 1.15;
+  font-style: italic;
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  line-height: 1.25;
 }
 .hero-side p {
   margin-top: 16px;
   font-size: 0.98rem;
-  color: var(--on-deep-muted);
+  color: var(--hero-muted);
   max-width: 40ch;
 }
 .hero-side .row {
@@ -471,12 +504,12 @@ button {
   font-weight: 700;
 }
 .services b span {
-  color: var(--accent-on-deep);
+  color: var(--hero-accent);
 }
 .services p {
   margin-top: 6px;
   font-size: 1rem;
-  color: var(--on-deep-muted);
+  color: var(--hero-muted);
 }
 @media (max-width: 900px) {
   .hero {
@@ -493,7 +526,7 @@ button {
   }
   .hero::before {
     background:
-      linear-gradient(0deg, #06110c 40%, rgba(6, 17, 12, 0.7) 58%, rgba(6, 17, 12, 0) 78%, rgba(6, 17, 12, 0.4) 100%),
+      linear-gradient(0deg, var(--hero-bg) 40%, rgb(var(--hero-rgb) / 0.7) 58%, rgb(var(--hero-rgb) / 0) 78%, rgb(var(--hero-rgb) / 0.4) 100%),
       radial-gradient(70% 40% at 80% 10%, rgba(163, 28, 27, 0.18), transparent 70%);
   }
   .hero-inner {
@@ -525,13 +558,30 @@ button {
   color: var(--muted);
   line-height: 1.4;
 }
-.strip ul {
+.strip .marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.strip .track {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 14px 36px;
+  width: max-content;
+  animation: marquee 34s linear infinite;
+}
+.strip .marquee:hover .track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
 }
 .strip li {
+  display: inline-flex;
+  align-items: center;
+  gap: 56px;
+  padding-right: 56px;
+  white-space: nowrap;
   font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -542,12 +592,17 @@ button {
 .strip li:hover {
   opacity: 1;
 }
+.strip li::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.8;
+}
 @media (max-width: 760px) {
   .strip .wrap {
     grid-template-columns: 1fr;
-  }
-  .strip ul {
-    justify-content: flex-start;
   }
 }
 
@@ -570,7 +625,8 @@ button {
 .label {
   display: block;
   font-family: var(--serif);
-  font-size: clamp(1.35rem, 2vw, 1.6rem);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
   font-weight: 400;
   letter-spacing: 0;
   color: var(--accent-text);
@@ -579,17 +635,18 @@ button {
 .head h2 .big {
   display: block;
   font-size: clamp(2.3rem, 4.8vw, 3.8rem);
-  font-weight: 650;
-  line-height: 1.06;
-  letter-spacing: -0.038em;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
 }
 .head .side {
   padding-top: 8px;
 }
 .head .side p {
-  font-family: var(--serif);
-  font-size: clamp(1.35rem, 2.1vw, 1.75rem);
-  line-height: 1.3;
+  font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--muted);
 }
 .head .side .row {
   margin-top: 26px;
@@ -716,6 +773,7 @@ button {
 }
 .tile .kicker {
   font-family: var(--serif);
+  font-style: italic;
   font-size: 1.35rem;
   line-height: 1;
 }
@@ -732,6 +790,7 @@ button {
 }
 .tile.track .since {
   font-family: var(--serif);
+  font-style: italic;
   font-size: 1.25rem;
   color: var(--accent-text);
 }
@@ -789,7 +848,7 @@ button {
   gap: 28px clamp(32px, 6vw, 96px);
 }
 .case.alt {
-  background: #171717;
+  background: var(--deep-alt);
 }
 .case::before {
   content: "";
@@ -810,6 +869,7 @@ button {
 }
 .case .year {
   font-family: var(--serif);
+  font-style: italic;
   font-size: 1.35rem;
   color: var(--accent-on-deep);
 }
@@ -821,9 +881,9 @@ button {
 }
 .case .intro {
   margin-top: 20px;
-  font-family: var(--serif);
-  font-size: clamp(1.3rem, 2vw, 1.6rem);
-  line-height: 1.3;
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  font-weight: 500;
+  line-height: 1.5;
   color: rgba(244, 242, 236, 0.92);
 }
 .case .points li {
@@ -901,6 +961,7 @@ button {
 }
 .award-row .res {
   font-family: var(--serif);
+  font-style: italic;
   font-size: clamp(1.25rem, 2vw, 1.6rem);
   color: var(--accent-text);
   text-align: right;
@@ -931,9 +992,9 @@ button {
 }
 .process .pdesc {
   margin-top: 16px;
-  font-family: var(--serif);
-  font-size: 1.35rem;
-  line-height: 1.3;
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1.5;
 }
 .process .ptext {
   margin-top: 16px;
@@ -969,6 +1030,7 @@ button {
 }
 .step h4 {
   font-family: var(--serif);
+  font-style: italic;
   font-size: 1.5rem;
   font-weight: 400;
   letter-spacing: 0;
@@ -1031,8 +1093,7 @@ button {
 }
 .honest {
   margin-top: 22px;
-  font-family: var(--serif);
-  font-size: 1.15rem;
+  font-size: 0.92rem;
   color: var(--muted);
 }
 
@@ -1317,6 +1378,7 @@ button {
   display: inline;
   white-space: nowrap;
   font-family: var(--serif);
+  font-style: italic;
   font-size: 1.15rem;
   font-weight: 400;
   letter-spacing: 0;
@@ -1330,6 +1392,7 @@ button {
 .role h3 span {
   display: block;
   font-family: var(--serif);
+  font-style: italic;
   font-weight: 400;
   font-size: 1.2em;
   letter-spacing: 0;
@@ -1387,6 +1450,7 @@ button {
 }
 .skill h3 {
   font-family: var(--serif);
+  font-style: italic;
   font-size: 1.45rem;
   font-weight: 400;
   letter-spacing: 0;
@@ -1413,6 +1477,7 @@ button {
 }
 .edu h2 {
   font-family: var(--serif);
+  font-style: italic;
   font-size: 1.45rem;
   font-weight: 400;
   letter-spacing: 0;
@@ -1481,6 +1546,7 @@ button {
   display: inline-block;
   margin-top: 30px;
   font-family: var(--serif);
+  font-style: italic;
   font-size: clamp(1.6rem, 3.4vw, 2.6rem);
   text-decoration: none;
   border-bottom: 1px solid rgba(244, 242, 236, 0.3);
@@ -1516,11 +1582,12 @@ footer .wrap {
 
 /* Serif italic accent phrase inside headings */
 .accent {
+  display: inline-block;
   font-family: var(--serif);
   font-style: italic;
-  font-weight: 400;
-  font-size: 1.06em;
-  letter-spacing: -0.01em;
+  font-weight: 500;
+  font-size: 0.96em;
+  letter-spacing: -0.02em;
   color: var(--accent-text);
 }
 .case .accent,
@@ -1577,6 +1644,7 @@ footer .wrap {
 }
 .path time {
   font-family: var(--serif);
+  font-style: italic;
   font-size: 1.35rem;
   line-height: 1.1;
   color: var(--accent-on-deep);
@@ -1602,154 +1670,94 @@ footer .wrap {
   }
 }
 
-/* Light theme: its own look, not just a recolour.
-   Sand hero with the photo in a tall card, white case cards, crimson contact. */
-[data-shown="light"] .top {
-  color: var(--ink);
+/* Intro curtain: first visit per session, motion allowed. Pure CSS so it always clears,
+   even if the page script never loads. */
+.curtain {
+  display: none;
 }
-[data-shown="light"] .top.scrolled {
-  background: rgba(247, 245, 240, 0.88);
-  box-shadow: 0 1px 0 var(--line);
+.intro .curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: var(--hero-bg);
+  color: var(--hero-ink);
+  clip-path: inset(0 0 0 0);
+  animation: curtain-up 0.85s cubic-bezier(0.77, 0, 0.18, 1) 0.8s both;
+  pointer-events: none;
 }
-[data-shown="light"] .top nav a {
-  color: var(--muted);
+.curtain span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  overflow: clip;
+  overflow-clip-margin: 0.2em;
 }
-[data-shown="light"] .top nav a:hover,
-[data-shown="light"] .top nav a.active {
-  color: var(--ink);
+.curtain span b {
+  display: inline-block;
+  font-weight: 500;
+  animation: curtain-word 0.7s var(--ease) 0.05s both;
 }
-[data-shown="light"] .top nav a::after {
+.curtain span i {
+  width: 0.16em;
+  height: 0.16em;
+  border-radius: 50%;
   background: var(--accent);
+  animation: curtain-dot 0.5s var(--ease) 0.45s both;
 }
-[data-shown="light"] .logo sup {
-  color: var(--accent);
-}
-[data-shown="light"] .theme {
-  border-color: var(--line-strong);
-  color: var(--ink);
-}
-[data-shown="light"] .theme:hover {
-  background: var(--panel);
-}
-[data-shown="light"] .top .pill.light {
-  background: var(--ink);
-  color: #ffffff;
-}
-[data-shown="light"] .hero {
-  background: #ece6db;
-  color: var(--ink);
-}
-[data-shown="light"] .hero::before {
-  background: radial-gradient(55% 60% at 85% 20%, rgba(163, 28, 27, 0.1), transparent 70%);
-}
-[data-shown="light"] .hero-photo {
-  inset: 112px max(clamp(20px, 4.5vw, 56px), calc((100% - 1240px) / 2 + 56px)) 150px auto;
-  width: min(36%, 460px);
-  border-radius: 30px;
-  overflow: hidden;
-  box-shadow: 0 40px 80px -40px rgba(6, 17, 12, 0.45);
-}
-[data-shown="light"] .hero-photo img {
-  -webkit-mask-image: none;
-  mask-image: none;
-}
-[data-shown="light"] .hero-inner {
-  grid-template-columns: minmax(0, 1fr);
-  max-width: 58%;
-  gap: 28px;
-}
-[data-shown="light"] .greeting {
-  color: var(--accent);
-}
-[data-shown="light"] .hero-side p,
-[data-shown="light"] .services p {
-  color: var(--muted);
-}
-[data-shown="light"] .services b span,
-[data-shown="light"] .copied {
-  color: var(--accent);
-}
-@media (max-width: 900px) {
-  [data-shown="light"] .hero-photo {
-    position: relative;
-    inset: auto;
-    width: auto;
-    height: auto;
-    margin: 100px clamp(20px, 4.5vw, 56px) 0;
-    aspect-ratio: 4 / 4.6;
-  }
-  [data-shown="light"] .hero-inner {
-    max-width: none;
-    padding-top: 32px;
+@keyframes curtain-word {
+  from {
+    transform: translateY(110%);
   }
 }
-[data-shown="light"] .case {
-  background: var(--card);
-  color: var(--ink);
-  border: 1px solid var(--line);
+@keyframes curtain-dot {
+  from {
+    transform: scale(0);
+  }
 }
-[data-shown="light"] .case.alt {
-  background: var(--panel);
-  border-color: transparent;
+@keyframes curtain-up {
+  to {
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+  }
 }
-[data-shown="light"] .case::before {
-  background: radial-gradient(50% 70% at 100% 0%, rgba(163, 28, 27, 0.08), transparent 70%);
+
+/* Heading accents draw in left to right when their heading is revealed */
+.js [data-reveal] .accent {
+  clip-path: inset(-0.25em 101% -0.35em -0.15em);
+  transition: clip-path 1.25s var(--ease) 0.35s;
 }
-[data-shown="light"] .case .year,
-[data-shown="light"] .case .meta dt span,
-[data-shown="light"] .case .accent {
-  color: var(--accent);
+.js [data-reveal].in .accent {
+  clip-path: inset(-0.25em -0.3em -0.35em -0.15em);
 }
-[data-shown="light"] .case .intro {
-  color: var(--ink);
+
+/* Hero photo drifts with scroll (set by the page script) */
+.hero-photo {
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
 }
-[data-shown="light"] .case .points li {
-  color: var(--muted);
-  border-color: var(--line);
-}
-[data-shown="light"] .case .points li::before {
-  background: var(--accent);
-}
-[data-shown="light"] .case .meta {
-  border-color: var(--line);
-}
-[data-shown="light"] .case .meta dd {
-  color: var(--muted);
-}
-[data-shown="light"] .case .pill.light {
-  background: var(--ink);
-  color: #ffffff;
-}
-[data-shown="light"] .contact,
-[data-shown="light"] footer {
-  background: var(--accent);
-}
-[data-shown="light"] .contact::before {
-  background: radial-gradient(50% 70% at 90% 10%, rgba(255, 255, 255, 0.14), transparent 70%);
-}
-[data-shown="light"] .contact .label,
-[data-shown="light"] .contact h2 .big .accent {
-  color: #ffe9e4;
-}
-[data-shown="light"] .contact .lead {
-  color: rgba(255, 255, 255, 0.86);
-}
-[data-shown="light"] .contact .mail:hover {
-  border-color: #ffffff;
-}
-[data-shown="light"] .contact .pill:not(.ghost) {
-  background: #ffffff;
-  color: var(--accent);
-}
-[data-shown="light"] .contact .pill:not(.ghost) .arrow {
-  background: var(--accent);
-  color: #ffffff;
-}
-[data-shown="light"] footer {
-  color: rgba(255, 255, 255, 0.82);
-}
-[data-shown="light"] footer .wrap {
-  border-color: rgba(255, 255, 255, 0.16);
+
+/* Case studies stack: each card pins and the next slides over it (desktop only) */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .cases {
+    gap: 0;
+  }
+  .case {
+    position: sticky;
+    top: 112px;
+    margin-bottom: 28px;
+    transform-origin: 50% 0;
+    transform: scale(var(--stack-scale, 1));
+    filter: brightness(var(--stack-dim, 1));
+  }
+  .case + .case {
+    top: 136px;
+  }
 }
 
 /* Entrance (JS only) */
@@ -1767,13 +1775,16 @@ footer .wrap {
   transform: none;
   opacity: 1;
 }
+.hero h1 .t {
+  overflow: clip;
+  overflow-clip-margin: 0.08em;
+  padding-bottom: 0.04em;
+}
 .js .hero h1 .t > span {
-  transform: translateY(40px);
-  opacity: 0;
+  transform: translateY(105%);
 }
 .js body.loaded .hero h1 .t > span {
   transform: none;
-  opacity: 1;
 }
 .fade {
   transition:
@@ -1812,6 +1823,9 @@ footer .wrap {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .intro .curtain {
+    display: none;
+  }
   *,
   *::before,
   *::after {
