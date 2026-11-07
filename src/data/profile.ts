@@ -187,6 +187,7 @@ export type OwnApp = {
   url: string;
   featured?: boolean;
   links?: { privacy: string; support: string };
+  downloads?: { total: number; asOf: string; source: string; byDevice: { device: string; count: number }[] };
 };
 
 export const ownApps: OwnApp[] = [
@@ -213,6 +214,18 @@ export const ownApps: OwnApp[] = [
     meta: "Movie & TV companion. 2020, through v3.0",
     text: "Release reminders, watchlist and favourites with cloud sync, actor profiles, trailers and local showtimes, on the TMDb API.",
     url: "https://apps.apple.com/us/app/moviez/id1511472908",
+    // Apple's own count from App Store Connect; the device rows add up to the total.
+    downloads: {
+      total: 7348,
+      asOf: "Nov 2026",
+      source: "App Store Connect",
+      byDevice: [
+        { device: "iPhone", count: 6577 },
+        { device: "iPad", count: 703 },
+        { device: "iPod", count: 45 },
+        { device: "Mac", count: 23 },
+      ],
+    },
   },
 ];
 

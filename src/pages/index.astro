@@ -357,6 +357,22 @@ const year = new Date().getFullYear();
                     </div>
                   </div>
                   <p>{app.text}</p>
+                  {app.downloads && (
+                    <div class="dl">
+                      <p class="dl-total">
+                        <span data-count={app.downloads.total} data-sep="true">{app.downloads.total.toLocaleString("en-US")}</span>
+                        <small>downloads, {app.downloads.source}, as of {app.downloads.asOf}</small>
+                      </p>
+                      <ul class="dl-split" aria-label="Downloads by device">
+                        {app.downloads.byDevice.map((d) => (
+                          <li style={`--share:${((d.count / app.downloads!.total) * 100).toFixed(2)}%`}>
+                            <span>{d.device}</span>
+                            <b>{d.count.toLocaleString("en-US")}</b>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                   <p class="links">
                     <a class="tlink" href={app.url} rel="noopener">
                       App Store <Icon name="out" size={14} stroke={2.2} />

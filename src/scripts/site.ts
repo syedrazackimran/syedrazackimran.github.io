@@ -14,6 +14,7 @@ else window.addEventListener("load", ready);
 const countUp = (el: HTMLElement) => {
   const target = Number(el.dataset.count);
   const dec = Number(el.dataset.dec ?? 0);
+  const format = (n: number) => (el.dataset.sep ? Math.round(n).toLocaleString("en-US") : n.toFixed(dec));
   if (reduce || !Number.isFinite(target)) return;
   const dur = 1600;
   let t0 = 0;
@@ -21,10 +22,10 @@ const countUp = (el: HTMLElement) => {
     if (!t0) t0 = t;
     const p = Math.min(1, (t - t0) / dur);
     const e = 1 - Math.pow(1 - p, 4);
-    el.textContent = (p >= 1 ? target : target * e).toFixed(dec);
+    el.textContent = format(p >= 1 ? target : target * e);
     if (p < 1) requestAnimationFrame(frame);
   };
-  el.textContent = (0).toFixed(dec);
+  el.textContent = format(0);
   requestAnimationFrame(frame);
 };
 
