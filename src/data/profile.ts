@@ -31,6 +31,24 @@ export const hero = {
   ],
 };
 
+// Section headings: a bold phrase plus one serif-italic accent phrase.
+export const headings = {
+  about: { label: "Behind the apps", plain: "Building apps that keep working", accent: "when the Wi-Fi doesn't" },
+  work: { label: "Selected work", plain: "Apps restaurants run on,", accent: "online or off" },
+  awards: { label: "Hackathons and recognition", plain: "Proud moments at", accent: "Toast hackathons" },
+  apps: { label: "My own apps", plain: "Built and shipped on", accent: "my own time" },
+  how: { label: "How I work", plain: "Built to last,", accent: "not just to demo" },
+  experience: { label: "Experience", plain: "12+ years,", accent: "two countries" },
+  skills: { label: "Skills", plain: "The", accent: "toolkit" },
+};
+
+// The About card that replaces a second copy of the photo.
+export const journey = [
+  { year: "2014", place: "Chennai", what: "iOS developer" },
+  { year: "2016", place: "Phnom Penh", what: "iOS team lead, then mobile team lead" },
+  { year: "2020", place: "Chennai", what: "Senior engineer, xtraCHEF by Toast" },
+];
+
 // Plain text names, no logos.
 export const companies = ["xtraCHEF by Toast", "SkyBooking", "Nanita Tech", "Casperon Technologies", "JEMS Nets Solutions"];
 
