@@ -8,7 +8,8 @@ const block = (selector) => {
   const body = css.slice(css.indexOf("{", start) + 1, css.indexOf("}", start));
   return Object.fromEntries([...body.matchAll(/--([\w-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
 };
-const themes = { light: block(":root {"), dark: block(':root[data-theme="dark"]') };
+const light = block(":root {");
+const themes = { light, dark: { ...light, ...block(':root[data-theme="dark"]') } };
 
 const parse = (v) => {
   if (v.startsWith("#")) return [1, 3, 5].map((i) => parseInt(v.slice(i, i + 2), 16)).concat(1);
@@ -35,21 +36,17 @@ const TEXT = 4.5;
 const LARGE = 3;
 // [foreground token, surface token (composited over bg), minimum, where]
 const pairs = [
-  ["text", "bg", TEXT, "headings and body"],
-  ["text-2", "glass", TEXT, "card body copy"],
+  ["ink", "bg", TEXT, "headings and body"],
   ["muted", "bg", TEXT, "secondary text on the page"],
-  ["muted", "glass", TEXT, "secondary text in cards"],
-  ["muted", "card", TEXT, "hero card labels"],
-  ["muted", "nav", TEXT, "nav links"],
-  ["teal", "bg", TEXT, "'Email copied', gradient start"],
-  ["sky", "bg", TEXT, "gradient middle (kickers, headline)"],
-  ["violet", "bg", TEXT, "gradient end"],
-  ["sky", "glass", LARGE, "large gradient figures in cards"],
-  ["gold", "card", LARGE, "large '2nd' in the gold card"],
-  ["gold", "gold-soft", TEXT, "hackathon pill text"],
-  ["on-solid", "solid", TEXT, "primary button and Contact pill"],
-  ["muted", "award-b", TEXT, "secondary text in the hackathon panel"],
-  ["text-2", "award-b", TEXT, "body copy in the hackathon panel"],
+  ["muted", "card", TEXT, "secondary text in cards"],
+  ["muted", "panel", TEXT, "company strip and skill panels"],
+  ["accent-text", "bg", TEXT, "serif section labels"],
+  ["accent-text", "card", TEXT, "labels inside cards"],
+  ["accent-text", "panel", TEXT, "skill group titles"],
+  ["on-accent", "accent", TEXT, "crimson buttons and tiles"],
+  ["on-deep", "deep", TEXT, "text on the deep green panels"],
+  ["on-deep-muted", "deep", TEXT, "secondary text on deep green"],
+  ["accent-on-deep", "deep", TEXT, "red labels on deep green"],
 ];
 
 let failures = 0;

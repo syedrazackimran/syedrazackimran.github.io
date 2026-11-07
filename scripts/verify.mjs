@@ -42,7 +42,7 @@ for (const scheme of ["light", "dark"]) {
     return ["Bricolage Grotesque", "Atkinson Hyperlegible Next"].every((f) => document.fonts.check(`16px "${f}"`));
   });
   const imgsOk = await page.evaluate(() => [...document.images].filter((i) => i.loading !== "lazy").every((i) => i.complete && i.naturalWidth > 0));
-  record("offline reload", Boolean(h1?.includes("people rely on")) && failed.length === 0, `h1 rendered, ${failed.length} failed requests${failed.length ? `: ${failed.slice(0, 3).join(", ")}` : ""}`);
+  record("offline reload", Boolean(h1?.includes("Senior iOS")) && failed.length === 0, `h1 rendered, ${failed.length} failed requests${failed.length ? `: ${failed.slice(0, 3).join(", ")}` : ""}`);
   record("offline fonts and images", fontsOk && imgsOk, `fonts ${fontsOk ? "loaded" : "missing"}, eager images ${imgsOk ? "loaded" : "missing"}`);
   const resume = await page.evaluate(async () => (await fetch("/resume.pdf").catch(() => null))?.status ?? "no response");
   record("offline résumé", true, `résumé hidden (showResume: false); /resume.pdf → ${resume}`);
@@ -58,7 +58,7 @@ for (const scheme of ["light", "dark"]) {
     figures: [...document.querySelectorAll("[data-count]")].map((e) => e.textContent),
     animations: document.getAnimations().filter((a) => a.playState === "running" && (a.effect?.getTiming().duration ?? 0) > 1).length,
   }));
-  record("reduced motion", state.figures.join(",") === "12,4.9,2" && state.animations === 0, `figures ${state.figures.join(", ")} immediately; ${state.animations} running animations`);
+  record("reduced motion", state.figures.join(",") === "99,4.9" && state.animations === 0, `figures ${state.figures.join(", ")} immediately; ${state.animations} running animations`);
   await page.close();
 }
 
@@ -71,7 +71,7 @@ for (const scheme of ["light", "dark"]) {
   await page.waitForTimeout(2000);
   await page.waitForTimeout(1500);
   const end = await page.evaluate(() => [...document.querySelectorAll("[data-count]")].map((e) => e.textContent));
-  record("count-up settles", end.join(",") === "12,4.9,2", `mid-way ${mid.join(", ")}; final ${end.join(", ")}`);
+  record("count-up settles", end.join(",") === "99,4.9", `mid-way ${mid.join(", ")}; final ${end.join(", ")}`);
   await page.close();
 }
 
@@ -88,7 +88,7 @@ for (const scheme of ["light", "dark"]) {
   const hidden = await page.evaluate(() => [...document.querySelectorAll("main *")].filter((e) => e.checkVisibility && !e.closest("[aria-hidden]") && e.textContent.trim() && getComputedStyle(e).opacity === "0").length);
   record("no-JS: nothing hidden", hidden === 0, `${hidden} text elements at opacity 0 with JavaScript off`);
   const ld = await page.evaluate(() => JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent));
-  record("ATS text parse (no JS)", missing.length === 0 && sections.length === 0 && ld.hasOccupation?.length === 5 && h1.includes("Syed Razack Imran Thajudeen") && h1.includes("people rely on"), `h1 "${h1}", ${must.length - missing.length}/${must.length} key terms${missing.length ? ` (missing ${missing})` : ""}, standard headings ${sections.length ? `missing ${sections}` : "present"}, JSON-LD ${ld.hasOccupation?.length} roles, ${ld.knowsAbout?.length} skills`);
+  record("ATS text parse (no JS)", missing.length === 0 && sections.length === 0 && ld.hasOccupation?.length === 5 && h1.includes("Syed Razack Imran Thajudeen") && h1.includes("Senior iOS Developer"), `h1 "${h1}", ${must.length - missing.length}/${must.length} key terms${missing.length ? ` (missing ${missing})` : ""}, standard headings ${sections.length ? `missing ${sections}` : "present"}, JSON-LD ${ld.hasOccupation?.length} roles, ${ld.knowsAbout?.length} skills`);
   await page.close();
 }
 

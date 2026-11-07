@@ -3,221 +3,243 @@ import { Image, Picture } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
-import portrait from "../assets/portrait.jpg";
+import portrait from "../assets/portrait-hero.jpg";
 import apps from "../data/apps.json";
 import {
   availabilityLine,
   caseStudies,
+  companies,
   config,
   contact,
-  creds,
   education,
   experience,
   hackathon,
   hero,
   identity,
   inDevelopment,
-  marquee,
-  motto,
   ownApps,
   pillars,
   skills,
+  about,
   tmdbAttribution,
+  tracks,
 } from "../data/profile";
 
-type Store = { name: string; rating: number | null; ratingCount: number; screenshots: number; fetchedAt: string };
+type Store = { name: string; rating: number | null; ratingCount: number; screenshots: number };
 const store = apps as Record<string, Store>;
-const toastNow = store.toastNow;
-const rating = toastNow?.rating ?? 4.9;
-const ratingCount = toastNow ? `~${Math.round(toastNow.ratingCount / 1000)}K` : "~12K";
+const rating = store.toastNow?.rating ?? 4.9;
+const ratingCount = store.toastNow ? `~${Math.round(store.toastNow.ratingCount / 1000)}K` : "~12K";
 
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/appstore/*.jpg", { eager: true });
 const image = (file: string) => images[`../assets/appstore/${file}`]?.default;
 const shots = (key: string) =>
   Array.from({ length: store[key]?.screenshots ?? 0 }, (_, i) => image(`${key}-shot-${i + 1}.jpg`)).filter((s): s is ImageMetadata => Boolean(s));
 
-const words = (text: string, start = 0) => text.split(" ").map((w, i) => ({ w, i: start + i }));
-const line1 = words(hero.line1);
-const line2 = words(hero.line2, line1.length);
+const caseMeta = {
+  toastNow: [
+    { k: "Company", v: "Toast, Inc." },
+    { k: "Platform", v: "iOS, now Android too" },
+    { k: "Rating", v: `${rating.toFixed(1)} from ${ratingCount} ratings` },
+  ],
+  xtrachef: [
+    { k: "Company", v: "Toast, Inc." },
+    { k: "Platform", v: "iOS" },
+    { k: "Mode", v: "Offline-first" },
+  ],
+} as const;
 const year = new Date().getFullYear();
 ---
 
 <Base title={`${identity.name}, Senior iOS Developer`}>
   <a class="skip" href="#main">Skip to content</a>
-  <div class="progress" id="progress" aria-hidden="true"></div>
-  <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
 
-  <header class="nav-shell">
-    <div class="nav-pill">
-      <a class="brand" href="#top">{identity.shortName}</a>
+  <header class="top" id="top-bar">
+    <div class="wrap">
+      <a class="logo" href="#top">Imran<sup>®</sup></a>
       <nav aria-label="Sections">
         <ul>
+          <li><a href="#about">About</a></li>
           <li><a href="#work">Work</a></li>
-          <li><a href="#hackathon">Hackathon</a></li>
+          <li><a href="#awards">Hackathons</a></li>
           <li><a href="#apps">Apps</a></li>
           <li><a href="#experience">Experience</a></li>
         </ul>
       </nav>
-      <button class="theme" type="button" data-theme-toggle aria-label="Switch theme">
-        <Icon name="moon" size={17} />
-        <Icon name="sun" size={17} />
-      </button>
-      <a class="nav-cta" href="#contact">Contact</a>
+      <div class="end">
+        <button class="theme" type="button" data-theme-toggle aria-label="Switch theme">
+          <Icon name="moon" size={17} />
+          <Icon name="sun" size={17} />
+        </button>
+        <a class="pill light" href="#contact" aria-label="Get in touch"><span>Get in touch</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
+      </div>
     </div>
   </header>
 
   <main id="main" tabindex="-1">
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="gridlines" aria-hidden="true"></div>
+      <div class="hero-photo">
+        <Picture
+          src={portrait}
+          alt={identity.name}
+          formats={["avif", "webp"]}
+          fallbackFormat="jpg"
+          widths={[360, 480, 640, 800, 941]}
+          sizes="(max-width: 900px) 100vw, 62vw"
+          quality={72}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
       <div class="wrap">
-        <div>
-          <p class="badge-line" data-reveal style="--d:.15s">
-            <Picture
-              src={portrait}
-              alt={identity.name}
-              formats={["avif", "webp"]}
-              fallbackFormat="jpg"
-              widths={[68, 102]}
-              sizes="34px"
-              quality={75}
-              loading="eager"
-            />
-            <span class="pulse" aria-hidden="true"></span>
-            {hero.badge}
-          </p>
-          <h1 id="hero-title">
-            <span class="sr-only">{identity.name}. </span>
-            <span class="line">
+        <div class="hero-inner">
+          <div>
+            <p class="greeting fade" style="--d:.15s">{hero.greeting}</p>
+            <h1 id="hero-title">
+              <span class="sr-only">{identity.name}, </span>
               {
-                line1.map(({ w, i }) => (
+                hero.title.map((t, i) => (
                   <>
-                    <span class="w">
-                      <span style={`--i:${i}`}>{w}</span>
+                    <span class="t">
+                      <span style={`--i:${i}`}>{t}</span>
                     </span>{" "}
                   </>
                 ))
               }
-            </span>
-            <span class="line line2">
-              {
-                line2.map(({ w, i }) => (
-                  <>
-                    <span class="w">
-                      <span style={`--i:${i}`}>{w}</span>
-                    </span>{" "}
-                  </>
-                ))
-              }
-            </span>
-          </h1>
-          <p class="lede" data-reveal style="--d:.9s">
-            {hero.lede.map((part) => (typeof part === "string" ? part : <b>{part.b}</b>))}
-          </p>
-          <div class="cta-row" data-reveal style="--d:1.05s">
-            <a class="btn btn-primary magnetic" href={`mailto:${identity.email}`}>Email me <Icon name="arrow" size={16} stroke={2.2} /></a>
-            <a class="btn btn-ghost magnetic" href="#work">See my work</a>
-            <button class="btn btn-ghost" type="button" data-copy={identity.email} aria-label="Copy email address">Copy email</button>
-            {config.showResume && <a class="btn btn-ghost magnetic" href="/resume.pdf">Résumé</a>}
-            <span class="copied" role="status"></span>
+            </h1>
+          </div>
+          <div class="hero-side fade" style="--d:.7s">
+            <blockquote>{hero.quote}</blockquote>
+            <p>{hero.sub}</p>
+            <div class="row">
+              <a class="pill" href={`mailto:${identity.email}`}><span>Email me</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
+              <button class="tlink" type="button" data-copy={identity.email} aria-label="Copy email address">Copy email</button>
+              <span class="copied" role="status"></span>
+            </div>
+          </div>
+        </div>
+        <ul class="services" aria-label="What I do">
+          {
+            hero.services.map((s, i) => (
+              <li style={`--i:${i}`}>
+                <b>
+                  <span>#</span>
+                  {s.n}
+                </b>
+                <p>{s.t}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <div class="strip">
+      <div class="wrap">
+        <p class="lbl">Where I've built mobile apps since 2014</p>
+        <ul aria-label="Companies">
+          {companies.map((c) => <li>{c}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <div class="head">
+          <h2 id="about-title" data-reveal>
+            <span class="label">Behind the apps</span><span class="sr-only">: </span>
+            <span class="big">Building mobile apps that keep working when the Wi-Fi doesn't</span>
+          </h2>
+          <div class="side" data-reveal style="--d:.1s">
+            <p>{about}</p>
+            <div class="row">
+              <small>Let's build something reliable together.</small>
+              <a class="pill" href="#contact"><span>Get in touch</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
+            </div>
           </div>
         </div>
 
-        <ul class="creds" id="creds" aria-label="Highlights">
-          <li class="cred c1" data-depth="18">
-            <div class="px">
-              <div class="float">
-                <p class="tag"><i></i>{creds.years.tag}</p>
-                <p class="big"><span><span data-count={creds.years.value}>{creds.years.value}</span>{creds.years.suffix}</span></p>
-                <p class="lbl">{creds.years.label}</p>
-              </div>
+        <ul class="bento">
+          <li class="tile photo" data-reveal>
+            <Picture src={portrait} alt="" formats={["avif", "webp"]} widths={[420, 640]} sizes="(max-width: 980px) 100vw, 36vw" quality={70} />
+            <div class="cap">
+              <h3>Mobile team lead in Chennai and Phnom Penh</h3>
+              <p>{identity.current.role}, {identity.current.company}</p>
             </div>
           </li>
-          <li class="cred c2" data-depth="32">
-            <div class="px">
-              <div class="float">
-                <p class="tag"><i></i>{creds.rating.tag}</p>
-                <p class="big">
-                  <span data-count={rating} data-dec="1">{rating.toFixed(1)}</span>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17.1l-5.9 3.3 1.3-6.5L2.5 9.4l6.6-.8z" /></svg>
-                  <span class="sr-only">out of 5</span>
-                </p>
-                <p class="lbl">{creds.rating.label}, from {ratingCount} ratings.</p>
-              </div>
-            </div>
+          <li class="tile crimson" data-reveal style="--d:.08s">
+            <p class="kicker">Reliability</p>
+            <p class="fig"><span data-count="99">99</span>%</p>
+            <p class="cap-sm">98–99% crash-free on Toast Now, backed by unit tests, Crashlytics and CI/CD.</p>
           </li>
-          <li class="cred c3" data-depth="24">
-            <div class="px">
-              <div class="float">
-                <p class="tag"><i></i>{creds.countries.tag}</p>
-                <p class="big"><span data-count={creds.countries.value}>{creds.countries.value}</span></p>
-                <p class="lbl">{creds.countries.label}</p>
-              </div>
-            </div>
+          <li class="tile deep" data-reveal style="--d:.16s">
+            <p class="kicker">Toast Now</p>
+            <p class="fig">
+              <span data-count={rating} data-dec="1">{rating.toFixed(1)}</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17.1l-5.9 3.3 1.3-6.5L2.5 9.4l6.6-.8z" /></svg>
+              <span class="sr-only">out of 5</span>
+            </p>
+            <p class="cap-sm">App Store rating from {ratingCount} ratings. The app I build inventory features for.</p>
           </li>
-          <li class="cred c4 gold" data-depth="40">
-            <div class="px">
-              <div class="float">
-                <p class="tag"><i></i>{creds.hackathon.tag}</p>
-                <p class="big">{creds.hackathon.value}</p>
-                <p class="lbl">{creds.hackathon.label}</p>
-              </div>
-            </div>
-          </li>
+          {
+            tracks.map((t, i) => (
+              <li class="tile track" data-reveal style={`--d:${0.08 + i * 0.08}s`}>
+                <p class="since">{t.since}</p>
+                <h3>{t.platform}</h3>
+                <p>{t.text}</p>
+                <ul class="chips" aria-label={`${t.platform} stack`}>
+                  {t.stack.map((c) => (
+                    <li class="chip">{c}</li>
+                  ))}
+                </ul>
+              </li>
+            ))
+          }
         </ul>
       </div>
-      <div class="scroll-cue" aria-hidden="true"></div>
     </section>
 
-    <div class="marquee">
-      <ul class="marquee-track" aria-label="Technologies">
-        {marquee.map((m) => <li>{m}</li>)}
-        {marquee.map((m) => <li aria-hidden="true">{m}</li>)}
-      </ul>
-    </div>
-
-    <section class="block" id="work" aria-labelledby="work-title">
+    <section class="section" id="work" aria-labelledby="work-title">
       <div class="wrap">
-        <div class="sec-head">
-          <h2 id="work-title" data-reveal><span class="kicker">Selected work</span><span class="sr-only">: </span><span class="big-line">Apps restaurants run on.</span></h2>
-          <p data-reveal style="--d:.1s">At Toast I build the inventory and invoicing features that restaurant operators and managers use every day, from busy kitchens with patchy signal.</p>
+        <div class="head">
+          <h2 id="work-title" data-reveal>
+            <span class="label">Selected work</span><span class="sr-only">: </span>
+            <span class="big">Apps restaurants run on, online or off</span>
+          </h2>
+          <div class="side" data-reveal style="--d:.1s">
+            <p>At Toast I build the inventory and invoicing features that restaurant operators and managers use every day. Both apps keep working offline and sync when the network returns.</p>
+          </div>
         </div>
         <div class="cases">
           {
             caseStudies.map((c, i) => (
-              <article class="glass case" data-reveal style={`--d:${i * 0.12}s`} aria-labelledby={`case-${c.key}`}>
-                <div class="case-top">
-                  <div>
-                    <h3 id={`case-${c.key}`}>{c.name}</h3>
-                    <p class="who-at">{c.company}</p>
-                  </div>
-                  {c.key === "toastNow" ? (
-                    <p class="metric">
-                      <b class="grad-text">{rating.toFixed(1)} / 5</b>
-                      <span>{ratingCount} App Store ratings</span>
-                    </p>
-                  ) : (
-                    c.metric && (
-                      <p class="metric">
-                        <b class="grad-text">{c.metric.value}</b>
-                        <span>{c.metric.label}</span>
-                      </p>
-                    )
-                  )}
+              <article class:list={["case", { alt: i % 2 === 1 }]} data-reveal aria-labelledby={`case-${c.key}`}>
+                <div>
+                  <p class="year">{c.company}</p>
+                  <h3 id={`case-${c.key}`}>{c.name}</h3>
+                  <p class="intro">{c.intro}</p>
                 </div>
-                <p>{c.intro}</p>
-                <ul>
+                <ul class="points">
                   {c.points.map((p) => (
                     <li>{p}</li>
                   ))}
                 </ul>
-                <div class="foot">
-                  <ul class="chips" aria-label="Stack">
-                    {c.chips.map((ch) => (
-                      <li class="chip">{ch}</li>
+                <div class="meta">
+                  <dl style="display:contents">
+                    {caseMeta[c.key].map((m) => (
+                      <div>
+                        <dt>
+                          <span>#</span>
+                          {m.k}
+                        </dt>
+                        <dd>{m.v}</dd>
+                      </div>
                     ))}
-                  </ul>
-                  <a class="link" href={c.url} rel="noopener">
-                    {c.name} on the App Store <Icon name="out" size={14} stroke={2.2} />
+                  </dl>
+                  <a class="pill light" href={c.url} rel="noopener">
+                    <span>App Store</span>
+                    <span class="arrow">
+                      <Icon name="out" size={15} stroke={2.2} />
+                    </span>
                   </a>
                 </div>
               </article>
@@ -227,84 +249,81 @@ const year = new Date().getFullYear();
       </div>
     </section>
 
-    <section class="block" id="hackathon" aria-labelledby="hack-title">
+    <section class="section" id="awards" aria-labelledby="awards-title">
       <div class="wrap">
-        <div class="sec-head">
-          <h2 id="hack-title" data-reveal><span class="kicker">Toast hackathons</span><span class="sr-only">: </span><span class="big-line">2nd in India.<br />8th across Toast.</span></h2>
-          <p data-reveal style="--d:.1s">Two hackathon entries, both about making inventory counts faster for restaurant staff.</p>
+        <div class="head">
+          <h2 id="awards-title" data-reveal>
+            <span class="label">Hackathons and recognition</span><span class="sr-only">: </span>
+            <span class="big">Proud moments at Toast hackathons</span>
+          </h2>
+          <div class="side" data-reveal style="--d:.1s">
+            <p>Two hackathon entries, both about making inventory counts faster for restaurant staff.</p>
+          </div>
         </div>
 
-        <article class="award" data-reveal aria-labelledby="award-title">
-          <div class="award-inner">
-            <div class="award-top">
-              <div>
-                <h3 id="award-title">{hackathon.name}</h3>
-                <p class="tagline">{hackathon.tagline}</p>
-              </div>
-              <p class="medal">
-                <span class="disc" aria-hidden="true">2</span>
-                <span><b>{hackathon.result}</b><span>{hackathon.meta}</span></span>
-              </p>
+        <ul class="awards">
+          <li class="award-row" data-reveal>
+            <span class="yr">2026</span>
+            <div>
+              <h3>{hackathon.name}</h3>
+              <p>{hackathon.tagline} {hackathon.meta}.</p>
             </div>
-
-            <ol class="flow" id="flow" aria-label="How it works">
-              {
-                hackathon.steps.map((s, i) => (
-                  <li class="step" style={`--s:${i}`}>
-                    <div class:list={["node", s.colour]}>
-                      <Icon name={s.icon} size={28} stroke={1.8} />
-                    </div>
-                    <h4>{s.title}</h4>
-                    <p>{s.text}</p>
-                  </li>
-                ))
-              }
-            </ol>
-
-            <div class="award-grid">
-              <div data-reveal>
-                <h4>The problem</h4>
-                <p>{hackathon.problem}</p>
-              </div>
-              <div data-reveal style="--d:.1s">
-                <h4>What we built</h4>
-                <p>{hackathon.built}</p>
-              </div>
+            <p class="res">{hackathon.result}</p>
+          </li>
+          <li class="award-row" data-reveal style="--d:.08s">
+            <span class="yr">2024</span>
+            <div>
+              <h3>{hackathon.voice.name}</h3>
+              <p>{hackathon.voice.text}</p>
             </div>
+            <p class="res">Runner-up</p>
+          </li>
+        </ul>
 
-            <ul class="guard">
-              {
-                hackathon.guardrails.map((g, i) => (
-                  <li class="g" data-reveal style={`--d:${i * 0.08}s`}>
-                    <Icon name={g.icon} />
-                    <h4>{g.title}</h4>
-                    <p>{g.text}</p>
-                  </li>
-                ))
-              }
-            </ul>
-            <p class="honest">{hackathon.honest}</p>
+        <div class="process">
+          <div data-reveal>
+            <h3>{hackathon.name}, step by step</h3>
+            <p class="pdesc">{hackathon.problem}</p>
+            <p class="ptext">{hackathon.built}</p>
           </div>
-        </article>
+          <ol class="steps" id="steps" data-reveal style="--d:.1s">
+            {
+              hackathon.steps.map((s, i) => (
+                <li class:list={["step", { on: i === 0 }]} tabindex="0">
+                  <span class="n">0{i + 1}</span>
+                  <h4>{s.title}</h4>
+                  <p>{s.text}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
 
-        <article class="glass voice" data-reveal aria-labelledby="voice-title">
-          <div class="ic" aria-hidden="true">
-            <div class="wave"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i></div>
-          </div>
-          <div>
-            <h3 id="voice-title">{hackathon.voice.name}</h3>
-            <p class="muted">{hackathon.voice.text}</p>
-          </div>
-          <p class="pill-gold">{hackathon.voice.result}</p>
-        </article>
+        <ul class="guard">
+          {
+            hackathon.guardrails.map((g, i) => (
+              <li data-reveal style={`--d:${i * 0.06}s`}>
+                <Icon name={g.icon} />
+                <h4>{g.title}</h4>
+                <p>{g.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="honest">{hackathon.honest}</p>
       </div>
     </section>
 
-    <section class="block" id="apps" aria-labelledby="apps-title">
+    <section class="section" id="apps" aria-labelledby="apps-title">
       <div class="wrap">
-        <div class="sec-head">
-          <h2 id="apps-title" data-reveal><span class="kicker">My own apps</span><span class="sr-only">: </span><span class="big-line">Built and shipped on my own time.</span></h2>
-          <p data-reveal style="--d:.1s">Three apps of my own on the App Store, designed, built and released end to end.</p>
+        <div class="head">
+          <h2 id="apps-title" data-reveal>
+            <span class="label">My own apps</span><span class="sr-only">: </span>
+            <span class="big">Built and shipped on my own time</span>
+          </h2>
+          <div class="side" data-reveal style="--d:.1s">
+            <p>Three apps of my own on the App Store, designed, built and released end to end.</p>
+          </div>
         </div>
         <div class="apps">
           {
@@ -312,33 +331,39 @@ const year = new Date().getFullYear();
               const icon = image(`${app.key}-icon.jpg`);
               const s = app.featured ? shots(app.key) : [];
               return (
-                <article class:list={["glass app tilt", { featured: app.featured }]} data-reveal style={`--d:${i * 0.1}s`} aria-labelledby={`app-${app.key}`}>
-                  {icon && <Image src={icon} alt="" width={72} height={72} widths={[72, 144]} sizes="72px" class="icon" />}
-                  <div>
-                    <h3 id={`app-${app.key}`}>{app.name}</h3>
-                    <p class="meta">{app.meta}</p>
+                <article class:list={["app", app.key]} data-reveal style={`--d:${i * 0.1}s`} aria-labelledby={`app-${app.key}`}>
+                  <div class="visual" aria-hidden="true">
+                    {s.length > 0 ? (
+                      <ul class="shots">
+                        {s.map((src) => (
+                          <li>
+                            <Picture src={src} alt="" formats={["avif", "webp"]} widths={[130, 260]} sizes="130px" quality={65} />
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      icon && <Image src={icon} alt="" width={180} height={180} widths={[180, 360]} sizes="180px" class="big-icon" />
+                    )}
+                  </div>
+                  <div class="row">
+                    {icon && <Image src={icon} alt="" width={40} height={40} widths={[40, 80]} sizes="40px" />}
+                    <div>
+                      <h3 id={`app-${app.key}`}>{app.name}</h3>
+                      <p class="meta">{app.meta}</p>
+                    </div>
                   </div>
                   <p>{app.text}</p>
-                  {s.length > 0 && (
-                    <ul class="shots" aria-label={`${app.name} App Store screenshots`}>
-                      {s.map((src, n) => (
-                        <li>
-                          <Picture src={src} alt={`${app.name} screenshot ${n + 1}`} formats={["avif", "webp"]} widths={[92, 184]} sizes="92px" quality={65} />
-                        </li>
-                      ))}
-                    </ul>
-                  )}
                   <p class="links">
-                    <a class="link" href={app.url} rel="noopener">
-                      View on the App Store <Icon name="out" size={14} stroke={2.2} />
+                    <a class="tlink" href={app.url} rel="noopener">
+                      App Store <Icon name="out" size={14} stroke={2.2} />
                     </a>
                     {app.links && (
-                      <a class="link sub" href={app.links.privacy} aria-label={`${app.name} privacy policy`}>
+                      <a class="tlink sub" href={app.links.privacy} aria-label={`${app.name} privacy policy`}>
                         Privacy
                       </a>
                     )}
                     {app.links && (
-                      <a class="link sub" href={app.links.support} aria-label={`${app.name} support`}>
+                      <a class="tlink sub" href={app.links.support} aria-label={`${app.name} support`}>
                         Support
                       </a>
                     )}
@@ -361,32 +386,25 @@ const year = new Date().getFullYear();
       </div>
     </section>
 
-    <section class="quote" aria-label="Personal motto">
+    <section class="section" id="how" aria-labelledby="how-title">
       <div class="wrap">
-        <figure>
-          <blockquote class="q" id="quote">
-            <span class="mark" aria-hidden="true">&ldquo;</span>
-            <span class="line l1">{motto.l1.split(" ").map((w) => <><span class="qw">{w}</span>{" "}</>)}</span>
-            <span class="line l2">{motto.l2.split(" ").map((w) => <><span class="qw">{w}</span>{" "}</>)}</span>
-          </blockquote>
-          <figcaption data-reveal>{motto.caption}</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="block" id="how" aria-labelledby="how-title">
-      <div class="wrap">
-        <div class="sec-head">
-          <h2 id="how-title" data-reveal><span class="kicker">How I work</span><span class="sr-only">: </span><span class="big-line">Built to last, not just to demo.</span></h2>
-          <p data-reveal style="--d:.1s">The habits I bring to every codebase, at work and in my own apps.</p>
+        <div class="head">
+          <h2 id="how-title" data-reveal>
+            <span class="label">How I work</span><span class="sr-only">: </span>
+            <span class="big">Built to last, not just to demo</span>
+          </h2>
+          <div class="side" data-reveal style="--d:.1s">
+            <p>Think like a user. Do like a developer. The habits I bring to every codebase, at work and in my own apps.</p>
+          </div>
         </div>
         <ul class="pillars">
           {
             pillars.map((p, i) => (
-              <li class="glass pillar" data-reveal style={`--d:${i * 0.08}s`}>
-                <div class="ic">
-                  <Icon name={p.icon === "check" ? "circlecheck" : p.icon} />
-                </div>
+              <li class="pillar" data-reveal style={`--d:${i * 0.08}s`}>
+                <span class="ic">
+                  <Icon name={p.icon === "check" ? "circlecheck" : p.icon} size={26} />
+                </span>
+                <span class="bar" aria-hidden="true" />
                 <h3>{p.title}</h3>
                 <p>{p.text}</p>
               </li>
@@ -396,50 +414,56 @@ const year = new Date().getFullYear();
       </div>
     </section>
 
-    <section class="block" id="experience" aria-labelledby="exp-title">
+    <section class="section" id="experience" aria-labelledby="exp-title">
       <div class="wrap">
-        <div class="sec-head">
-          <h2 id="exp-title" data-reveal><span class="kicker">Experience</span><span class="sr-only">: </span><span class="big-line">12+ years. Two countries.</span></h2>
-          <p data-reveal style="--d:.1s">From iOS developer in Chennai to team lead in Phnom Penh, and now senior engineer at Toast.</p>
+        <div class="head">
+          <h2 id="exp-title" data-reveal>
+            <span class="label">Experience</span><span class="sr-only">: </span>
+            <span class="big">12+ years, two countries</span>
+          </h2>
+          <div class="side" data-reveal style="--d:.1s">
+            <p>From iOS developer in Chennai to team lead in Phnom Penh, and now senior engineer at Toast.</p>
+          </div>
         </div>
-        <div class="timeline" id="timeline">
-          <span class="bar" id="tbar" aria-hidden="true"></span>
-          <ol>
-            {
-              experience.map((r) => (
-                <li data-reveal>
-                  <span class="dot" aria-hidden="true" />
-                  <div class="t-grid">
-                    <p class="t-years">
-                      <time datetime={r.from}>{r.from}</time> – {r.to === "Present" ? "Present" : <time datetime={r.to}>{r.to}</time>}
-                    </p>
-                    <div>
-                      <h3>
-                        {r.role}, {r.company}
-                      </h3>
-                      <p class="t-place">{r.place}</p>
-                      <p class="t-desc">{r.text}</p>
-                      {r.honour && <p class="t-honour">{r.honour}</p>}
-                    </div>
-                  </div>
-                </li>
-              ))
-            }
-          </ol>
-        </div>
+        <ol class="roles">
+          {
+            experience.map((r, i) => (
+              <li class:list={["role", { current: i === 0 }]} data-reveal style={`--d:${Math.min(i, 3) * 0.05}s`}>
+                <p class="years">
+                  <time datetime={r.from}>{r.from}</time>
+                  <small> – {r.to === "Present" ? "Present" : <time datetime={r.to}>{r.to}</time>}</small>
+                </p>
+                <div>
+                  <h3>
+                    {r.role}
+                    <span>{r.company}</span>
+                  </h3>
+                  <p class="text">{r.text}</p>
+                  {r.honour && <p class="honour">{r.honour}</p>}
+                </div>
+                <p class="place">{r.place}</p>
+              </li>
+            ))
+          }
+        </ol>
       </div>
     </section>
 
-    <section class="block" id="skills" aria-labelledby="skills-title">
+    <section class="section" id="skills" aria-labelledby="skills-title">
       <div class="wrap">
-        <div class="sec-head">
-          <h2 id="skills-title" data-reveal><span class="kicker">Skills</span><span class="sr-only">: </span><span class="big-line">The toolkit.</span></h2>
-          <p data-reveal style="--d:.1s">Native iOS first, with the data, delivery and AI tooling around it.</p>
+        <div class="head">
+          <h2 id="skills-title" data-reveal>
+            <span class="label">Skills</span><span class="sr-only">: </span>
+            <span class="big">The toolkit</span>
+          </h2>
+          <div class="side" data-reveal style="--d:.1s">
+            <p>Native iOS first, Android in Kotlin, and the data, delivery and AI tooling around them.</p>
+          </div>
         </div>
         <ul class="skills">
           {
             skills.map((s, i) => (
-              <li class="glass skill" data-reveal style={`--d:${(i % 3) * 0.06}s`}>
+              <li class="skill" data-reveal style={`--d:${(i % 4) * 0.06}s`}>
                 <h3>{s.group}</h3>
                 <ul class="chips">
                   {s.items.map((it) => (
@@ -451,7 +475,14 @@ const year = new Date().getFullYear();
           }
         </ul>
         <div class="edu" data-reveal>
-          <h2>Education:</h2> {education.qualification}, {education.school}, <time datetime={education.years.slice(0, 4)}>{education.years}</time>.
+          <div>
+            <h2>Education</h2>
+            <p>
+              {education.qualification}
+              <span>{education.school}</span>
+            </p>
+          </div>
+          <p class="yrs"><time datetime={education.years.slice(0, 4)}>{education.years}</time></p>
         </div>
       </div>
     </section>
@@ -459,16 +490,17 @@ const year = new Date().getFullYear();
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="wrap">
         <h2 id="contact-title" data-reveal>
-          <span class="kicker">Contact</span><span class="sr-only">: </span>
-          <span class="big-line">{contact.line1}<br /><span class="grad-text">{contact.line2}</span></span>
+          <span class="label">Contact</span><span class="sr-only">: </span>
+          <span class="big">{contact.line1} <span class="serif">{contact.line2}</span></span>
         </h2>
-        <p data-reveal style="--d:.1s">{contact.text}</p>
-        {config.openToWork && <p data-reveal>{availabilityLine}</p>}
-        <a class="mail-big" href={`mailto:${identity.email}`} data-reveal style="--d:.18s">{identity.email}</a>
-        <div class="cta-row" data-reveal style="--d:.26s">
-          <a class="btn btn-ghost magnetic" href={identity.linkedin} rel="me noopener">LinkedIn</a>
-          <a class="btn btn-ghost magnetic" href={identity.github} rel="me noopener">GitHub</a>
-          <button class="btn btn-ghost" type="button" data-copy={identity.email} aria-label="Copy email address">Copy email</button>
+        <p class="lead" data-reveal style="--d:.1s">{contact.text}</p>
+        {config.openToWork && <p class="lead" data-reveal>{availabilityLine}</p>}
+        <a class="mail" href={`mailto:${identity.email}`} data-reveal style="--d:.16s">{identity.email}</a>
+        <div class="row" data-reveal style="--d:.22s">
+          <a class="pill" href={`mailto:${identity.email}`}><span>Email me</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
+          <a class="pill ghost" href={identity.linkedin} rel="me noopener">LinkedIn</a>
+          <a class="pill ghost" href={identity.github} rel="me noopener">GitHub</a>
+          <button class="pill ghost" type="button" data-copy={identity.email} aria-label="Copy email address">Copy email</button>
           <span class="copied" role="status"></span>
         </div>
       </div>
@@ -479,7 +511,6 @@ const year = new Date().getFullYear();
     <div class="wrap">
       <span>© {year} {identity.name}. {identity.location}.</span>
       <span>This site works offline. Turn off your Wi-Fi and reload it.</span>
-      <span>{motto.l1} {motto.l2}</span>
     </div>
   </footer>
 
