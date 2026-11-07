@@ -1,27 +1,489 @@
 ---
+import { Image, Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import Base from "../layouts/Base.astro";
-import Header from "../components/Header.astro";
-import Hero from "../components/Hero.astro";
-import Summary from "../components/Summary.astro";
-import Work from "../components/Work.astro";
-import Principles from "../components/Principles.astro";
-import Timeline from "../components/Timeline.astro";
-import Skills from "../components/Skills.astro";
-import Contact from "../components/Contact.astro";
-import Footer from "../components/Footer.astro";
-import { identity } from "../data/profile";
+import Icon from "../components/Icon.astro";
+import portrait from "../assets/portrait.jpg";
+import apps from "../data/apps.json";
+import {
+  availabilityLine,
+  caseStudies,
+  config,
+  contact,
+  creds,
+  education,
+  experience,
+  hackathon,
+  hero,
+  identity,
+  inDevelopment,
+  marquee,
+  motto,
+  ownApps,
+  pillars,
+  skills,
+  tmdbAttribution,
+} from "../data/profile";
+
+type Store = { name: string; rating: number | null; ratingCount: number; screenshots: number; fetchedAt: string };
+const store = apps as Record<string, Store>;
+const toastNow = store.toastNow;
+const rating = toastNow?.rating ?? 4.9;
+const ratingCount = toastNow ? `~${Math.round(toastNow.ratingCount / 1000)}K` : "~12K";
+
+const images = import.meta.glob<{ default: ImageMetadata }>("../assets/appstore/*.jpg", { eager: true });
+const image = (file: string) => images[`../assets/appstore/${file}`]?.default;
+const shots = (key: string) =>
+  Array.from({ length: store[key]?.screenshots ?? 0 }, (_, i) => image(`${key}-shot-${i + 1}.jpg`)).filter((s): s is ImageMetadata => Boolean(s));
+
+const words = (text: string, start = 0) => text.split(" ").map((w, i) => ({ w, i: start + i }));
+const line1 = words(hero.line1);
+const line2 = words(hero.line2, line1.length);
+const year = new Date().getFullYear();
 ---
 
 <Base title={`${identity.name}, Senior iOS Developer`}>
-  <Header />
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+
+  <header class="nav-shell">
+    <div class="nav-pill">
+      <a class="brand" href="#top">{identity.shortName}</a>
+      <nav aria-label="Sections">
+        <ul>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#hackathon">Hackathon</a></li>
+          <li><a href="#apps">Apps</a></li>
+          <li><a href="#experience">Experience</a></li>
+        </ul>
+      </nav>
+      <button class="theme" type="button" data-theme-toggle aria-label="Switch theme">
+        <Icon name="moon" size={17} />
+        <Icon name="sun" size={17} />
+      </button>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </div>
+  </header>
+
   <main id="main" tabindex="-1">
-    <Hero />
-    <Summary />
-    <Work />
-    <Principles />
-    <Timeline />
-    <Skills />
-    <Contact />
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="wrap">
+        <div>
+          <p class="badge-line" data-reveal style="--d:.15s">
+            <Picture
+              src={portrait}
+              alt={identity.name}
+              formats={["avif", "webp"]}
+              fallbackFormat="jpg"
+              widths={[68, 102]}
+              sizes="34px"
+              quality={75}
+              loading="eager"
+            />
+            <span class="pulse" aria-hidden="true"></span>
+            {hero.badge}
+          </p>
+          <h1 id="hero-title">
+            <span class="sr-only">{identity.name}. </span>
+            <span class="line">
+              {
+                line1.map(({ w, i }) => (
+                  <>
+                    <span class="w">
+                      <span style={`--i:${i}`}>{w}</span>
+                    </span>{" "}
+                  </>
+                ))
+              }
+            </span>
+            <span class="line line2">
+              {
+                line2.map(({ w, i }) => (
+                  <>
+                    <span class="w">
+                      <span style={`--i:${i}`}>{w}</span>
+                    </span>{" "}
+                  </>
+                ))
+              }
+            </span>
+          </h1>
+          <p class="lede" data-reveal style="--d:.9s">
+            {hero.lede.map((part) => (typeof part === "string" ? part : <b>{part.b}</b>))}
+          </p>
+          <div class="cta-row" data-reveal style="--d:1.05s">
+            <a class="btn btn-primary magnetic" href={`mailto:${identity.email}`}>Email me <Icon name="arrow" size={16} stroke={2.2} /></a>
+            <a class="btn btn-ghost magnetic" href="#work">See my work</a>
+            <button class="btn btn-ghost" type="button" data-copy={identity.email} aria-label="Copy email address">Copy email</button>
+            {config.showResume && <a class="btn btn-ghost magnetic" href="/resume.pdf">Résumé</a>}
+            <span class="copied" role="status"></span>
+          </div>
+        </div>
+
+        <ul class="creds" id="creds" aria-label="Highlights">
+          <li class="cred c1" data-depth="18">
+            <div class="px">
+              <div class="float">
+                <p class="tag"><i></i>{creds.years.tag}</p>
+                <p class="big"><span><span data-count={creds.years.value}>{creds.years.value}</span>{creds.years.suffix}</span></p>
+                <p class="lbl">{creds.years.label}</p>
+              </div>
+            </div>
+          </li>
+          <li class="cred c2" data-depth="32">
+            <div class="px">
+              <div class="float">
+                <p class="tag"><i></i>{creds.rating.tag}</p>
+                <p class="big">
+                  <span data-count={rating} data-dec="1">{rating.toFixed(1)}</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17.1l-5.9 3.3 1.3-6.5L2.5 9.4l6.6-.8z" /></svg>
+                  <span class="sr-only">out of 5</span>
+                </p>
+                <p class="lbl">{creds.rating.label}, from {ratingCount} ratings.</p>
+              </div>
+            </div>
+          </li>
+          <li class="cred c3" data-depth="24">
+            <div class="px">
+              <div class="float">
+                <p class="tag"><i></i>{creds.countries.tag}</p>
+                <p class="big"><span data-count={creds.countries.value}>{creds.countries.value}</span></p>
+                <p class="lbl">{creds.countries.label}</p>
+              </div>
+            </div>
+          </li>
+          <li class="cred c4 gold" data-depth="40">
+            <div class="px">
+              <div class="float">
+                <p class="tag"><i></i>{creds.hackathon.tag}</p>
+                <p class="big">{creds.hackathon.value}</p>
+                <p class="lbl">{creds.hackathon.label}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="scroll-cue" aria-hidden="true"></div>
+    </section>
+
+    <div class="marquee">
+      <ul class="marquee-track" aria-label="Technologies">
+        {marquee.map((m) => <li>{m}</li>)}
+        {marquee.map((m) => <li aria-hidden="true">{m}</li>)}
+      </ul>
+    </div>
+
+    <section class="block" id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="work-title" data-reveal><span class="kicker">Selected work</span><span class="sr-only">: </span><span class="big-line">Apps restaurants run on.</span></h2>
+          <p data-reveal style="--d:.1s">At Toast I build the inventory and invoicing features that restaurant operators and managers use every day, from busy kitchens with patchy signal.</p>
+        </div>
+        <div class="cases">
+          {
+            caseStudies.map((c, i) => (
+              <article class="glass case" data-reveal style={`--d:${i * 0.12}s`} aria-labelledby={`case-${c.key}`}>
+                <div class="case-top">
+                  <div>
+                    <h3 id={`case-${c.key}`}>{c.name}</h3>
+                    <p class="who-at">{c.company}</p>
+                  </div>
+                  {c.key === "toastNow" ? (
+                    <p class="metric">
+                      <b class="grad-text">{rating.toFixed(1)} / 5</b>
+                      <span>{ratingCount} App Store ratings</span>
+                    </p>
+                  ) : (
+                    c.metric && (
+                      <p class="metric">
+                        <b class="grad-text">{c.metric.value}</b>
+                        <span>{c.metric.label}</span>
+                      </p>
+                    )
+                  )}
+                </div>
+                <p>{c.intro}</p>
+                <ul>
+                  {c.points.map((p) => (
+                    <li>{p}</li>
+                  ))}
+                </ul>
+                <div class="foot">
+                  <ul class="chips" aria-label="Stack">
+                    {c.chips.map((ch) => (
+                      <li class="chip">{ch}</li>
+                    ))}
+                  </ul>
+                  <a class="link" href={c.url} rel="noopener">
+                    {c.name} on the App Store <Icon name="out" size={14} stroke={2.2} />
+                  </a>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="hackathon" aria-labelledby="hack-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="hack-title" data-reveal><span class="kicker">Toast hackathons</span><span class="sr-only">: </span><span class="big-line">2nd in India.<br />8th across Toast.</span></h2>
+          <p data-reveal style="--d:.1s">Two hackathon entries, both about making inventory counts faster for restaurant staff.</p>
+        </div>
+
+        <article class="award" data-reveal aria-labelledby="award-title">
+          <div class="award-inner">
+            <div class="award-top">
+              <div>
+                <h3 id="award-title">{hackathon.name}</h3>
+                <p class="tagline">{hackathon.tagline}</p>
+              </div>
+              <p class="medal">
+                <span class="disc" aria-hidden="true">2</span>
+                <span><b>{hackathon.result}</b><span>{hackathon.meta}</span></span>
+              </p>
+            </div>
+
+            <ol class="flow" id="flow" aria-label="How it works">
+              {
+                hackathon.steps.map((s, i) => (
+                  <li class="step" style={`--s:${i}`}>
+                    <div class:list={["node", s.colour]}>
+                      <Icon name={s.icon} size={28} stroke={1.8} />
+                    </div>
+                    <h4>{s.title}</h4>
+                    <p>{s.text}</p>
+                  </li>
+                ))
+              }
+            </ol>
+
+            <div class="award-grid">
+              <div data-reveal>
+                <h4>The problem</h4>
+                <p>{hackathon.problem}</p>
+              </div>
+              <div data-reveal style="--d:.1s">
+                <h4>What we built</h4>
+                <p>{hackathon.built}</p>
+              </div>
+            </div>
+
+            <ul class="guard">
+              {
+                hackathon.guardrails.map((g, i) => (
+                  <li class="g" data-reveal style={`--d:${i * 0.08}s`}>
+                    <Icon name={g.icon} />
+                    <h4>{g.title}</h4>
+                    <p>{g.text}</p>
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="honest">{hackathon.honest}</p>
+          </div>
+        </article>
+
+        <article class="glass voice" data-reveal aria-labelledby="voice-title">
+          <div class="ic" aria-hidden="true">
+            <div class="wave"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i></div>
+          </div>
+          <div>
+            <h3 id="voice-title">{hackathon.voice.name}</h3>
+            <p class="muted">{hackathon.voice.text}</p>
+          </div>
+          <p class="pill-gold">{hackathon.voice.result}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="apps" aria-labelledby="apps-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="apps-title" data-reveal><span class="kicker">My own apps</span><span class="sr-only">: </span><span class="big-line">Built and shipped on my own time.</span></h2>
+          <p data-reveal style="--d:.1s">Three apps of my own on the App Store, designed, built and released end to end.</p>
+        </div>
+        <div class="apps">
+          {
+            ownApps.map((app, i) => {
+              const icon = image(`${app.key}-icon.jpg`);
+              const s = app.featured ? shots(app.key) : [];
+              return (
+                <article class:list={["glass app tilt", { featured: app.featured }]} data-reveal style={`--d:${i * 0.1}s`} aria-labelledby={`app-${app.key}`}>
+                  {icon && <Image src={icon} alt="" width={72} height={72} widths={[72, 144]} sizes="72px" class="icon" />}
+                  <div>
+                    <h3 id={`app-${app.key}`}>{app.name}</h3>
+                    <p class="meta">{app.meta}</p>
+                  </div>
+                  <p>{app.text}</p>
+                  {s.length > 0 && (
+                    <ul class="shots" aria-label={`${app.name} App Store screenshots`}>
+                      {s.map((src, n) => (
+                        <li>
+                          <Picture src={src} alt={`${app.name} screenshot ${n + 1}`} formats={["avif", "webp"]} widths={[92, 184]} sizes="92px" quality={65} />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <p class="links">
+                    <a class="link" href={app.url} rel="noopener">
+                      View on the App Store <Icon name="out" size={14} stroke={2.2} />
+                    </a>
+                    {app.links && (
+                      <a class="link sub" href={app.links.privacy} aria-label={`${app.name} privacy policy`}>
+                        Privacy
+                      </a>
+                    )}
+                    {app.links && (
+                      <a class="link sub" href={app.links.support} aria-label={`${app.name} support`}>
+                        Support
+                      </a>
+                    )}
+                  </p>
+                </article>
+              );
+            })
+          }
+        </div>
+        <p class="attribution">{tmdbAttribution}</p>
+        {
+          config.showInDevelopment && (
+            <ul class="attribution">
+              {inDevelopment.map((d) => (
+                <li>In development: {d}</li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </section>
+
+    <section class="quote" aria-label="Personal motto">
+      <div class="wrap">
+        <figure>
+          <blockquote class="q" id="quote">
+            <span class="mark" aria-hidden="true">&ldquo;</span>
+            <span class="line l1">{motto.l1.split(" ").map((w) => <><span class="qw">{w}</span>{" "}</>)}</span>
+            <span class="line l2">{motto.l2.split(" ").map((w) => <><span class="qw">{w}</span>{" "}</>)}</span>
+          </blockquote>
+          <figcaption data-reveal>{motto.caption}</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="block" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="how-title" data-reveal><span class="kicker">How I work</span><span class="sr-only">: </span><span class="big-line">Built to last, not just to demo.</span></h2>
+          <p data-reveal style="--d:.1s">The habits I bring to every codebase, at work and in my own apps.</p>
+        </div>
+        <ul class="pillars">
+          {
+            pillars.map((p, i) => (
+              <li class="glass pillar" data-reveal style={`--d:${i * 0.08}s`}>
+                <div class="ic">
+                  <Icon name={p.icon === "check" ? "circlecheck" : p.icon} />
+                </div>
+                <h3>{p.title}</h3>
+                <p>{p.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="block" id="experience" aria-labelledby="exp-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="exp-title" data-reveal><span class="kicker">Experience</span><span class="sr-only">: </span><span class="big-line">12+ years. Two countries.</span></h2>
+          <p data-reveal style="--d:.1s">From iOS developer in Chennai to team lead in Phnom Penh, and now senior engineer at Toast.</p>
+        </div>
+        <div class="timeline" id="timeline">
+          <span class="bar" id="tbar" aria-hidden="true"></span>
+          <ol>
+            {
+              experience.map((r) => (
+                <li data-reveal>
+                  <span class="dot" aria-hidden="true" />
+                  <div class="t-grid">
+                    <p class="t-years">
+                      <time datetime={r.from}>{r.from}</time> – {r.to === "Present" ? "Present" : <time datetime={r.to}>{r.to}</time>}
+                    </p>
+                    <div>
+                      <h3>
+                        {r.role}, {r.company}
+                      </h3>
+                      <p class="t-place">{r.place}</p>
+                      <p class="t-desc">{r.text}</p>
+                      {r.honour && <p class="t-honour">{r.honour}</p>}
+                    </div>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="skills" aria-labelledby="skills-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="skills-title" data-reveal><span class="kicker">Skills</span><span class="sr-only">: </span><span class="big-line">The toolkit.</span></h2>
+          <p data-reveal style="--d:.1s">Native iOS first, with the data, delivery and AI tooling around it.</p>
+        </div>
+        <ul class="skills">
+          {
+            skills.map((s, i) => (
+              <li class="glass skill" data-reveal style={`--d:${(i % 3) * 0.06}s`}>
+                <h3>{s.group}</h3>
+                <ul class="chips">
+                  {s.items.map((it) => (
+                    <li class="chip">{it}</li>
+                  ))}
+                </ul>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="edu" data-reveal>
+          <h2>Education:</h2> {education.qualification}, {education.school}, <time datetime={education.years.slice(0, 4)}>{education.years}</time>.
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <h2 id="contact-title" data-reveal>
+          <span class="kicker">Contact</span><span class="sr-only">: </span>
+          <span class="big-line">{contact.line1}<br /><span class="grad-text">{contact.line2}</span></span>
+        </h2>
+        <p data-reveal style="--d:.1s">{contact.text}</p>
+        {config.openToWork && <p data-reveal>{availabilityLine}</p>}
+        <a class="mail-big" href={`mailto:${identity.email}`} data-reveal style="--d:.18s">{identity.email}</a>
+        <div class="cta-row" data-reveal style="--d:.26s">
+          <a class="btn btn-ghost magnetic" href={identity.linkedin} rel="me noopener">LinkedIn</a>
+          <a class="btn btn-ghost magnetic" href={identity.github} rel="me noopener">GitHub</a>
+          <button class="btn btn-ghost" type="button" data-copy={identity.email} aria-label="Copy email address">Copy email</button>
+          <span class="copied" role="status"></span>
+        </div>
+      </div>
+    </section>
   </main>
-  <Footer />
+
+  <footer>
+    <div class="wrap">
+      <span>© {year} {identity.name}. {identity.location}.</span>
+      <span>This site works offline. Turn off your Wi-Fi and reload it.</span>
+      <span>{motto.l1} {motto.l2}</span>
+    </div>
+  </footer>
+
+  <script>
+    import "../scripts/site.ts";
+  </script>
 </Base>

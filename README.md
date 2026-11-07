@@ -13,8 +13,7 @@ Switches at the top of that file:
 |---|---|---|
 | `showResume` | `false` | Shows "Download résumé". Put a public copy (no phone number, no "Additional details" line) at `public/resume.pdf` first. |
 | `openToWork` | `false` | Shows the availability line in Contact. |
-| `showInDevelopment` | `false` | Shows the "In development" list under Personal projects. |
-| `showPortrait` | `true` | Shows the photo in the hero card. |
+| `showInDevelopment` | `false` | Shows the "In development" list under My own apps. |
 | `showPhone` | `false` | Reserved; the phone number is never published. |
 
 App Store names, ratings, icons and CineFlicx screenshots are fetched at build time by

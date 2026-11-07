@@ -5,7 +5,6 @@ export const config = {
   showResume: false, // flip to true only after adding a public résumé (no phone, no "Additional details") as public/resume.pdf
   openToWork: false,
   showInDevelopment: false,
-  showPortrait: true,
 };
 
 export const identity = {
@@ -16,32 +15,27 @@ export const identity = {
   email: "isyedrazackimran@gmail.com",
   linkedin: "https://www.linkedin.com/in/isyedrazackimran",
   github: "https://github.com/syedrazackimran",
-  current: {
-    role: "Senior Software Engineer",
-    company: "xtraCHEF by Toast, Inc.",
-    since: 2020,
-    team: "Retail Inventory",
-  },
+  current: { role: "Senior Software Engineer", company: "xtraCHEF by Toast, Inc.", team: "Retail Inventory" },
 };
 
 export const hero = {
-  headline: "I build iOS apps that keep working when the kitchen Wi-Fi doesn't.",
-  supporting:
-    "Senior iOS Developer at xtraCHEF by Toast. 12+ years shipping native Swift apps, including team-lead roles in Chennai and Phnom Penh.",
-  recognition: "Toast hackathons: 2nd in India and 8th company-wide (2026), runner-up (2024).",
-};
-
-// Hero "at a glance" figures. Each one traces to the résumé facts below.
-// The App Store rating is the app's, filled from apps.json at build time.
-export const glance = {
-  years: { value: 12, suffix: "+", label: "years building native iOS apps" },
-  crashFree: { low: 98, high: 99, label: "crash-free rate maintained on Toast Now" },
-  countries: { value: 2, label: "countries leading mobile teams: India and Cambodia" },
-  rating: { label: "Toast Now's App Store rating" },
+  badge: "Senior iOS Developer at xtraCHEF by Toast",
+  line1: "I build iOS apps",
+  line2: "people rely on.",
+  lede: [
+    "I'm ",
+    { b: "Syed Razack Imran Thajudeen" },
+    ", a Senior iOS Developer and mobile team lead with ",
+    { b: "12+ years" },
+    " of native Swift. I build inventory and invoicing apps for restaurants at Toast that keep working when the kitchen Wi-Fi doesn't.",
+  ] as (string | { b: string })[],
 };
 
 export const summary =
   "Senior iOS Developer with 12+ years of native iOS experience, including team-lead roles in India and Cambodia. I build production apps in Swift and SwiftUI (UIKit where it fits) with clean, layered architecture, offline-first storage and secure authentication. I own features end to end, from design to App Store release, and mentor developers in Agile teams. I recently started contributing to the Toast Now Android app in Kotlin.";
+
+export const metaDescription =
+  "Senior iOS Developer with 12+ years of native iOS experience and team-lead roles in India and Cambodia. Swift, SwiftUI, offline-first apps, MVVM-C and Clean Architecture.";
 
 export const keywords = [
   "Senior iOS Developer",
@@ -58,169 +52,141 @@ export const keywords = [
   "Chennai",
 ];
 
-export const metaDescription =
-  "Senior iOS Developer with 12+ years of native iOS experience and team-lead roles in India and Cambodia. Swift, SwiftUI, offline-first apps, MVVM-C and Clean Architecture.";
+// Hero cards. The rating is Toast Now's (the app's, not mine), filled from apps.json at build time.
+export const creds = {
+  years: { tag: "Experience", value: 12, suffix: "+ yrs", label: "Native iOS. Swift, SwiftUI and UIKit." },
+  rating: { tag: "Toast Now", label: "App Store rating" },
+  countries: { tag: "Leadership", value: 2, label: "Countries where I've led iOS teams: India and Cambodia." },
+  hackathon: { tag: "Toast Hackathon 2026", value: "2nd", label: "in India, and 8th across all of Toast." },
+};
+
+export const marquee = [
+  "Swift",
+  "SwiftUI",
+  "UIKit",
+  "Swift Concurrency",
+  "SwiftData",
+  "Core Data",
+  "GraphQL",
+  "Auth0",
+  "Firebase",
+  "XCTest",
+  "GitHub Actions",
+  "Kotlin",
+  "Claude Code",
+  "MapKit",
+];
 
 export type CaseStudy = {
   key: "toastNow" | "xtrachef";
   name: string;
   company: string;
   url: string;
-  role: string;
-  problem: string;
-  built: string[];
-  how: string;
-  result: string[];
+  intro: string;
+  points: string[];
+  chips: string[];
+  metric?: { value: string; label: string };
 };
 
 export const caseStudies: CaseStudy[] = [
   {
     key: "toastNow",
     name: "Toast Now",
-    company: "Toast, Inc.",
+    company: "Toast, Inc. Retail Inventory team",
     url: "https://apps.apple.com/us/app/toast-now/id6444586410",
-    role: "iOS engineer on the Retail Inventory team for Toast's restaurant management app.",
-    problem:
-      "Restaurant managers need to know what's in stock, mark items in or out, and have that stay in sync across every location they run.",
-    built: [
-      "Inventory features in Swift and SwiftUI that let managers mark items in or out of stock and keep availability in sync across locations.",
-      "Inventory API integrations, shipped through regular App Store releases.",
+    intro:
+      "Toast's restaurant management app. I build the inventory features that let managers mark items in or out of stock and keep availability in sync across every location.",
+    points: [
+      "Built in Swift and SwiftUI, integrated with the inventory APIs",
+      "Shipped through regular App Store releases",
+      "98–99% crash-free, backed by unit tests and CI/CD on GitHub Actions",
+      "Now also contributing to the Android app in Kotlin",
     ],
-    how: "Swift and SwiftUI with a layered MVVM-C architecture, unit tests, and CI/CD on GitHub Actions (previously Jenkins).",
-    result: ["A 98–99% crash-free rate, maintained through unit testing and CI/CD."],
+    chips: ["Swift", "SwiftUI", "GitHub Actions"],
   },
   {
     key: "xtrachef",
     name: "xtraCHEF",
     company: "Toast, Inc.",
     url: "https://apps.apple.com/in/app/xtrachef/id988380179",
-    role: "iOS engineer on the xtraCHEF app for restaurant operators.",
-    problem:
-      "Operators handle paper invoices and stock counts in kitchens where the connection drops. The work can't wait for the network.",
-    built: [
-      "Invoice upload in Swift: operators capture invoices with the camera and track processing status in the app.",
-      "Inventory features that let operators manage stock counts from their phone.",
+    intro:
+      "Back-of-house software for restaurant operators. I built the features they use to handle invoices and count stock from their phones.",
+    points: [
+      "Camera invoice upload with processing status tracked in the app",
+      "Stock counts managed from the phone",
+      "Offline-first storage, so work continues in low-connectivity kitchens",
+      "Stability monitored with Firebase Crashlytics",
     ],
-    how: "Offline-first storage, so inventory and invoice work continues in low-connectivity kitchens and syncs when the device is back online. Firebase Crashlytics and other Firebase services for stability monitoring.",
-    result: [
-      "Inventory and invoice work keeps going without a connection and syncs when it returns.",
-      "Stability tracked with Firebase Crashlytics.",
-    ],
+    chips: ["Swift", "Offline-first", "Firebase"],
+    metric: { value: "Offline", label: "first, syncs when back online" },
   },
 ];
 
-export type Hackathon = { year: number; result: string; project?: string; problem?: string; idea?: string };
-
-// Confirmed by Imran: the year and result of each. Project details for 2026 are still to be confirmed,
-// so only the result is shown. 2024 is described as an idea; it is not claimed to have shipped.
-export const hackathons: Hackathon[] = [
-  { year: 2026, result: "2nd in India, 8th across all of Toast" },
-  {
-    year: 2024,
-    result: "Runner-up",
-    project: "Voice-to-inventory counting",
-    problem: "Counting stock means typing numbers into a phone while standing in a walk-in cooler with your hands full.",
-    idea: "Count stock by speaking instead of typing, so staff can keep their hands on the shelves.",
+// Toast hackathon entries. Kept at the level of the problem and the approach:
+// no internal tools, vendors, APIs or screenshots.
+export const hackathon = {
+  name: "Inventory Scan Agent",
+  tagline: "One photo becomes an inventory decision.",
+  result: "2nd in India, 8th at Toast",
+  meta: "Hackathon 2026, two-person team",
+  steps: [
+    { title: "Snap", text: "Photo of a bottle or a whole shelf", colour: "sky", icon: "camera" },
+    { title: "Read", text: "iOS reads brand, size and fill level", colour: "teal", icon: "phone" },
+    { title: "Reason", text: "An AI agent checks the real catalog and stock", colour: "violet", icon: "target" },
+    { title: "Decide", text: "One action: reorder, save count or add item", colour: "gold", icon: "check" },
+  ],
+  problem:
+    "Bar inventory is counted by hand. Staff tally bottles sheet by sheet, judge open bottles by eye, and can't see par levels or reorder amounts while they're at the shelf.",
+  built:
+    "The iOS app reads the label from a photo. An AI agent matches the item to the restaurant's catalog, reads its stock, estimates when it will run out and recommends one action. A whole shelf is identified in a single request, and if the operator confirms, the agent drafts a purchase order for review.",
+  guardrails: [
+    { title: "Never guesses", text: "Below a confidence bar it asks “Did you mean?” instead of matching.", icon: "shield" },
+    { title: "Drafts only", text: "Prepares purchase orders but never sends one or moves money.", icon: "doc" },
+    { title: "User's own access", text: "Reads data with the operator's sign-in, no separate credentials.", icon: "user" },
+    { title: "Real numbers", text: "Every figure on screen comes from code and data, not the model.", icon: "lines" },
+  ],
+  honest: "Validated end to end in a test environment. There's no labeled accuracy benchmark yet, so I don't quote an accuracy figure.",
+  voice: {
+    name: "Voice-to-inventory counting",
+    text: "Count stock by speaking instead of typing, so staff keep their hands free.",
+    result: "Runner-up, 2024",
   },
-];
-
-export const strengths = [
-  "Secure authentication with Auth0 and biometrics (Face ID / Touch ID); a 98–99% crash-free rate backed by unit tests, Firebase Crashlytics and CI/CD",
-  "Offline-first data with SwiftData and Core Data (plus SQLite) for reliable performance in low-connectivity conditions",
-  "End-to-end App Store submission: review preparation, versioning, handling reviewer feedback",
-  "AI-assisted development with Claude Code and Codex in daily work, guided by AGENTS.md / CLAUDE.md conventions I wrote",
-  "Mentoring junior developers and leading teams through full project lifecycles",
-];
-
-export type Role = { years: string; role: string; company: string; place: string; summary: string; notes?: string[] };
-
-export const experience: Role[] = [
-  {
-    years: "2020 – present",
-    role: "Senior Software Engineer",
-    company: "xtraCHEF by Toast, Inc.",
-    place: "Chennai, India",
-    summary:
-      "Retail Inventory team, building inventory features for the Toast Now iOS app. Lead cross-functional work with developers, designers and product managers to deliver roadmap features, and coordinate with other teams to keep releases consistent and on time. Recently started contributing to the Toast Now Android app in Kotlin.",
-    notes: ["Toast hackathons: 2nd in India and 8th company-wide (2026), runner-up (2024)."],
-  },
-  {
-    years: "2017 – 2019",
-    role: "Mobile Team Leader",
-    company: "SkyBooking Pvt. Ltd.",
-    place: "Phnom Penh, Cambodia",
-    summary:
-      "Led mobile development for SkyBooking, a Cambodian online booking platform for flights and hotels. Built new iOS apps and kept improving them with new features and fixes.",
-  },
-  {
-    years: "2016 – 2017",
-    role: "iOS Team Leader",
-    company: "Nanita Tech Co., Pvt. Ltd.",
-    place: "Phnom Penh, Cambodia",
-    summary: "Led the team that developed and released an iOS app on the App Store.",
-  },
-  {
-    years: "2015 – 2016",
-    role: "iOS Developer",
-    company: "Casperon Technologies Pvt. Ltd.",
-    place: "Chennai, India",
-    summary: "Owned end-to-end delivery of iOS features: component design, implementation and maintenance.",
-  },
-  {
-    years: "2014 – 2015",
-    role: "iOS Developer",
-    company: "JEMS Nets Solutions",
-    place: "Chennai, India",
-    summary: "Worked with lead developers to analyse, design, build and optimise apps for performance.",
-  },
-];
+};
 
 export type OwnApp = {
   key: "cineflicx" | "pawalert" | "moviez";
   name: string;
-  year: number;
+  meta: string;
+  text: string;
   url: string;
-  line: string;
-  usesTmdb: boolean;
-  support: { privacy: string; support: string };
-};
-
-export const featuredApp = {
-  key: "cineflicx" as const,
-  platforms: "iPhone, iPad, Mac and Apple Vision Pro",
-  problem: "Deciding what to watch, finding where it's streaming and remembering when the next episode is out, without creating yet another account.",
-  built:
-    "A film and TV discovery and tracking app built in Swift and SwiftUI. Natural-language search processed on device, mood- and time-based picks, where-to-watch info, next-episode reminders, and a diary with ratings, stats and Letterboxd / IMDb / Trakt import.",
-  how: "Native Swift and SwiftUI across iPhone, iPad, Mac and Vision Pro. Search runs on device, and there's no account to create.",
+  featured?: boolean;
+  links?: { privacy: string; support: string };
 };
 
 export const ownApps: OwnApp[] = [
   {
     key: "cineflicx",
     name: "CineFlicx",
-    year: 2026,
+    meta: "Film & TV Tracker. 2026. iPhone, iPad, Mac, Vision Pro",
+    text: "Discovery and tracking with natural-language search processed on device, mood- and time-based picks, where to watch, next-episode reminders and a diary with ratings and stats. Imports from Letterboxd, IMDb and Trakt. No account needed.",
     url: "https://apps.apple.com/us/app/cineflicx-film-tv-tracker/id6762333634",
-    line: "Film and TV discovery and tracking, with on-device natural-language search.",
-    usesTmdb: true,
-    support: { privacy: "/cineflicx/privacy/", support: "/cineflicx/support/" },
+    featured: true,
+    links: { privacy: "/cineflicx/privacy/", support: "/cineflicx/support/" },
   },
   {
     key: "pawalert",
     name: "PawAlert",
-    year: 2026,
+    meta: "Rescue Alerts Nearby. 2026",
+    text: "Photograph an injured street animal and drop a pin. Nearby volunteers get a real-time alert, and the rescue can be tracked live.",
     url: "https://apps.apple.com/us/app/pawalert-rescue-alerts-nearby/id6767496810",
-    line: "Photograph an injured street animal, drop a pin, and nearby volunteers get a real-time alert.",
-    usesTmdb: false,
-    support: { privacy: "/pawalert/privacy/", support: "/pawalert/support/" },
+    links: { privacy: "/pawalert/privacy/", support: "/pawalert/support/" },
   },
   {
     key: "moviez",
     name: "Moviez",
-    year: 2020,
+    meta: "Movie & TV companion. 2020, through v3.0",
+    text: "Release reminders, watchlist and favourites with cloud sync, actor profiles, trailers and local showtimes, on the TMDb API.",
     url: "https://apps.apple.com/us/app/moviez/id1511472908",
-    line: "Movie and TV companion on the TMDb API: reminders, watchlist with cloud sync, trailers and showtimes.",
-    usesTmdb: true,
-    support: { privacy: "", support: "" },
   },
 ];
 
@@ -229,38 +195,82 @@ export const inDevelopment = [
   "Personal inventory app with VisionKit barcode scanning and Firebase",
 ];
 
-export const tmdbAttribution = "This product uses the TMDB API but is not endorsed or certified by TMDB.";
+export const tmdbAttribution = "CineFlicx and Moviez use the TMDB API but are not endorsed or certified by TMDB.";
 
-export const principles = [
-  { name: "Architecture", text: "MVVM-C and Clean Architecture, with clear presentation, domain, data, networking and persistence layers." },
-  { name: "Dependency injection", text: "Production-grade injection. No preview singletons, and no fake API mocks just to make SwiftUI previews work." },
-  { name: "Offline-first", text: "The local store is the source of truth (SwiftData, Core Data or SQLite). Writes queue and sync when the network is back." },
-  { name: "Concurrency", text: "Swift 6 and async/await." },
-  { name: "Quality", text: "XCTest unit tests, Crashlytics monitoring and CI/CD on GitHub Actions (previously Jenkins). 98–99% crash-free." },
-  { name: "Security", text: "Auth0, Firebase Auth and Face ID / Touch ID." },
-  { name: "Release", text: "App Store submission end to end: versioning, review preparation and handling reviewer feedback." },
+export const motto = { l1: "Think like a user.", l2: "Do like a developer.", caption: "My rule for every feature I build" };
+
+export const pillars = [
+  { title: "Clean layers", text: "MVVM-C and Clean Architecture with real dependency injection, not singletons.", icon: "layers" },
+  { title: "Offline-first", text: "The device stays the source of truth. Changes queue and sync when the network returns.", icon: "wifi" },
+  { title: "Tested and shipped", text: "XCTest, Crashlytics and CI/CD, with App Store releases owned end to end.", icon: "check" },
+  { title: "AI with guardrails", text: "Claude Code and Codex daily, steered by the AGENTS.md and CLAUDE.md rules I wrote.", icon: "spark" },
+];
+
+export type Role = { from: string; to: string; role: string; company: string; place: string; text: string; honour?: string };
+
+export const experience: Role[] = [
   {
-    name: "AI-assisted, with guardrails",
-    text: "Claude Code and Codex every day, steered by AGENTS.md and CLAUDE.md files I wrote so agents follow the codebase's architecture and conventions.",
+    from: "2020",
+    to: "Present",
+    role: "Senior Software Engineer",
+    company: "xtraCHEF by Toast, Inc.",
+    place: "Chennai, India",
+    text: "Lead cross-functional work with developers, designers and product managers on roadmap features, and keep releases consistent and on time. On the Retail Inventory team building Toast Now for iOS, and now contributing to the Android app in Kotlin.",
+    honour: "Hackathons: 2nd in India and 8th at Toast (2026), runner-up (2024)",
+  },
+  {
+    from: "2017",
+    to: "2019",
+    role: "Mobile Team Leader",
+    company: "SkyBooking Pvt. Ltd.",
+    place: "Phnom Penh, Cambodia",
+    text: "Led mobile development for a Cambodian online booking platform for flights and hotels. Built new iOS apps and drove continuous improvement.",
+  },
+  {
+    from: "2016",
+    to: "2017",
+    role: "iOS Team Leader",
+    company: "Nanita Tech Co., Pvt. Ltd.",
+    place: "Phnom Penh, Cambodia",
+    text: "Led the team that developed and released an iOS app on the App Store.",
+  },
+  {
+    from: "2015",
+    to: "2016",
+    role: "iOS Developer",
+    company: "Casperon Technologies Pvt. Ltd.",
+    place: "Chennai, India",
+    text: "Owned end-to-end delivery of iOS features: design, implementation and maintenance.",
+  },
+  {
+    from: "2014",
+    to: "2015",
+    role: "iOS Developer",
+    company: "JEMS Nets Solutions",
+    place: "Chennai, India",
+    text: "Worked with lead developers to analyse, design, develop and optimise apps for performance.",
   },
 ];
 
 export const skills: { group: string; items: string[] }[] = [
   { group: "iOS", items: ["Swift", "SwiftUI", "UIKit", "Swift Concurrency (async/await)", "MapKit", "Core Location"] },
-  { group: "Android", items: ["Kotlin (recently started, on the Toast Now Android app)"] },
-  { group: "AI-assisted development", items: ["Claude Code", "Codex", "AGENTS.md / CLAUDE.md agent guidelines"] },
   { group: "Architecture", items: ["MVVM", "MVVM-C", "Clean Architecture", "Dependency Injection"] },
-  { group: "Data and offline", items: ["SwiftData", "Core Data", "SQLite", "Offline-first sync"] },
-  { group: "Networking", items: ["REST", "GraphQL"] },
-  { group: "Security and monitoring", items: ["Auth0", "Firebase Auth", "Face ID / Touch ID", "Firebase Crashlytics"] },
-  { group: "Testing and CI/CD", items: ["XCTest", "GitHub Actions", "Jenkins"] },
-  { group: "Tools and process", items: ["Git / GitHub", "Xcode", "App Store releases", "Agile / Scrum"] },
+  { group: "Data and offline", items: ["SwiftData", "Core Data", "SQLite", "Offline-first sync", "REST", "GraphQL"] },
+  { group: "Security and quality", items: ["Auth0", "Firebase Auth", "Face ID / Touch ID", "Firebase Crashlytics", "XCTest"] },
+  { group: "Delivery", items: ["GitHub Actions", "Jenkins", "Git / GitHub", "Xcode", "App Store releases", "Agile / Scrum"] },
+  { group: "Also", items: ["Kotlin (Android)", "Claude Code", "Codex", "AGENTS.md / CLAUDE.md"] },
 ];
 
 export const education = {
   qualification: "Diploma in Electronics and Communication Engineering (ECE)",
   school: "Shanmuga Polytechnic College",
   years: "2007 – 2010",
+};
+
+export const contact = {
+  line1: "Let's build",
+  line2: "something solid.",
+  text: "Have a role or a project in mind? Email is the fastest way to reach me.",
 };
 
 export const availabilityLine = "Open to senior iOS roles in India and the Gulf region.";

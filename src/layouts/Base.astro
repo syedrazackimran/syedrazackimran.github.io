@@ -1,8 +1,7 @@
 ---
-import displayFont from "@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wdth-normal.woff2?url";
-import bodyFont from "@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-normal.woff2?url";
-import "../styles/tokens.css";
-import "../styles/global.css";
+import displayFont from "@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2?url";
+import bodyFont from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+import "../styles/site.css";
 import { education, experience, identity, keywords, metaDescription, skills, summary } from "../data/profile";
 
 interface Props {
@@ -19,8 +18,8 @@ const latin =
   "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD";
 
 const fontFaces = `
-@font-face{font-family:"Bricolage Grotesque";src:url(${displayFont}) format("woff2");font-weight:200 800;font-stretch:75% 100%;font-display:swap;unicode-range:${latin}}
-@font-face{font-family:"Atkinson Hyperlegible Next";src:url(${bodyFont}) format("woff2");font-weight:200 800;font-display:swap;unicode-range:${latin}}`;
+@font-face{font-family:"Bricolage Grotesque";src:url(${displayFont}) format("woff2-variations");font-weight:200 800;font-display:swap;unicode-range:${latin}}
+@font-face{font-family:"Geist";src:url(${bodyFont}) format("woff2-variations");font-weight:100 900;font-display:swap;unicode-range:${latin}}`;
 
 const person = {
   "@context": "https://schema.org",
@@ -40,7 +39,7 @@ const person = {
     "@type": "Occupation",
     name: r.role,
     occupationLocation: { "@type": "City", name: r.place },
-    description: `${r.company}, ${r.years}. ${r.summary}`,
+    description: `${r.company}, ${r.from} – ${r.to}. ${r.text}`,
   })),
 };
 ---
@@ -52,11 +51,12 @@ const person = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline>
       (function () {
+        var d = document.documentElement;
+        d.classList.add("js");
         try {
           var t = localStorage.getItem("theme");
-          if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+          if (t === "light" || t === "dark") d.dataset.theme = t;
         } catch (e) {}
-        var d = document.documentElement;
         d.dataset.shown = d.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       })();
     </script>
@@ -66,10 +66,11 @@ const person = {
     <meta name="author" content={identity.name} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
-    <meta name="theme-color" content="#e9edf0" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#10171d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f7fc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
     <style set:html={fontFaces}></style>
 
     <meta property="og:type" content="profile" />
