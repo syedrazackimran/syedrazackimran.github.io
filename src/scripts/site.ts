@@ -1,5 +1,6 @@
-// Motion only: every word and final number is already in the HTML. No cursor-following effects.
-// With reduced motion everything stays in its final state.
+// Motion only: every word and final number is already in the HTML. Cards respond to the pointer
+// (a light that follows it, and a small tilt on short-label cards), on mouse and trackpad only.
+// With reduced motion everything stays in its final state: no tilt, though the light still shows.
 
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const root = document.documentElement;
@@ -195,3 +196,37 @@ toggle?.addEventListener("click", () => {
 });
 systemDark.addEventListener("change", renderTheme);
 renderTheme();
+
+/* Interactive cards: a soft light follows the pointer across the glass, and short-label cards
+   tilt slightly towards it. Mouse and trackpad only; touch gets a press state in CSS. */
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+const tiltable = (el: Element) => el.matches(".tile, .pillar, .app .visual");
+document.querySelectorAll<HTMLElement>(".tile, .pillar, .role, .skill, .rec, .case, .app .visual").forEach((card) => {
+  const spot = document.createElement("span");
+  spot.className = "spot";
+  spot.setAttribute("aria-hidden", "true");
+  card.prepend(spot);
+  card.classList.add("interactive");
+  const tilt = tiltable(card) && !reduce;
+  if (tilt) card.classList.add("tilt");
+  let frame = 0;
+  card.addEventListener("pointermove", (e) => {
+    if (!finePointer.matches || frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      card.style.setProperty("--mx", `${(x * 100).toFixed(1)}%`);
+      card.style.setProperty("--my", `${(y * 100).toFixed(1)}%`);
+      if (tilt) {
+        card.style.setProperty("--rx", `${((0.5 - y) * 6).toFixed(2)}deg`);
+        card.style.setProperty("--ry", `${((x - 0.5) * 7).toFixed(2)}deg`);
+      }
+    });
+  });
+  card.addEventListener("pointerleave", () => {
+    card.style.removeProperty("--rx");
+    card.style.removeProperty("--ry");
+  });
+});

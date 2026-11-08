@@ -2548,3 +2548,62 @@ body::before {
   white-space: nowrap;
   -webkit-text-fill-color: currentColor;
 }
+
+/* ───────────────────────── Interactive cards ─────────────────────────
+   A light that follows the pointer (span.spot, added by the page script), a small 3D tilt on
+   short-label cards, and the hover lift. The lift and tilt need more specificity than the
+   scroll-reveal rule (.js [data-reveal].in { transform: none }), which used to cancel them. */
+.interactive {
+  position: relative;
+  isolation: isolate;
+}
+.role.interactive,
+.skill.interactive {
+  overflow: hidden;
+}
+.spot {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(163, 28, 27, 0.09), transparent 50%);
+  transition: opacity 0.5s var(--ease);
+}
+/* On dark, crimson and dark-theme cards a white wash is too strong; a lighter glow reads as light */
+:is(.case, .tile.deep, .tile.crimson, .tile.journey, .pillar:nth-child(2), .pillar:nth-child(3), .app .visual) > .spot,
+[data-shown="dark"] .spot {
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.12), transparent 45%);
+}
+@media (hover: hover) and (pointer: fine) {
+  .interactive:hover > .spot {
+    opacity: 1;
+  }
+  /* Lit edge brightens under the pointer */
+  :is(.tile.track, .pillar, .role, .skill, .rec).interactive:hover {
+    border-color: color-mix(in srgb, var(--accent-text) 28%, var(--glass-border));
+  }
+  .js .tilt[data-reveal].in:hover,
+  .js .app[data-reveal].in .tilt:hover {
+    transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px);
+    transition:
+      transform 0.25s ease-out,
+      box-shadow 0.6s var(--ease),
+      border-color 0.4s;
+  }
+  .js .role[data-reveal].in:hover {
+    transform: translateX(6px);
+  }
+  .js :is(.skill, .rec)[data-reveal].in:hover {
+    transform: translateY(-3px);
+  }
+}
+/* Touch: a quick press so cards still answer a tap */
+@media (hover: none) {
+  .js :is(.tile, .pillar, .role, .skill, .rec)[data-reveal].in:active,
+  .js .app[data-reveal].in:active .visual {
+    transform: scale(0.985);
+    transition: transform 0.15s ease-out;
+  }
+}
