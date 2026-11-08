@@ -243,7 +243,26 @@ export const publisherNote =
 
 // LinkedIn recommendations, quoted with permission. The section stays hidden while this is empty.
 export type Recommendation = { name: string; role: string; relation: string; text: string };
-export const recommendations: Recommendation[] = [];
+export const recommendations: Recommendation[] = [
+  {
+    name: "Shruti Joshi",
+    role: "Software Developer II",
+    relation: "Worked with me on the same team",
+    text: "Imran is an outstanding Senior iOS Developer and an incredibly intuitive team lead. He possesses a remarkable sense of foresight, allowing him to architect scalable mobile solutions while proactively mitigating technical debt and project risks.",
+  },
+  {
+    name: "Karthikeyan Paramasivam",
+    role: "Technical Lead, iOS and Android",
+    relation: "Worked with me on the same team",
+    text: "He has a relentless drive for problem-solving. It's not an exaggeration to say he literally can't rest until he cracks a challenge … Whenever I have a technical doubt or need a second opinion on an iOS issue, he is my go-to person.",
+  },
+  {
+    name: "Sotheavuth Nguon",
+    role: "Senior Mobile Developer",
+    relation: "Reported to me at Skybooking",
+    text: "Imran was an exceptional leader with deep expertise in Swift, iOS SDKs, and mobile architecture. He consistently guided our team toward best practices, clean code, and scalable design patterns.",
+  },
+];
 
 export const motto = { l1: "Think like a user.", l2: "Do like a developer.", caption: "My rule for every feature I build" };
 
