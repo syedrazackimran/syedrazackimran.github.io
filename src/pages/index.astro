@@ -22,6 +22,8 @@ import {
   skills,
   about,
   tmdbAttribution,
+  publisherNote,
+  recommendations,
   tracks,
   headings,
   journey,
@@ -404,7 +406,7 @@ const year = new Date().getFullYear();
             })
           }
         </div>
-        <p class="attribution">{tmdbAttribution}</p>
+        <p class="attribution">{publisherNote} {tmdbAttribution}</p>
         {
           config.showInDevelopment && (
             <ul class="attribution">
@@ -478,6 +480,44 @@ const year = new Date().getFullYear();
         </ol>
       </div>
     </section>
+
+    {
+      recommendations.length > 0 && (
+        <section class="section" id="recommendations" aria-labelledby="recs-title">
+          <div class="wrap">
+            <div class="head">
+              <h2 id="recs-title" data-reveal>
+                <span class="label">{headings.recommendations.label}</span><span class="sr-only">: </span>
+                <span class="big">{headings.recommendations.plain} <em class="accent">{headings.recommendations.accent}</em></span>
+              </h2>
+              <div class="side" data-reveal style="--d:.1s">
+                <p>
+                  {recommendations.length} recommendations on{" "}
+                  <a href={`${identity.linkedin}/details/recommendations/`} rel="noopener">
+                    LinkedIn
+                  </a>
+                  , from people I've built and shipped apps with.
+                </p>
+              </div>
+            </div>
+            <ul class="recs">
+              {recommendations.map((r, i) => (
+                <li class="rec" data-reveal style={`--d:${(i % 3) * 0.08}s`}>
+                  <blockquote>
+                    <p>{r.text}</p>
+                  </blockquote>
+                  <p class="who">
+                    <b>{r.name}</b>
+                    <span>{r.role}</span>
+                    <small>{r.relation}</small>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )
+    }
 
     <section class="section" id="skills" aria-labelledby="skills-title">
       <div class="wrap">

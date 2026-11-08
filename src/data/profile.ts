@@ -40,6 +40,7 @@ export const headings = {
   how: { label: "How I work", plain: "Built to last,", accent: "not just to demo" },
   experience: { label: "Experience", plain: "12+ years,", accent: "two countries" },
   skills: { label: "Skills", plain: "The", accent: "toolkit" },
+  recommendations: { label: "Recommendations", plain: "In my", accent: "colleagues' words" },
 };
 
 // The About card that replaces a second copy of the photo.
@@ -235,6 +236,14 @@ export const inDevelopment = [
 ];
 
 export const tmdbAttribution = "CineFlicx and Moviez use the TMDB API but are not endorsed or certified by TMDB.";
+
+// Why the App Store lists another developer name on these apps.
+export const publisherNote =
+  "All three apps are listed on the App Store under my friend Aravinth Sakthivel's developer account. I designed, built and released them.";
+
+// LinkedIn recommendations, quoted with permission. The section stays hidden while this is empty.
+export type Recommendation = { name: string; role: string; relation: string; text: string };
+export const recommendations: Recommendation[] = [];
 
 export const motto = { l1: "Think like a user.", l2: "Do like a developer.", caption: "My rule for every feature I build" };
 

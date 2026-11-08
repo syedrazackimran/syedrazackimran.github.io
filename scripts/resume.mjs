@@ -11,7 +11,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { parseArgs } from "node:util";
 import { chromium } from "playwright";
-import { identity, education, ownApps } from "../src/data/profile.ts";
+import { identity, education, ownApps, publisherNote } from "../src/data/profile.ts";
 
 const root = new URL("../", import.meta.url);
 const apps = JSON.parse(await readFile(new URL("src/data/apps.json", root), "utf8"));
@@ -184,6 +184,7 @@ h2 { break-after: avoid; }
 .skills { display: grid; grid-template-columns: 118pt 1fr; gap: 3pt 10pt; }
 .skills dt { font-weight: 700; }
 .skills dd { color: #2b2a27; }
+.note { margin: -2pt 0 7pt; font-style: italic; }
 .edu { display: flex; justify-content: space-between; align-items: baseline; }
 </style></head><body>
 <header>
@@ -209,6 +210,7 @@ ${experience
 </section>
 
 <section class="keep"><h2>Personal apps</h2>
+  <p class="meta note">${esc(publisherNote)}</p>
 ${projects
   .map(
     (p) => `<div class="proj">
