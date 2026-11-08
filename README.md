@@ -32,6 +32,8 @@ node scripts/resume.mjs --private ~/resume-private.json --out ~/Resume.pdf
 # ~/resume-private.json: { "phone": "+91 …", "details": [["Notice period", "60 days (negotiable)"]] }
 ```
 
+After changing `public/favicon.svg`, run `node scripts/touch-icon.mjs` to rebuild the iPhone home-screen icon.
+
 To replace the photo: `node scripts/prepare-hero-photo.mjs path/to/photo` (3:4 crop, strips all metadata).
 
 ## Run locally

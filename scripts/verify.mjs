@@ -68,11 +68,21 @@ for (const scheme of ["light", "dark"]) {
   const page = await browser.newPage();
   await page.goto(`${base}/`);
   await page.waitForTimeout(700);
-  const mid = await page.evaluate(() => [...document.querySelectorAll("[data-count]")].map((e) => e.textContent));
+  const mid = await page.evaluate(() => [...document.querySelectorAll("[data-count]")].map((e) => e.dataset.shown ?? e.textContent));
   await page.waitForTimeout(2000);
   await page.waitForTimeout(1500);
   const end = await page.evaluate(() => [...document.querySelectorAll("[data-count]")].map((e) => e.textContent));
   record("count-up settles", end.join("|") === "12|99|4.9|7.3", `mid-way ${mid.join(", ")}; final ${end.join(", ")}`);
+  await page.close();
+}
+
+// 3b2. Crawler snapshot: a tall viewport read right after load sees the real figures, never mid-count.
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 12000 } });
+  await page.goto(`${base}/`, { waitUntil: "load" });
+  await page.waitForTimeout(150);
+  const snap = await page.evaluate(() => [...document.querySelectorAll("[data-count]")].map((e) => e.textContent));
+  record("figures in a snapshot", snap.join("|") === "12|99|4.9|7.3", `text right after load: ${snap.join(", ")}`);
   await page.close();
 }
 
