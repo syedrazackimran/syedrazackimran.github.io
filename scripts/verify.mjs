@@ -2,6 +2,7 @@
 // Exits 1 if any check fails.
 import { chromium } from "playwright";
 import { AxeBuilder } from "@axe-core/playwright";
+import { config, education } from "../src/data/profile.ts";
 
 const base = (process.argv[2] ?? "http://localhost:4321").replace(/\/$/, "");
 const browser = await chromium.launch();
@@ -80,11 +81,17 @@ for (const scheme of ["light", "dark"]) {
   const page = await browser.newPage({ javaScriptEnabled: false });
   await page.goto(`${base}/`);
   const text = await page.evaluate(() => document.body.innerText);
+  const html = await page.content();
   const headings = await page.evaluate(() => [...document.querySelectorAll("h1, h2")].map((h) => h.textContent.replace(/\s+/g, " ").trim()));
   const h1 = headings[0] ?? "";
-  const must = ["Syed Razack Imran Thajudeen", "isyedrazackimran@gmail.com", "Chennai, India", "Senior Software Engineer", "xtraCHEF by Toast, Inc.", "2020 – Present", "Mobile Team Leader", "SkyBooking Pvt. Ltd.", "2017 – 2019", "iOS Team Leader", "Nanita Tech", "Casperon Technologies", "JEMS Nets Solutions", "Swift", "SwiftUI", "UIKit", "Kotlin", "Core Data", "SwiftData", "MVVM-C", "Diploma in Electronics and Communication Engineering"];
+  const must = ["Syed Razack Imran Thajudeen", "isyedrazackimran@gmail.com", "Chennai, India", "Senior Software Engineer", "xtraCHEF by Toast, Inc.", "2020 – Present", "Mobile Team Leader", "SkyBooking Pvt. Ltd.", "2017 – 2019", "iOS Team Leader", "Nanita Tech", "Casperon Technologies", "JEMS Nets Solutions", "Swift", "SwiftUI", "UIKit", "Kotlin", "Core Data", "SwiftData", "MVVM-C", ...(config.showEducation ? [education.qualification] : [])];
   const missing = must.filter((m) => !text.includes(m));
-  const sections = ["Work", "Experience", "Skills", "Education", "Contact"].filter((h) => !headings.some((x) => x.toLowerCase().includes(h.toLowerCase())));
+  const sections = ["Work", "Experience", "Skills", ...(config.showEducation ? ["Education"] : []), "Contact"].filter((h) => !headings.some((x) => x.toLowerCase().includes(h.toLowerCase())));
+  // Hidden means gone from the page and from the structured data, not just styled away.
+  if (!config.showEducation) {
+    const leaked = [education.qualification, education.school].filter((t) => text.includes(t) || html.includes(t));
+    record("education hidden", leaked.length === 0, leaked.length ? `still on the page: ${leaked.join(", ")}` : "not in the text or JSON-LD");
+  }
   const hidden = await page.evaluate(() => [...document.querySelectorAll("main *")].filter((e) => e.checkVisibility && !e.closest("[aria-hidden]") && e.textContent.trim() && getComputedStyle(e).opacity === "0").length);
   record("no-JS: nothing hidden", hidden === 0, `${hidden} text elements at opacity 0 with JavaScript off`);
   const ld = await page.evaluate(() => JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent));

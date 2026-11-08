@@ -555,16 +555,20 @@ const keepTogether = (t: string) => t.replace(/Wi-Fi/g, '<span class="nowrap">Wi
             ))
           }
         </ul>
-        <div class="edu" data-reveal>
-          <div>
-            <h2>Education</h2>
-            <p>
-              {education.qualification}
-              <span>{education.school}</span>
-            </p>
-          </div>
-          <p class="yrs"><time datetime={education.years.slice(0, 4)}>{education.years}</time></p>
-        </div>
+        {
+          config.showEducation && (
+            <div class="edu" data-reveal>
+              <div>
+                <h2>Education</h2>
+                <p>
+                  {education.qualification}
+                  <span>{education.school}</span>
+                </p>
+              </div>
+              <p class="yrs"><time datetime={education.years.slice(0, 4)}>{education.years}</time></p>
+            </div>
+          )
+        }
       </div>
     </section>
 

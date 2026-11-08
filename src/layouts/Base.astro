@@ -2,7 +2,7 @@
 import accentFont from "@fontsource/playfair-display/files/playfair-display-latin-500-italic.woff2?url";
 import bodyFont from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
 import "../styles/site.css";
-import { education, experience, identity, keywords, metaDescription, skills, summary } from "../data/profile";
+import { config, education, experience, identity, keywords, metaDescription, skills, summary } from "../data/profile";
 
 interface Props {
   title: string;
@@ -33,8 +33,10 @@ const person = {
   sameAs: [identity.linkedin, identity.github],
   description: summary,
   knowsAbout: skills.flatMap((g) => g.items.map((i) => i.replace(/\s*\(.*\)$/, ""))),
-  alumniOf: { "@type": "EducationalOrganization", name: education.school },
-  hasCredential: { "@type": "EducationalOccupationalCredential", credentialCategory: "Diploma", name: education.qualification },
+  ...(config.showEducation && {
+    alumniOf: { "@type": "EducationalOrganization", name: education.school },
+    hasCredential: { "@type": "EducationalOccupationalCredential", credentialCategory: "Diploma", name: education.qualification },
+  }),
   hasOccupation: experience.map((r) => ({
     "@type": "Occupation",
     name: r.role,

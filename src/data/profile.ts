@@ -3,6 +3,7 @@
 export const config = {
   showPhone: false,
   showResume: true, // public/resume.pdf, built by `npm run resume` (never has a phone number or "Additional details")
+  showEducation: false, // website only; the résumé always lists it, since ATS forms expect the section
   openToWork: false,
   showInDevelopment: false,
 };
