@@ -2222,6 +2222,21 @@ body::before {
   backdrop-filter: none;
   box-shadow: var(--glass-rim), 0 18px 50px -18px rgba(20, 10, 5, 0.35);
 }
+/* Past the hero, a band of page colour sits behind the bar, so content fades out before it
+   reaches the bar instead of sliding past it in the gap above and around the capsule. */
+.top::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -28px;
+  z-index: -1;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 68%, transparent);
+  opacity: 0;
+  transition: opacity 0.35s;
+  pointer-events: none;
+}
+.top.past-hero::before {
+  opacity: 1;
+}
 .top .pill {
   min-height: 48px;
 }

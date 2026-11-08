@@ -57,6 +57,7 @@ document.querySelectorAll("[data-reveal]").forEach((el) => {
 
 /* Header background after the hero top, and the active section in the nav */
 const bar = document.getElementById("top-bar");
+const hero = document.querySelector<HTMLElement>(".hero");
 const links = [...document.querySelectorAll<HTMLAnchorElement>(".top nav a")];
 const sections = links.map((a) => document.querySelector(a.getAttribute("href") ?? ""));
 // The photo lags the scroll and the glass badges lead it, so they read as two layers.
@@ -68,6 +69,8 @@ const onScroll = () => {
   queued = false;
   const y = window.scrollY;
   bar?.classList.toggle("scrolled", y > 40);
+  // The hero has its own colour in light mode, so the band behind the bar starts below it.
+  bar?.classList.toggle("past-hero", !!hero && hero.getBoundingClientRect().bottom < (bar?.offsetHeight ?? 0));
   if (!reduce && y < window.innerHeight * 1.2) depthLayers.forEach((el) => el.style.setProperty("--py", `${(y * 0.18).toFixed(1)}px`));
   if (!reduce && stacking.matches) {
     cases.forEach((card, i) => {
