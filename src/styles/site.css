@@ -2214,11 +2214,12 @@ body::before {
     background-color 0.45s,
     box-shadow 0.45s;
 }
-/* Over the page (not the hero) the capsule thickens, so busy content behind it never bleeds through */
+/* Over the page the capsule is solid: any translucency let headings and dark cards show through it.
+   Glass stays over the hero, where there is nothing busy behind the bar. */
 .top.scrolled .wrap {
-  background: color-mix(in srgb, var(--glass-solid), var(--bg) 45%);
-  -webkit-backdrop-filter: blur(28px) saturate(1.8);
-  backdrop-filter: blur(28px) saturate(1.8);
+  background: var(--bg);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   box-shadow: var(--glass-rim), 0 18px 50px -18px rgba(20, 10, 5, 0.35);
 }
 .top .pill {
