@@ -2568,7 +2568,8 @@ body::before {
    A light that follows the pointer (span.spot, added by the page script), a small 3D tilt on
    short-label cards, and the hover lift. The lift and tilt need more specificity than the
    scroll-reveal rule (.js [data-reveal].in { transform: none }), which used to cancel them. */
-.interactive {
+/* .case already has both; setting position here would cancel its sticky stacking */
+.interactive:not(.case) {
   position: relative;
   isolation: isolate;
 }
