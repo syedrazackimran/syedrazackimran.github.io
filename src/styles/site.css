@@ -489,7 +489,22 @@ button {
   transition-delay: calc(var(--i) * 110ms + 250ms);
 }
 .hero-side {
+  position: relative;
   padding-bottom: 10px;
+}
+/* The motto sits over the shirt; a soft wash of the hero colour keeps it readable */
+.hero-side::before {
+  content: "";
+  position: absolute;
+  inset: -60px -80px -40px;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgb(var(--hero-rgb) / 0.62), rgb(var(--hero-rgb) / 0.3) 60%, transparent);
+  pointer-events: none;
+}
+@media (max-width: 1240px) {
+  .hero-side::before {
+    background: radial-gradient(farthest-side, rgb(var(--hero-rgb) / 0.8) 45%, rgb(var(--hero-rgb) / 0.45) 75%, transparent);
+  }
 }
 .motto {
   position: relative;
@@ -2225,12 +2240,25 @@ body::before {
   }
 }
 
-/* Glass badges floating over the hero photo */
+/* Glass badges floating over the hero photo.
+   The layer has the photo's box, and .badge-frame reproduces its object-fit: cover crop
+   (centred, top-aligned), so positions below are percentages of the picture itself. */
 .glass-badges {
   position: absolute;
-  inset: 0;
+  inset: 0 0 0 auto;
+  width: min(62%, 860px);
   z-index: 1;
   pointer-events: none;
+  container-type: size;
+  transform: translate3d(0, calc(var(--py, 0px) * -0.5), 0);
+}
+.badge-frame {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: max(100cqw, 100cqh * 941 / 1255);
+  aspect-ratio: 941 / 1255;
+  translate: -50% 0;
 }
 .gbadge {
   position: absolute;
@@ -2244,9 +2272,12 @@ body::before {
   backdrop-filter: var(--glass-blur);
   color: var(--hero-ink);
   line-height: 1.2;
+  white-space: nowrap;
 }
 .gbadge b {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -2259,6 +2290,7 @@ body::before {
 .gb-ic {
   display: grid;
   place-items: center;
+  flex: none;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -2266,41 +2298,122 @@ body::before {
   color: #ffffff;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
+.stars {
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 11px;
+}
+.stars svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  opacity: 0.22;
+}
+.stars svg.on {
+  fill: #d4921c;
+  opacity: 1;
+  clip-path: inset(0 var(--fill) 0 0);
+}
+/* On the plain wall right of the head, and over the leaves left of it */
 .gbadge.g1 {
-  top: 36%;
-  right: max(clamp(24px, 5vw, 80px), calc((100% - 1240px) / 2 + 56px));
+  top: 15%;
+  right: 3%;
 }
 .gbadge.g2 {
-  top: 21%;
-  left: 43%;
+  top: 11%;
+  right: 76%;
 }
-@media (max-width: 1100px) {
-  .gbadge.g2 {
-    left: 38%;
+/* Narrower photos: the wall beside the head is too small for the full badge */
+@media (max-width: 1240px) {
+  .gbadge.g1 small {
+    display: none;
   }
 }
-@media (max-width: 860px) {
+@media (max-width: 1080px) {
   .glass-badges {
     display: none;
   }
 }
 @media (prefers-reduced-motion: no-preference) {
+  /* Each badge opens out of its icon, like a Live Activity, then floats */
   .js .gbadge {
+    clip-path: inset(0 calc(100% - 56px) 0 0 round 28px);
     opacity: 0;
-    transform: translateY(14px) scale(0.96);
+    scale: 0.6;
+    transform-origin: 28px 50%;
     transition:
-      opacity 1s var(--ease),
-      transform 1.2s var(--ease);
+      opacity 0.5s var(--ease),
+      scale 0.7s var(--ease),
+      clip-path 1s var(--ease);
+  }
+  .js .gb-t {
+    opacity: 0;
+    translate: -8px 0;
+    transition:
+      opacity 0.6s var(--ease),
+      translate 0.8s var(--ease);
+  }
+  .js .stars svg.on {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 1.4s cubic-bezier(0.45, 0, 0.2, 1);
   }
   .js body.loaded .gbadge {
+    clip-path: inset(-40px round 999px);
     opacity: 1;
-    transform: none;
+    scale: 1;
+    animation: gb-float 7s ease-in-out infinite;
   }
-  .js body.loaded .gbadge.g1 {
-    transition-delay: 1.1s;
+  .js body.loaded .gb-t {
+    opacity: 1;
+    translate: 0 0;
   }
-  .js body.loaded .gbadge.g2 {
-    transition-delay: 1.35s;
+  .js body.loaded .stars svg.on {
+    clip-path: inset(0 var(--fill) 0 0);
+  }
+  .js body.loaded .g1 {
+    transition-delay: 1.6s, 1.6s, 1.95s;
+  }
+  .js body.loaded .g1 .gb-t {
+    transition-delay: 2.15s;
+  }
+  .js body.loaded .g1 .stars svg.on {
+    transition-delay: 2.5s;
+  }
+  .js body.loaded .g2 {
+    transition-delay: 1.85s, 1.85s, 2.2s;
+    animation-delay: -3.5s;
+  }
+  .js body.loaded .g2 .gb-t {
+    transition-delay: 2.4s;
+  }
+  .js body.loaded .g2 .gb-ic {
+    animation: gb-twinkle 1.1s var(--ease) 2.4s both;
+  }
+}
+@keyframes gb-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -7px;
+  }
+}
+@keyframes gb-twinkle {
+  0% {
+    rotate: 0deg;
+    scale: 1;
+  }
+  45% {
+    rotate: 72deg;
+    scale: 1.18;
+  }
+  100% {
+    rotate: 0deg;
+    scale: 1;
   }
 }
 

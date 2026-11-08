@@ -51,7 +51,8 @@ document.querySelectorAll("[data-reveal]").forEach((el) => {
 const bar = document.getElementById("top-bar");
 const links = [...document.querySelectorAll<HTMLAnchorElement>(".top nav a")];
 const sections = links.map((a) => document.querySelector(a.getAttribute("href") ?? ""));
-const heroPhoto = document.querySelector<HTMLElement>(".hero-photo");
+// The photo lags the scroll and the glass badges lead it, so they read as two layers.
+const depthLayers = [...document.querySelectorAll<HTMLElement>(".hero-photo, .glass-badges")];
 const cases = [...document.querySelectorAll<HTMLElement>(".case")];
 const stacking = window.matchMedia("(min-width: 901px)");
 let queued = false;
@@ -59,7 +60,7 @@ const onScroll = () => {
   queued = false;
   const y = window.scrollY;
   bar?.classList.toggle("scrolled", y > 40);
-  if (!reduce && heroPhoto && y < window.innerHeight * 1.2) heroPhoto.style.setProperty("--py", `${(y * 0.18).toFixed(1)}px`);
+  if (!reduce && y < window.innerHeight * 1.2) depthLayers.forEach((el) => el.style.setProperty("--py", `${(y * 0.18).toFixed(1)}px`));
   if (!reduce && stacking.matches) {
     cases.forEach((card, i) => {
       const next = cases[i + 1];
