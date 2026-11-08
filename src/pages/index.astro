@@ -52,6 +52,8 @@ const caseMeta = {
   ],
 } as const;
 const year = new Date().getFullYear();
+// Keeps "Wi-Fi" on one line inside the large italic accents.
+const keepTogether = (t: string) => t.replace(/Wi-Fi/g, '<span class="nowrap">Wi-Fi</span>');
 ---
 
 <Base title={`${identity.name}, Senior iOS Developer`}>
@@ -172,7 +174,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="about-title" data-reveal>
             <span class="label">{headings.about.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.about.plain} <em class="accent">{headings.about.accent}</em></span>
+            <span class="big">{headings.about.plain} <em class="accent" set:html={keepTogether(headings.about.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>{about}</p>
@@ -226,7 +228,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="work-title" data-reveal>
             <span class="label">{headings.work.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.work.plain} <em class="accent">{headings.work.accent}</em></span>
+            <span class="big">{headings.work.plain} <em class="accent" set:html={keepTogether(headings.work.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>At Toast I build the inventory and invoicing features that restaurant operators and managers use every day. Both apps keep working offline and sync when the network returns.</p>
@@ -277,7 +279,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="awards-title" data-reveal>
             <span class="label">{headings.awards.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.awards.plain} <em class="accent">{headings.awards.accent}</em></span>
+            <span class="big">{headings.awards.plain} <em class="accent" set:html={keepTogether(headings.awards.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>Two hackathon entries, both about making inventory counts faster for restaurant staff.</p>
@@ -342,7 +344,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="apps-title" data-reveal>
             <span class="label">{headings.apps.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.apps.plain} <em class="accent">{headings.apps.accent}</em></span>
+            <span class="big">{headings.apps.plain} <em class="accent" set:html={keepTogether(headings.apps.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>Three apps of my own on the App Store, designed, built and released end to end.</p>
@@ -424,7 +426,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="how-title" data-reveal>
             <span class="label">{headings.how.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.how.plain} <em class="accent">{headings.how.accent}</em></span>
+            <span class="big">{headings.how.plain} <em class="accent" set:html={keepTogether(headings.how.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>The habits I bring to every codebase, at work and in my own apps.</p>
@@ -452,7 +454,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="exp-title" data-reveal>
             <span class="label">{headings.experience.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.experience.plain} <em class="accent">{headings.experience.accent}</em></span>
+            <span class="big">{headings.experience.plain} <em class="accent" set:html={keepTogether(headings.experience.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>From iOS developer in Chennai to team lead in Phnom Penh, and now senior engineer at Toast.</p>
@@ -488,7 +490,7 @@ const year = new Date().getFullYear();
             <div class="head">
               <h2 id="recs-title" data-reveal>
                 <span class="label">{headings.recommendations.label}</span><span class="sr-only">: </span>
-                <span class="big">{headings.recommendations.plain} <em class="accent">{headings.recommendations.accent}</em></span>
+                <span class="big">{headings.recommendations.plain} <em class="accent" set:html={keepTogether(headings.recommendations.accent)} /></span>
               </h2>
               <div class="side" data-reveal style="--d:.1s">
                 <p>
@@ -524,7 +526,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="skills-title" data-reveal>
             <span class="label">{headings.skills.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.skills.plain} <em class="accent">{headings.skills.accent}</em></span>
+            <span class="big">{headings.skills.plain} <em class="accent" set:html={keepTogether(headings.skills.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>Native iOS first, Android in Kotlin, and the data, delivery and AI tooling around them.</p>
