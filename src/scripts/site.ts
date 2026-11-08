@@ -41,7 +41,11 @@ const io = new IntersectionObserver(
   },
   { threshold: 0.2, rootMargin: "0px 0px -6% 0px" },
 );
-document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+document.querySelectorAll("[data-reveal]").forEach((el) => {
+  // Order for the cascade inside each revealed card (CSS staggers by --i).
+  el.querySelectorAll<HTMLElement>(".points li, .chip, .path li").forEach((item, i) => item.style.setProperty("--i", String(i)));
+  io.observe(el);
+});
 
 /* Header background after the hero top, and the active section in the nav */
 const bar = document.getElementById("top-bar");
@@ -171,7 +175,13 @@ const choose = (theme: Theme) => {
 toggle?.addEventListener("click", () => {
   const next: Theme = shown() === "dark" ? "light" : "dark";
   const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
-  if (doc.startViewTransition && !reduce) doc.startViewTransition(() => choose(next));
+  if (doc.startViewTransition && !reduce) {
+    // The new theme opens as a circle from the toggle itself.
+    const r = toggle.getBoundingClientRect();
+    root.style.setProperty("--vt-x", `${r.left + r.width / 2}px`);
+    root.style.setProperty("--vt-y", `${r.top + r.height / 2}px`);
+    doc.startViewTransition(() => choose(next));
+  }
   else choose(next);
 });
 systemDark.addEventListener("change", renderTheme);
