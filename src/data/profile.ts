@@ -2,7 +2,7 @@
 
 export const config = {
   showPhone: false,
-  showResume: false, // flip to true only after adding a public résumé (no phone, no "Additional details") as public/resume.pdf
+  showResume: true, // public/resume.pdf, built by `npm run resume` (never has a phone number or "Additional details")
   openToWork: false,
   showInDevelopment: false,
 };
@@ -40,6 +40,7 @@ export const headings = {
   how: { label: "How I work", plain: "Built to last,", accent: "not just to demo" },
   experience: { label: "Experience", plain: "12+ years,", accent: "two countries" },
   skills: { label: "Skills", plain: "The", accent: "toolkit" },
+  recommendations: { label: "Recommendations", plain: "In my", accent: "colleagues' words" },
 };
 
 // The About card that replaces a second copy of the photo.
@@ -194,7 +195,7 @@ export const ownApps: OwnApp[] = [
   {
     key: "cineflicx",
     name: "CineFlicx",
-    meta: "Film & TV Tracker. 2026. iPhone, iPad, Mac, Vision Pro",
+    meta: "Movie & TV Tracker. 2026. iPhone, iPad, Mac, Vision Pro",
     text: "Discovery and tracking with natural-language search processed on device, mood- and time-based picks, where to watch, next-episode reminders and a diary with ratings and stats. Imports from Letterboxd, IMDb and Trakt. No account needed.",
     url: "https://apps.apple.com/us/app/cineflicx-film-tv-tracker/id6762333634",
     featured: true,
@@ -235,6 +236,14 @@ export const inDevelopment = [
 ];
 
 export const tmdbAttribution = "CineFlicx and Moviez use the TMDB API but are not endorsed or certified by TMDB.";
+
+// Why the App Store lists another developer name on these apps.
+export const publisherNote =
+  "All three apps are listed on the App Store under my friend Aravinth Sakthivel's developer account. I designed, built and released them.";
+
+// LinkedIn recommendations, quoted with permission. The section stays hidden while this is empty.
+export type Recommendation = { name: string; role: string; relation: string; text: string };
+export const recommendations: Recommendation[] = [];
 
 export const motto = { l1: "Think like a user.", l2: "Do like a developer.", caption: "My rule for every feature I build" };
 

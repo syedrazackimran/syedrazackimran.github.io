@@ -22,6 +22,8 @@ import {
   skills,
   about,
   tmdbAttribution,
+  publisherNote,
+  recommendations,
   tracks,
   headings,
   journey,
@@ -50,6 +52,8 @@ const caseMeta = {
   ],
 } as const;
 const year = new Date().getFullYear();
+// Keeps "Wi-Fi" on one line inside the large italic accents.
+const keepTogether = (t: string) => t.replace(/Wi-Fi/g, '<span class="nowrap">Wi-Fi</span>');
 ---
 
 <Base title={`${identity.name}, Senior iOS Developer`}>
@@ -93,6 +97,19 @@ const year = new Date().getFullYear();
           fetchpriority="high"
         />
       </div>
+      {/* Floating glass badges over the photo; the same facts are in the page text, so screen readers skip them. */}
+      <div class="glass-badges" aria-hidden="true">
+        <p class="gbadge g1">
+          <span class="gb-ic">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2.6l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17.1l-5.9 3.3 1.3-6.5L2.5 9.4l6.6-.8z" /></svg>
+          </span>
+          <span><b>{rating.toFixed(1)} on the App Store</b><small>Toast Now · {ratingCount} ratings</small></span>
+        </p>
+        <p class="gbadge g2">
+          <span class="gb-ic"><Icon name="spark" size={16} /></span>
+          <span><b>2nd in India</b><small>Toast Hackathon 2026</small></span>
+        </p>
+      </div>
       <div class="wrap">
         <div class="hero-inner">
           <div>
@@ -119,6 +136,7 @@ const year = new Date().getFullYear();
             <div class="row">
               <a class="pill" href={`mailto:${identity.email}`}><span>Email me</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
               <button class="tlink" type="button" data-copy={identity.email} aria-label="Copy email address">Copy email</button>
+              {config.showResume && <a class="tlink" href="/resume.pdf" download="Syed_Razack_Imran_Thajudeen_Resume.pdf">Résumé (PDF)</a>}
               <span class="copied" role="status"></span>
             </div>
           </div>
@@ -156,7 +174,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="about-title" data-reveal>
             <span class="label">{headings.about.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.about.plain} <em class="accent">{headings.about.accent}</em></span>
+            <span class="big">{headings.about.plain} <em class="accent" set:html={keepTogether(headings.about.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>{about}</p>
@@ -210,7 +228,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="work-title" data-reveal>
             <span class="label">{headings.work.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.work.plain} <em class="accent">{headings.work.accent}</em></span>
+            <span class="big">{headings.work.plain} <em class="accent" set:html={keepTogether(headings.work.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>At Toast I build the inventory and invoicing features that restaurant operators and managers use every day. Both apps keep working offline and sync when the network returns.</p>
@@ -261,7 +279,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="awards-title" data-reveal>
             <span class="label">{headings.awards.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.awards.plain} <em class="accent">{headings.awards.accent}</em></span>
+            <span class="big">{headings.awards.plain} <em class="accent" set:html={keepTogether(headings.awards.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>Two hackathon entries, both about making inventory counts faster for restaurant staff.</p>
@@ -326,7 +344,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="apps-title" data-reveal>
             <span class="label">{headings.apps.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.apps.plain} <em class="accent">{headings.apps.accent}</em></span>
+            <span class="big">{headings.apps.plain} <em class="accent" set:html={keepTogether(headings.apps.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>Three apps of my own on the App Store, designed, built and released end to end.</p>
@@ -350,12 +368,6 @@ const year = new Date().getFullYear();
                       </ul>
                     ) : (
                       icon && <Image src={icon} alt="" width={180} height={180} widths={[180, 360]} sizes="180px" class="big-icon" />
-                    )}
-                    {app.downloads && (
-                      <span class="float-badge">
-                        <Icon name="arrow" size={13} stroke={2.4} />
-                        {(Math.floor(app.downloads.total / 100) / 10).toFixed(1)}K+ downloads
-                      </span>
                     )}
                   </div>
                   <div class="row">
@@ -396,7 +408,7 @@ const year = new Date().getFullYear();
             })
           }
         </div>
-        <p class="attribution">{tmdbAttribution}</p>
+        <p class="attribution">{publisherNote} {tmdbAttribution}</p>
         {
           config.showInDevelopment && (
             <ul class="attribution">
@@ -414,7 +426,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="how-title" data-reveal>
             <span class="label">{headings.how.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.how.plain} <em class="accent">{headings.how.accent}</em></span>
+            <span class="big">{headings.how.plain} <em class="accent" set:html={keepTogether(headings.how.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>The habits I bring to every codebase, at work and in my own apps.</p>
@@ -442,7 +454,7 @@ const year = new Date().getFullYear();
         <div class="head">
           <h2 id="exp-title" data-reveal>
             <span class="label">{headings.experience.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.experience.plain} <em class="accent">{headings.experience.accent}</em></span>
+            <span class="big">{headings.experience.plain} <em class="accent" set:html={keepTogether(headings.experience.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>From iOS developer in Chennai to team lead in Phnom Penh, and now senior engineer at Toast.</p>
@@ -471,12 +483,50 @@ const year = new Date().getFullYear();
       </div>
     </section>
 
+    {
+      recommendations.length > 0 && (
+        <section class="section" id="recommendations" aria-labelledby="recs-title">
+          <div class="wrap">
+            <div class="head">
+              <h2 id="recs-title" data-reveal>
+                <span class="label">{headings.recommendations.label}</span><span class="sr-only">: </span>
+                <span class="big">{headings.recommendations.plain} <em class="accent" set:html={keepTogether(headings.recommendations.accent)} /></span>
+              </h2>
+              <div class="side" data-reveal style="--d:.1s">
+                <p>
+                  {recommendations.length} recommendations on{" "}
+                  <a href={`${identity.linkedin}/details/recommendations/`} rel="noopener">
+                    LinkedIn
+                  </a>
+                  , from people I've built and shipped apps with.
+                </p>
+              </div>
+            </div>
+            <ul class="recs">
+              {recommendations.map((r, i) => (
+                <li class="rec" data-reveal style={`--d:${(i % 3) * 0.08}s`}>
+                  <blockquote>
+                    <p>{r.text}</p>
+                  </blockquote>
+                  <p class="who">
+                    <b>{r.name}</b>
+                    <span>{r.role}</span>
+                    <small>{r.relation}</small>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )
+    }
+
     <section class="section" id="skills" aria-labelledby="skills-title">
       <div class="wrap">
         <div class="head">
           <h2 id="skills-title" data-reveal>
             <span class="label">{headings.skills.label}</span><span class="sr-only">: </span>
-            <span class="big">{headings.skills.plain} <em class="accent">{headings.skills.accent}</em></span>
+            <span class="big">{headings.skills.plain} <em class="accent" set:html={keepTogether(headings.skills.accent)} /></span>
           </h2>
           <div class="side" data-reveal style="--d:.1s">
             <p>Native iOS first, Android in Kotlin, and the data, delivery and AI tooling around them.</p>
@@ -522,6 +572,7 @@ const year = new Date().getFullYear();
           <a class="pill" href={`mailto:${identity.email}`}><span>Email me</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
           <a class="pill ghost" href={identity.linkedin} rel="me noopener">LinkedIn</a>
           <a class="pill ghost" href={identity.github} rel="me noopener">GitHub</a>
+          {config.showResume && <a class="pill ghost" href="/resume.pdf" download="Syed_Razack_Imran_Thajudeen_Resume.pdf">Résumé (PDF)</a>}
         </div>
       </div>
     </section>

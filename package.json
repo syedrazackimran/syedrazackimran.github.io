@@ -7,6 +7,7 @@
     "dev": "astro dev",
     "fetch:appstore": "node scripts/fetch-appstore.mjs",
     "og": "node scripts/og.mjs",
+    "resume": "node scripts/resume.mjs",
     "build": "npm run fetch:appstore && npm run og && astro check && astro build && node scripts/build-sw.mjs",
     "preview": "astro preview",
     "contrast": "node scripts/contrast.mjs",
