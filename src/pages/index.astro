@@ -119,6 +119,7 @@ const year = new Date().getFullYear();
             <div class="row">
               <a class="pill" href={`mailto:${identity.email}`}><span>Email me</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
               <button class="tlink" type="button" data-copy={identity.email} aria-label="Copy email address">Copy email</button>
+              {config.showResume && <a class="tlink" href="/resume.pdf" download="Syed_Razack_Imran_Thajudeen_Resume.pdf">Résumé (PDF)</a>}
               <span class="copied" role="status"></span>
             </div>
           </div>
@@ -351,12 +352,6 @@ const year = new Date().getFullYear();
                     ) : (
                       icon && <Image src={icon} alt="" width={180} height={180} widths={[180, 360]} sizes="180px" class="big-icon" />
                     )}
-                    {app.downloads && (
-                      <span class="float-badge">
-                        <Icon name="arrow" size={13} stroke={2.4} />
-                        {(Math.floor(app.downloads.total / 100) / 10).toFixed(1)}K+ downloads
-                      </span>
-                    )}
                   </div>
                   <div class="row">
                     {icon && <Image src={icon} alt="" width={40} height={40} widths={[40, 80]} sizes="40px" />}
@@ -522,6 +517,7 @@ const year = new Date().getFullYear();
           <a class="pill" href={`mailto:${identity.email}`}><span>Email me</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
           <a class="pill ghost" href={identity.linkedin} rel="me noopener">LinkedIn</a>
           <a class="pill ghost" href={identity.github} rel="me noopener">GitHub</a>
+          {config.showResume && <a class="pill ghost" href="/resume.pdf" download="Syed_Razack_Imran_Thajudeen_Resume.pdf">Résumé (PDF)</a>}
         </div>
       </div>
     </section>

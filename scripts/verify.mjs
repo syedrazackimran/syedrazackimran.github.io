@@ -45,7 +45,7 @@ for (const scheme of ["light", "dark"]) {
   record("offline reload", Boolean(h1?.includes("Senior iOS")) && failed.length === 0, `h1 rendered, ${failed.length} failed requests${failed.length ? `: ${failed.slice(0, 3).join(", ")}` : ""}`);
   record("offline fonts and images", fontsOk && imgsOk, `fonts ${fontsOk ? "loaded" : "missing"}, eager images ${imgsOk ? "loaded" : "missing"}`);
   const resume = await page.evaluate(async () => (await fetch("/resume.pdf").catch(() => null))?.status ?? "no response");
-  record("offline résumé", true, `résumé hidden (showResume: false); /resume.pdf → ${resume}`);
+  record("offline résumé", resume === 200, `/resume.pdf → ${resume} while offline`);
   await context.close();
 }
 

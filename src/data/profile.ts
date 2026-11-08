@@ -2,7 +2,7 @@
 
 export const config = {
   showPhone: false,
-  showResume: false, // flip to true only after adding a public résumé (no phone, no "Additional details") as public/resume.pdf
+  showResume: true, // public/resume.pdf, built by `npm run resume` (never has a phone number or "Additional details")
   openToWork: false,
   showInDevelopment: false,
 };
@@ -194,7 +194,7 @@ export const ownApps: OwnApp[] = [
   {
     key: "cineflicx",
     name: "CineFlicx",
-    meta: "Film & TV Tracker. 2026. iPhone, iPad, Mac, Vision Pro",
+    meta: "Movie & TV Tracker. 2026. iPhone, iPad, Mac, Vision Pro",
     text: "Discovery and tracking with natural-language search processed on device, mood- and time-based picks, where to watch, next-episode reminders and a diary with ratings and stats. Imports from Letterboxd, IMDb and Trakt. No account needed.",
     url: "https://apps.apple.com/us/app/cineflicx-film-tv-tracker/id6762333634",
     featured: true,

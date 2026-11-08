@@ -11,7 +11,7 @@ Switches at the top of that file:
 
 | Flag | Default | What it does |
 |---|---|---|
-| `showResume` | `false` | Shows "Download résumé". Put a public copy (no phone number, no "Additional details" line) at `public/resume.pdf` first. |
+| `showResume` | `true` | Shows the "Résumé (PDF)" links in the hero and Contact. |
 | `openToWork` | `false` | Shows the availability line in Contact. |
 | `showInDevelopment` | `false` | Shows the "In development" list under My own apps. |
 | `showPhone` | `false` | Reserved; the phone number is never published. |
@@ -19,6 +19,18 @@ Switches at the top of that file:
 App Store names, ratings, icons and CineFlicx screenshots are fetched at build time by
 `scripts/fetch-appstore.mjs` into `src/data/apps.json` and `src/assets/appstore/`. If the
 App Store is unreachable, the committed copies are used.
+
+## Résumé
+
+`npm run resume` rebuilds `public/resume.pdf` from `scripts/resume.mjs` (wording) and `profile.ts`
+(contact links, app links, Moviez downloads, Toast Now rating). Rebuild and commit it whenever those change.
+The public copy never has a phone number or the "Additional details" line. For a private copy to send with
+applications, keep the details in a JSON file outside the repo:
+
+```sh
+node scripts/resume.mjs --private ~/resume-private.json --out ~/Resume.pdf
+# ~/resume-private.json: { "phone": "+91 …", "details": [["Notice period", "60 days (negotiable)"]] }
+```
 
 To replace the photo: `node scripts/prepare-hero-photo.mjs path/to/photo` (3:4 crop, strips all metadata).
 
