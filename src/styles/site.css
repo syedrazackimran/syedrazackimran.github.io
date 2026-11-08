@@ -2530,3 +2530,21 @@ body::before {
   font-size: 0.9rem;
   color: var(--accent-text);
 }
+
+/* Count-up: the final number stays in the text (transparent while counting) and the
+   counting digits are drawn over it, so the width never jumps and the text is always true */
+[data-count] {
+  position: relative;
+  font-variant-numeric: tabular-nums;
+}
+[data-count].counting {
+  -webkit-text-fill-color: transparent;
+}
+[data-count].counting::after {
+  content: attr(data-shown);
+  position: absolute;
+  right: 0;
+  top: 0;
+  white-space: nowrap;
+  -webkit-text-fill-color: currentColor;
+}

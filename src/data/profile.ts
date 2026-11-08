@@ -260,7 +260,7 @@ export const recommendations: Recommendation[] = [
   {
     name: "Sotheavuth Nguon",
     role: "Senior Mobile Developer",
-    relation: "Reported to me at Skybooking",
+    relation: "Reported to me at SkyBooking",
     text: "Imran was an exceptional leader with deep expertise in Swift, iOS SDKs, and mobile architecture. He consistently guided our team toward best practices, clean code, and scalable design patterns.",
   },
 ];

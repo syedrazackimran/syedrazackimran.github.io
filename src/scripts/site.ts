@@ -10,7 +10,9 @@ const ready = () => window.setTimeout(() => requestAnimationFrame(() => document
 if (document.fonts?.ready) document.fonts.ready.then(ready);
 else window.addEventListener("load", ready);
 
-/* Count-up, started when a figure scrolls into view */
+/* Count-up, started when a figure scrolls into view. The real number never leaves the text,
+   so crawlers, link previews and screen readers always read the final value; the counting
+   digits are drawn over it from data-shown (see [data-count].counting in the CSS). */
 const countUp = (el: HTMLElement) => {
   const target = Number(el.dataset.count);
   const dec = Number(el.dataset.dec ?? 0);
@@ -22,10 +24,16 @@ const countUp = (el: HTMLElement) => {
     if (!t0) t0 = t;
     const p = Math.min(1, (t - t0) / dur);
     const e = 1 - Math.pow(1 - p, 4);
-    el.textContent = format(p >= 1 ? target : target * e);
-    if (p < 1) requestAnimationFrame(frame);
+    if (p < 1) {
+      el.dataset.shown = format(target * e);
+      requestAnimationFrame(frame);
+    } else {
+      el.classList.remove("counting");
+      delete el.dataset.shown;
+    }
   };
-  el.textContent = format(0);
+  el.dataset.shown = format(0);
+  el.classList.add("counting");
   requestAnimationFrame(frame);
 };
 

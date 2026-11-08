@@ -2,7 +2,7 @@
 import accentFont from "@fontsource/playfair-display/files/playfair-display-latin-500-italic.woff2?url";
 import bodyFont from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
 import "../styles/site.css";
-import { config, education, experience, identity, keywords, metaDescription, skills, summary } from "../data/profile";
+import { config, education, experience, hackathon, identity, keywords, metaDescription, skills, summary } from "../data/profile";
 
 interface Props {
   title: string;
@@ -32,6 +32,7 @@ const person = {
   url: site.href,
   sameAs: [identity.linkedin, identity.github],
   description: summary,
+  award: [`Toast Hackathon 2026: ${hackathon.result} (${hackathon.name})`, `Toast Hackathon 2024: ${hackathon.voice.result.replace(/, 2024$/, "")} (${hackathon.voice.name})`],
   knowsAbout: skills.flatMap((g) => g.items.map((i) => i.replace(/\s*\(.*\)$/, ""))),
   ...(config.showEducation && {
     alumniOf: { "@type": "EducationalOrganization", name: education.school },
@@ -76,6 +77,8 @@ const person = {
     {noindex && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#06110c" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Imran" />
     <link rel="preload" href={accentFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
     <style set:html={fontFaces}></style>

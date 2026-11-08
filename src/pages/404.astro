@@ -1,11 +1,58 @@
 ---
 import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { config } from "../data/profile";
 ---
 
 <Base title="Page not found" description="This page doesn't exist." noindex>
-  <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
-  <main id="main" class="wrap" style="min-height:100svh;display:grid;align-content:center;gap:20px">
-    <h1 style="font-size:clamp(2.4rem,6vw,4rem);line-height:1.02;letter-spacing:-0.035em">This page doesn't exist.</h1>
-    <p class="muted"><a class="link" href="/">Go to the homepage.</a></p>
+  <main id="main" class="wrap lost">
+    <a class="logo" href="/">Imran<sup>®</sup></a>
+    <p class="label">Error 404</p>
+    <h1>This page <em class="accent">doesn't exist.</em></h1>
+    <p class="lead">The link may be old, or the address has a typo. Here's where you can go instead.</p>
+    <div class="row">
+      <a class="pill" href="/"><span>Back to the homepage</span><span class="arrow"><Icon name="arrow" size={16} stroke={2.2} /></span></a>
+      <a class="pill ghost" href="/#work">Selected work</a>
+      <a class="pill ghost" href="/#apps">My apps</a>
+      {config.showResume && <a class="pill ghost" href="/resume.pdf">Résumé (PDF)</a>}
+    </div>
   </main>
 </Base>
+
+<style>
+  .lost {
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    gap: 18px;
+    padding-block: 48px;
+  }
+  .logo {
+    position: absolute;
+    top: 32px;
+    left: clamp(20px, 4.5vw, 56px);
+  }
+  h1 {
+    font-size: clamp(2.6rem, 7vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+  .lead {
+    max-width: 46ch;
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  /* On the light page the ghost pills need ink edges, not the white ones used on dark panels */
+  .pill.ghost {
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+    background: var(--glass-solid);
+    padding: 6px 22px;
+  }
+</style>
