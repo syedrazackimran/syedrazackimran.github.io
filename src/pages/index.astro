@@ -93,6 +93,19 @@ const year = new Date().getFullYear();
           fetchpriority="high"
         />
       </div>
+      {/* Floating glass badges over the photo; the same facts are in the page text, so screen readers skip them. */}
+      <div class="glass-badges" aria-hidden="true">
+        <p class="gbadge g1">
+          <span class="gb-ic">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2.6l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17.1l-5.9 3.3 1.3-6.5L2.5 9.4l6.6-.8z" /></svg>
+          </span>
+          <span><b>{rating.toFixed(1)} on the App Store</b><small>Toast Now · {ratingCount} ratings</small></span>
+        </p>
+        <p class="gbadge g2">
+          <span class="gb-ic"><Icon name="spark" size={16} /></span>
+          <span><b>2nd in India</b><small>Toast Hackathon 2026</small></span>
+        </p>
+      </div>
       <div class="wrap">
         <div class="hero-inner">
           <div>
